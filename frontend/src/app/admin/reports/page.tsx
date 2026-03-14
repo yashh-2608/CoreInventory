@@ -12,21 +12,47 @@ import {
 import { 
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts';
+import { LayoutGrid, Warehouse as WarehouseIcon, PackageSearch } from 'lucide-react';
 
 export default function ReportsPage() {
   const [data, setData] = useState<any[]>([]);
   const [stats, setStats] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  
+  // Filter States
+  const [warehouses, setWarehouses] = useState<any[]>([]);
+  const [categories, setCategories] = useState<any[]>([]);
+  const [selectedWarehouse, setSelectedWarehouse] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
 
   useEffect(() => {
+    fetchFilters();
     fetchReports();
-  }, []);
+  }, [selectedWarehouse, selectedCategory]);
+
+  const fetchFilters = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const [wRes, cRes] = await Promise.all([
+        fetch('http://localhost:5000/api/warehouses', { headers: { 'Authorization': `Bearer ${token}` } }),
+        fetch('http://localhost:5000/api/products/categories', { headers: { 'Authorization': `Bearer ${token}` } })
+      ]);
+      setWarehouses(await wRes.json());
+      setCategories(await cRes.json());
+    } catch (err) {
+      console.error('Filter fetch error:', err);
+    }
+  };
 
   const fetchReports = async () => {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5000/api/reports/stats', {
+      const params = new URLSearchParams();
+      if (selectedWarehouse) params.append('warehouseId', selectedWarehouse);
+      if (selectedCategory) params.append('categoryId', selectedCategory);
+
+      const res = await fetch(`http://localhost:5000/api/reports/stats?${params.toString()}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const result = await res.json();
@@ -42,7 +68,11 @@ export default function ReportsPage() {
   const handleExportAll = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5000/api/export/global', {
+      const params = new URLSearchParams();
+      if (selectedWarehouse) params.append('warehouseId', selectedWarehouse);
+      if (selectedCategory) params.append('categoryId', selectedCategory);
+
+      const res = await fetch(`http://localhost:5000/api/export/global?${params.toString()}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (!res.ok) throw new Error('Export failed');
@@ -50,7 +80,7 @@ export default function ReportsPage() {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `global_inventory_${new Date().toISOString().split('T')[0]}.csv`;
+      a.download = `inventory_report_${new Date().toISOString().split('T')[0]}.csv`;
       document.body.appendChild(a);
       a.click();
       a.remove();
@@ -63,24 +93,57 @@ export default function ReportsPage() {
 
   return (
     <div className="space-y-8 animate-in fade-in duration-700">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6 pb-6 border-b border-white/5">
         <div>
-          <h1 className="text-3xl font-bold mb-2">Analytics & Reports</h1>
-          <p className="text-gray-400">Deep dive into inventory distribution and hub performance.</p>
+          <h1 className="text-3xl font-black mb-2 tracking-tight text-white flex items-center gap-3">
+            <LayoutGrid className="w-8 h-8 text-blue-500" />
+            Strategic Reports
+          </h1>
+          <p className="text-gray-500 font-medium">Deep dive into inventory distribution and global hub performance.</p>
         </div>
-        <div className="flex gap-2">
-            <button 
-                onClick={fetchReports}
-                className="p-2.5 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all text-gray-400"
-            >
-                <RefreshCcw className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
-            </button>
-            <button 
-                onClick={handleExportAll}
-                className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-semibold transition-all"
-            >
-                <Download className="w-4 h-4" /> Export All
-            </button>
+        
+        <div className="flex flex-wrap items-center gap-4 bg-white/5 p-2 rounded-2xl border border-white/10 backdrop-blur-sm">
+            <div className="flex items-center gap-2 px-3 py-2 bg-[#0f172a] rounded-xl border border-white/5 group shadow-inner">
+                <WarehouseIcon className="w-4 h-4 text-blue-400 group-focus-within:text-blue-500 transition-colors" />
+                <select 
+                    value={selectedWarehouse} 
+                    onChange={(e) => setSelectedWarehouse(e.target.value)}
+                    className="bg-transparent text-sm font-bold text-gray-300 focus:outline-none min-w-[140px] appearance-none cursor-pointer"
+                >
+                    <option value="" className="bg-[#0f172a]">All Warehouses</option>
+                    {warehouses.map(w => <option key={w.id} value={w.id} className="bg-[#0f172a]">{w.name}</option>)}
+                </select>
+            </div>
+
+            <div className="flex items-center gap-2 px-3 py-2 bg-[#0f172a] rounded-xl border border-white/5 group shadow-inner">
+                <PackageSearch className="w-4 h-4 text-purple-400 group-focus-within:text-purple-500 transition-colors" />
+                <select 
+                    value={selectedCategory} 
+                    onChange={(e) => setSelectedCategory(e.target.value)}
+                    className="bg-transparent text-sm font-bold text-gray-300 focus:outline-none min-w-[140px] appearance-none cursor-pointer"
+                >
+                    <option value="" className="bg-[#0f172a]">All Categories</option>
+                    {categories.map(c => <option key={c.id} value={c.id} className="bg-[#0f172a]">{c.name}</option>)}
+                </select>
+            </div>
+
+            <div className="h-8 w-[1px] bg-white/10 mx-1" />
+
+            <div className="flex gap-2">
+                <button 
+                    onClick={fetchReports}
+                    className="p-2.5 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all text-gray-400 hover:text-white"
+                    title="Refresh Data"
+                >
+                    <RefreshCcw className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
+                </button>
+                <button 
+                    onClick={handleExportAll}
+                    className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-bold transition-all shadow-lg shadow-blue-500/20 active:scale-95"
+                >
+                    <Download className="w-4 h-4" /> Export
+                </button>
+            </div>
         </div>
       </div>
 

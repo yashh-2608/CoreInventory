@@ -3,17 +3,58 @@ import prisma from '../lib/prisma';
 
 export const getDashboardStats = async (req: Request, res: Response) => {
   try {
-    const totalProducts = await prisma.product.count();
-    const lowStockItems = await prisma.inventory.count({
-      where: { quantity: { lt: 10 } }, // Arbitrary low stock threshold
+    const { warehouseId, categoryId } = req.query;
+
+    const totalProducts = await prisma.product.count({
+      where: {
+        ...(categoryId && { categoryId: categoryId as string }),
+        ...(warehouseId && { inventory: { some: { warehouseId: warehouseId as string } } })
+      }
     });
-    const pendingReceipts = await prisma.receipt.count({ where: { status: 'PENDING' } });
-    const pendingDeliveries = await prisma.delivery.count({ where: { status: 'PENDING' } });
-    const scheduledTransfers = await prisma.transfer.count({ where: { status: 'PENDING' } });
+
+    const lowStockItems = await prisma.inventory.count({
+      where: { 
+        quantity: { lt: 10 },
+        ...(warehouseId && { warehouseId: warehouseId as string }),
+        ...(categoryId && { product: { categoryId: categoryId as string } })
+      },
+    });
+
+    const pendingReceipts = await prisma.receipt.count({ 
+      where: { 
+        status: 'PENDING',
+        ...(warehouseId && { warehouseId: warehouseId as string })
+      } 
+    });
+
+    const pendingDeliveries = await prisma.delivery.count({ 
+      where: { 
+        status: 'PENDING',
+        ...(warehouseId && { warehouseId: warehouseId as string })
+      } 
+    });
+
+    const scheduledTransfers = await prisma.transfer.count({ 
+      where: { 
+        status: 'PENDING',
+        ...(warehouseId && {
+          OR: [
+            { fromWarehouseId: warehouseId as string },
+            { toWarehouseId: warehouseId as string }
+          ]
+        })
+      } 
+    });
 
     const stockByWarehouse = await prisma.warehouse.findMany({
+      where: {
+        ...(warehouseId && { id: warehouseId as string })
+      },
       include: {
         inventory: {
+          where: {
+            ...(categoryId && { product: { categoryId: categoryId as string } })
+          },
           select: { quantity: true }
         }
       }

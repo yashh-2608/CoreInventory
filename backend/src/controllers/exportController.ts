@@ -43,9 +43,17 @@ export const exportLedger = async (req: Request, res: Response) => {
 
 export const exportGlobalReport = async (req: Request, res: Response) => {
   try {
+    const { warehouseId, categoryId } = req.query;
+
     const warehouses = await prisma.warehouse.findMany({
+      where: {
+        ...(warehouseId && { id: warehouseId as string })
+      },
       include: {
         inventory: {
+          where: {
+            ...(categoryId && { product: { categoryId: categoryId as string } })
+          },
           include: { product: { include: { category: true } } },
         },
       },
