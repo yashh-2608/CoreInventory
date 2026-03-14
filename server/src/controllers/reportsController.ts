@@ -62,3 +62,64 @@ export const getCategoryDistribution = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Error fetching category distribution', error });
   }
 };
+
+export const getLowStockItems = async (req: Request, res: Response) => {
+  try {
+    const items = await prisma.inventory.findMany({
+      where: { quantity: { lt: 10 } },
+      include: { product: true, warehouse: true },
+    });
+    res.json(items);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching low stock items', error });
+  }
+};
+
+export const getPendingReceipts = async (req: Request, res: Response) => {
+  try {
+    const receipts = await prisma.receipt.findMany({
+      where: { status: 'PENDING' },
+      include: {
+        warehouse: true,
+        items: { include: { product: true } },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+    res.json(receipts);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching pending receipts', error });
+  }
+};
+
+export const getPendingDeliveries = async (req: Request, res: Response) => {
+  try {
+    const deliveries = await prisma.delivery.findMany({
+      where: { status: 'PENDING' },
+      include: {
+        warehouse: true,
+        items: { include: { product: true } },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+    res.json(deliveries);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching pending deliveries', error });
+  }
+};
+
+export const getPendingTransfers = async (req: Request, res: Response) => {
+  try {
+    const transfers = await prisma.transfer.findMany({
+      where: { status: 'PENDING' },
+      include: {
+        fromWarehouse: true,
+        toWarehouse: true,
+        items: { include: { product: true } },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+    res.json(transfers);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching pending transfers', error });
+  }
+};

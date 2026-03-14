@@ -29,6 +29,7 @@ export default function WarehousesPage() {
   const [error, setError] = useState('');
   const [newWarehouse, setNewWarehouse] = useState({ name: '', location: '', capacity: 0 });
   const [submitting, setSubmitting] = useState(false);
+  const [selectedWarehouse, setSelectedWarehouse] = useState<Warehouse | null>(null);
 
   useEffect(() => {
     fetchWarehouses();
@@ -105,7 +106,8 @@ export default function WarehousesPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             key={warehouse.id} 
-            className="group p-8 bg-white/5 border border-white/10 rounded-3xl backdrop-blur-md hover:bg-white/10 transition-all cursor-pointer relative overflow-hidden"
+            onClick={() => setSelectedWarehouse(warehouse)}
+            className="group p-8 bg-white/5 border border-white/10 rounded-3xl backdrop-blur-md hover:bg-white/10 transition-all cursor-pointer relative overflow-hidden active:scale-[0.98]"
           >
             <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
                 <Building2 className="w-24 h-24" />
@@ -226,6 +228,50 @@ export default function WarehousesPage() {
                   {submitting ? 'Initializing...' : 'Establish Hub'}
                 </button>
               </form>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {selectedWarehouse && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setSelectedWarehouse(null)} className="absolute inset-0 bg-black/80 backdrop-blur-md" />
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="relative w-full max-w-2xl bg-[#0f172a] border border-white/10 rounded-[2.5rem] shadow-2xl overflow-hidden p-10 flex flex-col max-h-[85vh]">
+              <div className="flex justify-between items-center mb-8">
+                <div>
+                    <h2 className="text-2xl font-bold flex items-center gap-3">
+                        <Building2 className="w-8 h-8 text-blue-500" /> {selectedWarehouse.name}
+                    </h2>
+                    <p className="text-sm text-gray-500 mt-1">{selectedWarehouse.location}</p>
+                </div>
+                <button onClick={() => setSelectedWarehouse(null)} className="p-2 hover:bg-white/5 rounded-full transition-colors"><X /></button>
+              </div>
+
+              <div className="flex-1 overflow-y-auto custom-scrollbar pr-2 space-y-4">
+                <h3 className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-4">Stock Inventory</h3>
+                {selectedWarehouse.inventory.map((item: any) => (
+                    <div key={item.id} className="p-5 bg-white/5 border border-white/5 rounded-2xl flex items-center justify-between group hover:bg-white/10 transition-all">
+                        <div className="flex items-center gap-4">
+                            <div className="p-3 bg-white/5 rounded-xl border border-white/10 group-hover:bg-blue-500/10 transition-all">
+                                <Package className="w-5 h-5 text-gray-400 group-hover:text-blue-400" />
+                            </div>
+                            <div>
+                                <p className="font-bold text-white">{item.product.name}</p>
+                                <p className="text-[10px] text-gray-500 font-bold uppercase font-mono tracking-tighter">{item.product.sku}</p>
+                            </div>
+                        </div>
+                        <div className="text-right">
+                            <p className="text-sm font-bold text-white">{item.quantity} {item.product.uom}</p>
+                            <div className="w-16 h-1 bg-white/5 rounded-full mt-1 overflow-hidden">
+                                <div className="h-full bg-blue-500" style={{ width: `${Math.min((item.quantity/100)*100, 100)}%` }}></div>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+                {selectedWarehouse.inventory.length === 0 && (
+                    <div className="text-center py-20 text-gray-600 italic">No products currently in stock at this hub</div>
+                )}
+              </div>
             </motion.div>
           </div>
         )}

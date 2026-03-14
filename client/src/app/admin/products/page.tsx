@@ -47,6 +47,7 @@ export default function ProductsPage() {
 
   const [filterCategory, setFilterCategory] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   useEffect(() => {
     fetchData();
@@ -194,7 +195,11 @@ export default function ProductsPage() {
             </thead>
             <tbody className="divide-y divide-white/5">
               {filteredProducts.map((p) => (
-                <tr key={p.id} className="hover:bg-white/[0.04] transition-colors group">
+                <tr 
+                  key={p.id} 
+                  onClick={() => setSelectedProduct(p)}
+                  className="hover:bg-white/[0.04] transition-colors group cursor-pointer active:bg-white/[0.06]"
+                >
                   <td className="px-8 py-6">
                     <div className="flex items-center gap-4">
                         <div className="w-12 h-12 bg-blue-500/10 rounded-2xl flex items-center justify-center border border-blue-500/20 group-hover:scale-110 transition-transform">
@@ -347,6 +352,58 @@ export default function ProductsPage() {
                   {submitting ? 'Authenticating SKU...' : 'Register SKU'}
                 </button>
               </form>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {selectedProduct && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setSelectedProduct(null)} className="absolute inset-0 bg-black/80 backdrop-blur-md" />
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="relative w-full max-w-2xl bg-[#0f172a] border border-white/10 rounded-[2.5rem] shadow-2xl overflow-hidden p-10 flex flex-col max-h-[85vh]">
+              <div className="flex justify-between items-center mb-10">
+                <div className="flex items-center gap-5">
+                    <div className="p-4 bg-blue-600/10 border border-blue-500/20 rounded-2xl shadow-xl shadow-blue-500/5">
+                        <Package className="w-8 h-8 text-blue-400" />
+                    </div>
+                    <div>
+                        <h2 className="text-2xl font-bold text-white">{selectedProduct.name}</h2>
+                        <p className="text-xs text-gray-500 uppercase tracking-widest font-black font-mono mt-1">{selectedProduct.sku}</p>
+                    </div>
+                </div>
+                <button onClick={() => setSelectedProduct(null)} className="p-2 hover:bg-white/5 rounded-full transition-colors"><X /></button>
+              </div>
+
+              <div className="flex-1 overflow-y-auto custom-scrollbar pr-2 space-y-6">
+                 <div>
+                    <h3 className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-4">Stock Distribution</h3>
+                    <div className="space-y-3">
+                        {selectedProduct.inventory.length > 0 ? selectedProduct.inventory.map((inv: any) => (
+                            <div key={inv.id} className="p-5 bg-white/5 border border-white/5 rounded-2xl flex items-center justify-between group hover:bg-white/10 transition-all border-l-4 border-l-blue-500">
+                                <div>
+                                    <p className="font-bold text-white">{inv.warehouse.name}</p>
+                                    <p className="text-[10px] text-gray-500 uppercase font-bold mt-1 tracking-tight">{inv.warehouse.location}</p>
+                                </div>
+                                <div className="text-right">
+                                    <p className="text-lg font-black text-blue-400">{inv.quantity} <span className="text-[10px] text-gray-500 font-bold uppercase">{selectedProduct.uom}</span></p>
+                                </div>
+                            </div>
+                        )) : (
+                            <div className="text-center py-12 bg-white/[0.02] border border-dashed border-white/10 rounded-2xl">
+                                <Package className="w-10 h-10 text-gray-700 mx-auto mb-3 opacity-20" />
+                                <p className="text-sm text-gray-600 italic">Not distributed in any warehouse hubs yet</p>
+                            </div>
+                        )}
+                    </div>
+                 </div>
+
+                 <div className="pt-6 border-t border-white/5">
+                     <div className="flex items-center justify-between p-4 bg-blue-500/5 rounded-2xl">
+                         <span className="text-sm font-bold text-gray-400">Opening (Base) Stock</span>
+                         <span className="font-black text-white">{selectedProduct.initialStock} {selectedProduct.uom}</span>
+                     </div>
+                 </div>
+              </div>
             </motion.div>
           </div>
         )}

@@ -11,6 +11,7 @@ interface KpiCardProps {
   trend?: string;
   trendUp?: boolean;
   color: string;
+  onClick?: () => void;
 }
 
 export const KpiCard: React.FC<KpiCardProps> = ({ 
@@ -19,13 +20,15 @@ export const KpiCard: React.FC<KpiCardProps> = ({
   icon: Icon, 
   trend, 
   trendUp, 
-  color 
+  color,
+  onClick
 }) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="p-6 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-md hover:bg-white/10 transition-all group"
+      onClick={onClick}
+      className={`p-6 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-md transition-all group ${onClick ? 'cursor-pointer hover:bg-white/10 hover:border-white/20 hover:scale-[1.02]' : ''}`}
     >
       <div className="flex justify-between items-start mb-4">
         <div className={`p-3 rounded-xl bg-white/5 group-hover:scale-110 transition-transform`}>
