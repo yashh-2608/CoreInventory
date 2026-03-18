@@ -1,19 +1,13 @@
-import nodemailer from 'nodemailer';
-
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_PASS?.replace(/\s+/g, ''), // Strip spaces from App Password
-  },
-});
+const BREVO_API_KEY = process.env.BREVO_API_KEY || '';
+const BREVO_SENDER_EMAIL = process.env.BREVO_SENDER_EMAIL || 'noreply@coreinventory.com';
+const BREVO_SENDER_NAME = 'CoreInventory Security';
 
 export const sendOtpEmail = async (email: string, otp: string) => {
-  const mailOptions = {
-    from: `"CoreInventory Security" <${process.env.GMAIL_USER}>`,
-    to: email,
+  const payload = {
+    sender: { name: BREVO_SENDER_NAME, email: BREVO_SENDER_EMAIL },
+    to: [{ email }],
     subject: 'Verification Code: Reset Your Password',
-    html: `
+    htmlContent: `
       <div style="font-family: sans-serif; max-width: 600px; margin: auto; padding: 40px; border: 1px solid #e2e8f0; border-radius: 24px; background-color: #020617; color: white;">
         <h2 style="color: #3b82f6; font-size: 24px; font-weight: 800; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 0.1em;">Security Verification</h2>
         <p style="color: #94a3b8; font-size: 16px; line-height: 1.6;">You requested a password reset for your CoreInventory account. Use the following code to verify your identity. This code will expire in 10 minutes.</p>
@@ -32,8 +26,23 @@ export const sendOtpEmail = async (email: string, otp: string) => {
   };
 
   try {
-    await transporter.sendMail(mailOptions);
-    console.log(`OTP Email sent to ${email}`);
+    const res = await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: {
+        'accept': 'application/json',
+        'api-key': BREVO_API_KEY,
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+      const errBody = await res.text();
+      console.error('Brevo API error:', errBody);
+      throw new Error('Brevo email send failed');
+    }
+
+    console.log(`OTP Email sent via Brevo to ${email}`);
   } catch (error) {
     console.error('Error sending OTP email:', error);
     throw new Error('Failed to send verification email');

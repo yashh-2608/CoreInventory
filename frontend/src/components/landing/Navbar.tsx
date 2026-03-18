@@ -3,9 +3,12 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Package } from 'lucide-react';
+import { Package, Sun, Moon } from 'lucide-react';
+import { useTheme } from '@/context/ThemeContext';
 
 export const Navbar: React.FC = () => {
+  const { theme, toggleTheme } = useTheme();
+
   const scrollToAuth = () => {
     document.getElementById('auth-portal')?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -21,19 +24,22 @@ export const Navbar: React.FC = () => {
         <span>CoreInventory</span>
       </Link>
       
-      <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
-        <Link href="#features" className="hover:text-white transition-colors">Features</Link>
-        <Link href="#solutions" className="hover:text-white transition-colors">Solutions</Link>
-        <Link href="#pricing" className="hover:text-white transition-colors">Pricing</Link>
+      <div className="hidden md:flex items-center gap-8 text-sm font-medium text-[var(--ci-text-muted)]">
+        <Link href="#features" className="hover:text-[var(--ci-text)] transition-colors">Features</Link>
+        <Link href="#how-to-use" className="hover:text-[var(--ci-text)] transition-colors">How to Use</Link>
+        <Link href="#solutions" className="hover:text-[var(--ci-text)] transition-colors">Solutions</Link>
+        <Link href="#pricing" className="hover:text-[var(--ci-text)] transition-colors">Pricing</Link>
+        {/* Theme Toggle */}
+        <button
+          onClick={toggleTheme}
+          title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+          className="p-2 rounded-xl bg-[var(--ci-glass)] border border-[var(--ci-border)] hover:opacity-80 transition-all text-[var(--ci-text-muted)] hover:text-[var(--ci-text)]"
+        >
+          {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+        </button>
       </div>
 
       <div className="flex items-center gap-4">
-        <button 
-          onClick={scrollToAuth}
-          className="text-sm font-medium text-gray-400 hover:text-white transition-colors"
-        >
-          Sign In
-        </button>
         <button 
           onClick={scrollToAuth}
           className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-full text-sm font-semibold transition-all px-6 py-2.5 active:scale-95"

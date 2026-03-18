@@ -124,12 +124,12 @@ export default function DashboardPage() {
     <div className="space-y-8 animate-in fade-in duration-700">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold mb-2">Inventory Intelligence</h1>
-          <p className="text-gray-400">Real-time metrics and warehouse activity.</p>
+          <h1 className="text-3xl font-bold mb-2 text-[var(--ci-text)]">Inventory Intelligence</h1>
+          <p className="text-[var(--ci-text-muted)]">Real-time metrics and warehouse activity.</p>
         </div>
         <button 
             onClick={fetchDashboardData}
-            className="p-3 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 transition-all text-gray-400"
+            className="p-3 bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-2xl hover:bg-[var(--ci-glass)] hover:opacity-80 transition-all text-[var(--ci-text-muted)]"
         >
             <RefreshCcw className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
         </button>
@@ -144,8 +144,8 @@ export default function DashboardPage() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="p-8 bg-white/5 border border-white/10 rounded-3xl backdrop-blur-md shadow-xl">
-            <h3 className="text-lg font-bold mb-8 flex items-center gap-2 uppercase tracking-widest text-gray-500">
+        <div className="p-8 bg-[var(--ci-card)] border border-[var(--ci-border)] rounded-3xl backdrop-blur-md shadow-xl transition-colors duration-300">
+            <h3 className="text-lg font-bold mb-8 flex items-center gap-2 uppercase tracking-widest text-[var(--ci-text-muted)]">
                 Category Distribution
             </h3>
             <div className="h-80 w-full flex items-center justify-center">
@@ -165,8 +165,8 @@ export default function DashboardPage() {
                             ))}
                         </Pie>
                         <Tooltip 
-                            contentStyle={{ backgroundColor: '#0f172a', border: '1px solid #ffffff10', borderRadius: '12px' }}
-                            itemStyle={{ color: '#fff', fontSize: '12px', fontWeight: 'bold' }}
+                            contentStyle={{ backgroundColor: 'var(--ci-bg)', border: '1px solid var(--ci-border)', borderRadius: '12px' }}
+                            itemStyle={{ color: 'var(--ci-text)', fontSize: '12px', fontWeight: 'bold' }}
                         />
                         <Legend verticalAlign="bottom" height={36} iconType="circle" />
                     </PieChart>
@@ -174,19 +174,19 @@ export default function DashboardPage() {
             </div>
         </div>
 
-        <div className="p-8 bg-white/5 border border-white/10 rounded-3xl backdrop-blur-md shadow-xl">
-            <h3 className="text-lg font-bold mb-8 flex items-center gap-2 uppercase tracking-widest text-gray-500">
+        <div className="p-8 bg-[var(--ci-card)] border border-[var(--ci-border)] rounded-3xl backdrop-blur-md shadow-xl transition-colors duration-300">
+            <h3 className="text-lg font-bold mb-8 flex items-center gap-2 uppercase tracking-widest text-[var(--ci-text-muted)]">
                 Real-time Ledger
             </h3>
             <div className="space-y-4 max-h-[340px] overflow-y-auto pr-2 custom-scrollbar">
                 {activities.map((act) => (
-                    <div key={act.id} className="flex items-center gap-4 p-4 bg-white/[0.02] border border-white/5 rounded-2xl hover:bg-white/[0.05] transition-all">
-                        <div className="p-3 bg-white/5 rounded-xl">
+                    <div key={act.id} className="flex items-center gap-4 p-4 bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-2xl hover:bg-[var(--ci-glass)] hover:opacity-80 transition-all">
+                        <div className="p-3 bg-[var(--ci-glass)] rounded-xl">
                             {getOpIcon(act.opType)}
                         </div>
                         <div className="flex-1">
-                            <p className="text-sm font-bold text-white">{act.product.name}</p>
-                            <p className="text-[10px] text-gray-500 flex items-center gap-1 font-medium uppercase tracking-tight">
+                            <p className="text-sm font-bold text-[var(--ci-text)]">{act.product.name}</p>
+                            <p className="text-[10px] text-[var(--ci-text-muted)] flex items-center gap-1 font-medium uppercase tracking-tight">
                                 {act.warehouse.name} • {new Date(act.createdAt).toLocaleTimeString()}
                             </p>
                         </div>
@@ -208,9 +208,9 @@ export default function DashboardPage() {
         {drillDown && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setDrillDown(null)} className="absolute inset-0 bg-black/80 backdrop-blur-md" />
-            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="relative w-full max-w-4xl bg-[#0f172a] border border-white/10 rounded-[2.5rem] shadow-2xl overflow-hidden p-10 flex flex-col max-h-[85vh]">
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="relative w-full max-w-4xl bg-[var(--ci-bg)] border border-[var(--ci-border)] rounded-[2.5rem] shadow-2xl overflow-hidden p-10 flex flex-col max-h-[85vh]">
               <div className="flex justify-between items-center mb-8">
-                <h2 className="text-2xl font-bold flex items-center gap-3">
+                <h2 className="text-2xl font-bold flex items-center gap-3 text-[var(--ci-text)]">
                     {drillDown.type === 'Total Products' && <Package className="w-8 h-8 text-blue-500" />}
                     {drillDown.type === 'Low Stock Items' && <AlertTriangle className="w-8 h-8 text-red-500" />}
                     {drillDown.type === 'Pending Receipts' && <ArrowDownLeft className="w-8 h-8 text-emerald-500" />}
@@ -218,7 +218,7 @@ export default function DashboardPage() {
                     {drillDown.type === 'Active Transfers' && <ArrowLeftRight className="w-8 h-8 text-orange-500" />}
                     {drillDown.type}
                 </h2>
-                <button onClick={() => setDrillDown(null)} className="p-2 hover:bg-white/5 rounded-full transition-colors"><X /></button>
+                <button onClick={() => setDrillDown(null)} className="p-2 hover:bg-[var(--ci-glass)] rounded-full transition-colors text-[var(--ci-text-muted)]"><X /></button>
               </div>
 
               {modalLoading ? (
@@ -226,9 +226,9 @@ export default function DashboardPage() {
               ) : (
                   <div className="flex-1 overflow-y-auto custom-scrollbar pr-4 space-y-4">
                       {drillDown.data.map((item: any) => (
-                          <div key={item.id} className="p-5 bg-white/5 border border-white/5 rounded-2xl flex items-center justify-between group hover:bg-white/10 transition-all">
+                          <div key={item.id} className="p-5 bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-2xl flex items-center justify-between group hover:opacity-80 transition-all">
                               <div className="flex items-center gap-4">
-                                  <div className={`p-3 bg-white/5 rounded-xl border border-white/10 transition-all ${
+                                  <div className={`p-3 bg-[var(--ci-glass)] rounded-xl border border-[var(--ci-border)] transition-all ${
                                     drillDown.type === 'Total Products' ? 'group-hover:bg-blue-500/10 group-hover:border-blue-500/20' :
                                     drillDown.type === 'Low Stock Items' ? 'group-hover:bg-red-500/10 group-hover:border-red-500/20' :
                                     drillDown.type === 'Pending Receipts' ? 'group-hover:bg-emerald-500/10 group-hover:border-emerald-500/20' :
@@ -245,15 +245,15 @@ export default function DashboardPage() {
                                       {/* Total Products */}
                                       {drillDown.type === 'Total Products' && (
                                         <>
-                                          <p className="font-bold text-white">{item.name}</p>
-                                          <p className="text-xs text-gray-500 uppercase tracking-widest font-bold font-mono">{item.sku}</p>
+                                          <p className="font-bold text-[var(--ci-text)]">{item.name}</p>
+                                          <p className="text-xs text-[var(--ci-text-muted)] uppercase tracking-widest font-bold font-mono">{item.sku}</p>
                                         </>
                                       )}
                                       {/* Low Stock Items */}
                                       {drillDown.type === 'Low Stock Items' && (
                                         <>
-                                          <p className="font-bold text-white">{item.product?.name}</p>
-                                          <p className="text-xs text-gray-500 uppercase tracking-widest font-bold font-mono">{item.product?.sku}</p>
+                                          <p className="font-bold text-[var(--ci-text)]">{item.product?.name}</p>
+                                          <p className="text-xs text-[var(--ci-text-muted)] uppercase tracking-widest font-bold font-mono">{item.product?.sku}</p>
                                         </>
                                       )}
                                       {/* Pending Receipts */}
@@ -273,8 +273,8 @@ export default function DashboardPage() {
                                       {/* Pending Deliveries */}
                                       {drillDown.type === 'Pending Deliveries' && (
                                         <div className="space-y-1">
-                                          <p className="font-bold text-white leading-tight">To: {item.customer}</p>
-                                          <p className="text-[10px] text-gray-500 uppercase tracking-wider font-bold">{item.warehouse?.name}</p>
+                                          <p className="font-bold text-[var(--ci-text)] leading-tight">To: {item.customer}</p>
+                                          <p className="text-[10px] text-[var(--ci-text-muted)] uppercase tracking-wider font-bold">{item.warehouse?.name}</p>
                                           <div className="flex flex-wrap gap-1 mt-2">
                                             {item.items?.map((sub: any) => (
                                               <span key={sub.id} className="text-[10px] bg-purple-500/10 text-purple-400 border border-purple-500/10 px-2 py-0.5 rounded-md">
@@ -287,7 +287,7 @@ export default function DashboardPage() {
                                       {/* Active Transfers */}
                                       {drillDown.type === 'Active Transfers' && (
                                         <div className="space-y-1">
-                                          <p className="font-bold text-white leading-tight">{item.fromWarehouse?.name} → {item.toWarehouse?.name}</p>
+                                          <p className="font-bold text-[var(--ci-text)] leading-tight">{item.fromWarehouse?.name} → {item.toWarehouse?.name}</p>
                                           <div className="flex flex-wrap gap-1 mt-2">
                                             {item.items?.map((sub: any) => (
                                               <span key={sub.id} className="text-[10px] bg-orange-500/10 text-orange-400 border border-orange-500/10 px-2 py-0.5 rounded-md">

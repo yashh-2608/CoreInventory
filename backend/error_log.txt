@@ -1,0 +1,1500 @@
+[2026-03-14T12:16:44.796Z] getProducts: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:12:43
+
+   9 
+  10 export const getProducts = async (req: Request, res: Response) => {
+  11   try {
+→ 12     const products = await prisma.product.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientInitializationError: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:12:43
+
+   9 
+  10 export const getProducts = async (req: Request, res: Response) => {
+  11   try {
+→ 12     const products = await prisma.product.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7615)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getProducts (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:12:22)
+Full: {"name":"PrismaClientInitializationError","clientVersion":"5.22.0"}
+
+[2026-03-14T12:16:44.802Z] getCategories: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:60:46
+
+  57 
+  58 export const getCategories = async (req: Request, res: Response) => {
+  59   try {
+→ 60     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientInitializationError: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:60:46
+
+  57 
+  58 export const getCategories = async (req: Request, res: Response) => {
+  59   try {
+→ 60     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7615)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getCategories (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:60:24)
+Full: {"name":"PrismaClientInitializationError","clientVersion":"5.22.0"}
+
+[2026-03-14T12:18:55.392Z] getProducts: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:12:43
+
+   9 
+  10 export const getProducts = async (req: Request, res: Response) => {
+  11   try {
+→ 12     const products = await prisma.product.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientInitializationError: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:12:43
+
+   9 
+  10 export const getProducts = async (req: Request, res: Response) => {
+  11   try {
+→ 12     const products = await prisma.product.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7615)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getProducts (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:12:22)
+Full: {"name":"PrismaClientInitializationError","clientVersion":"5.22.0"}
+
+[2026-03-14T12:18:55.400Z] getCategories: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:60:46
+
+  57 
+  58 export const getCategories = async (req: Request, res: Response) => {
+  59   try {
+→ 60     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientInitializationError: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:60:46
+
+  57 
+  58 export const getCategories = async (req: Request, res: Response) => {
+  59   try {
+→ 60     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7615)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getCategories (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:60:24)
+Full: {"name":"PrismaClientInitializationError","clientVersion":"5.22.0"}
+
+[2026-03-14T12:24:42.781Z] getCategories: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientKnownRequestError: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getCategories (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:24)
+Full: {"name":"PrismaClientKnownRequestError","code":"P1001","clientVersion":"5.22.0","meta":{"modelName":"Category","database_host":"interchange.proxy.rlwy.net","database_port":16769}}
+
+[2026-03-14T12:25:14.354Z] getCategories: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientKnownRequestError: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getCategories (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:24)
+Full: {"name":"PrismaClientKnownRequestError","code":"P1001","clientVersion":"5.22.0","meta":{"modelName":"Category","database_host":"interchange.proxy.rlwy.net","database_port":16769}}
+
+[2026-03-14T12:25:19.379Z] getCategories: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientKnownRequestError: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getCategories (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:24)
+Full: {"name":"PrismaClientKnownRequestError","code":"P1001","clientVersion":"5.22.0","meta":{"modelName":"Category","database_host":"interchange.proxy.rlwy.net","database_port":16769}}
+
+[2026-03-14T12:25:24.333Z] getCategories: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientKnownRequestError: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getCategories (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:24)
+Full: {"name":"PrismaClientKnownRequestError","code":"P1001","clientVersion":"5.22.0","meta":{"modelName":"Category","database_host":"interchange.proxy.rlwy.net","database_port":16769}}
+
+[2026-03-14T12:25:24.352Z] getCategories: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientKnownRequestError: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getCategories (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:24)
+Full: {"name":"PrismaClientKnownRequestError","code":"P1001","clientVersion":"5.22.0","meta":{"modelName":"Category","database_host":"interchange.proxy.rlwy.net","database_port":16769}}
+
+[2026-03-14T12:40:27.383Z] Auth Error (login): 
+Invalid `prisma.user.findUnique()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\authController.ts:53:36
+
+  50 try {
+  51   const { email, password } = req.body;
+  52 
+→ 53   const user = await prisma.user.findUnique(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\authController.ts:53:36
+
+  50 try {
+  51   const { email, password } = req.body;
+  52 
+→ 53   const user = await prisma.user.findUnique(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7615)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at login (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\authController.ts:53:18)
+Full: {"name":"PrismaClientInitializationError","clientVersion":"5.22.0"}
+
+[2026-03-14T12:40:38.010Z] Auth Error (forgotPassword): 
+Invalid `prisma.user.findUnique()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\authController.ts:76:36
+
+  73 try {
+  74   const { email } = req.body;
+  75 
+→ 76   const user = await prisma.user.findUnique(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\authController.ts:76:36
+
+  73 try {
+  74   const { email } = req.body;
+  75 
+→ 76   const user = await prisma.user.findUnique(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7615)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at forgotPassword (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\authController.ts:76:18)
+Full: {"name":"PrismaClientInitializationError","clientVersion":"5.22.0"}
+
+[2026-03-14T12:40:56.622Z] Auth Error (login): 
+Invalid `prisma.user.findUnique()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\authController.ts:53:36
+
+  50 try {
+  51   const { email, password } = req.body;
+  52 
+→ 53   const user = await prisma.user.findUnique(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\authController.ts:53:36
+
+  50 try {
+  51   const { email, password } = req.body;
+  52 
+→ 53   const user = await prisma.user.findUnique(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7615)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at login (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\authController.ts:53:18)
+Full: {"name":"PrismaClientInitializationError","clientVersion":"5.22.0"}
+
+[2026-03-14T12:43:48.357Z] Auth Error (login): 
+Invalid `prisma.user.findUnique()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\authController.ts:53:36
+
+  50 try {
+  51   const { email, password } = req.body;
+  52 
+→ 53   const user = await prisma.user.findUnique(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\authController.ts:53:36
+
+  50 try {
+  51   const { email, password } = req.body;
+  52 
+→ 53   const user = await prisma.user.findUnique(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7615)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at login (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\authController.ts:53:18)
+Full: {"name":"PrismaClientInitializationError","clientVersion":"5.22.0"}
+
+[2026-03-15T11:41:40.986Z] getProducts: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:17:43
+
+  14 
+  15 export const getProducts = async (req: Request, res: Response) => {
+  16   try {
+→ 17     const products = await prisma.product.findMany(
+The column `Product.minStock` does not exist in the current database.
+Stack: PrismaClientKnownRequestError: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:17:43
+
+  14 
+  15 export const getProducts = async (req: Request, res: Response) => {
+  16   try {
+→ 17     const products = await prisma.product.findMany(
+The column `Product.minStock` does not exist in the current database.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getProducts (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:17:22)
+Full: {"name":"PrismaClientKnownRequestError","code":"P2022","clientVersion":"5.22.0","meta":{"modelName":"Product","column":"Product.minStock"}}
+
+[2026-03-15T11:41:52.921Z] getProducts: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:17:43
+
+  14 
+  15 export const getProducts = async (req: Request, res: Response) => {
+  16   try {
+→ 17     const products = await prisma.product.findMany(
+The column `Product.minStock` does not exist in the current database.
+Stack: PrismaClientKnownRequestError: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:17:43
+
+  14 
+  15 export const getProducts = async (req: Request, res: Response) => {
+  16   try {
+→ 17     const products = await prisma.product.findMany(
+The column `Product.minStock` does not exist in the current database.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getProducts (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:17:22)
+Full: {"name":"PrismaClientKnownRequestError","code":"P2022","clientVersion":"5.22.0","meta":{"modelName":"Product","column":"Product.minStock"}}
+
+[2026-03-15T12:19:19.897Z] getProducts: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:17:43
+
+  14 
+  15 export const getProducts = async (req: Request, res: Response) => {
+  16   try {
+→ 17     const products = await prisma.product.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientKnownRequestError: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:17:43
+
+  14 
+  15 export const getProducts = async (req: Request, res: Response) => {
+  16   try {
+→ 17     const products = await prisma.product.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getProducts (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:17:22)
+Full: {"name":"PrismaClientKnownRequestError","code":"P1001","clientVersion":"5.22.0","meta":{"modelName":"Product","database_host":"interchange.proxy.rlwy.net","database_port":16769}}
+
+[2026-03-15T12:19:19.905Z] getCategories: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientKnownRequestError: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getCategories (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:24)
+Full: {"name":"PrismaClientKnownRequestError","code":"P1001","clientVersion":"5.22.0","meta":{"modelName":"Category","database_host":"interchange.proxy.rlwy.net","database_port":16769}}
+
+[2026-03-15T12:19:27.931Z] getCategories: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientKnownRequestError: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getCategories (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:24)
+Full: {"name":"PrismaClientKnownRequestError","code":"P1001","clientVersion":"5.22.0","meta":{"modelName":"Category","database_host":"interchange.proxy.rlwy.net","database_port":16769}}
+
+[2026-03-15T12:19:27.939Z] getProducts: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:17:43
+
+  14 
+  15 export const getProducts = async (req: Request, res: Response) => {
+  16   try {
+→ 17     const products = await prisma.product.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientKnownRequestError: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:17:43
+
+  14 
+  15 export const getProducts = async (req: Request, res: Response) => {
+  16   try {
+→ 17     const products = await prisma.product.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getProducts (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:17:22)
+Full: {"name":"PrismaClientKnownRequestError","code":"P1001","clientVersion":"5.22.0","meta":{"modelName":"Product","database_host":"interchange.proxy.rlwy.net","database_port":16769}}
+
+[2026-03-15T12:25:40.371Z] getProducts: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:17:43
+
+  14 
+  15 export const getProducts = async (req: Request, res: Response) => {
+  16   try {
+→ 17     const products = await prisma.product.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientInitializationError: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:17:43
+
+  14 
+  15 export const getProducts = async (req: Request, res: Response) => {
+  16   try {
+→ 17     const products = await prisma.product.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7615)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getProducts (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:17:22)
+Full: {"name":"PrismaClientInitializationError","clientVersion":"5.22.0"}
+
+[2026-03-15T12:25:40.376Z] getCategories: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientInitializationError: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7615)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getCategories (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:24)
+Full: {"name":"PrismaClientInitializationError","clientVersion":"5.22.0"}
+
+[2026-03-15T12:25:47.357Z] getProducts: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:17:43
+
+  14 
+  15 export const getProducts = async (req: Request, res: Response) => {
+  16   try {
+→ 17     const products = await prisma.product.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientInitializationError: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:17:43
+
+  14 
+  15 export const getProducts = async (req: Request, res: Response) => {
+  16   try {
+→ 17     const products = await prisma.product.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7615)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getProducts (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:17:22)
+Full: {"name":"PrismaClientInitializationError","clientVersion":"5.22.0"}
+
+[2026-03-15T12:25:47.360Z] getCategories: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientInitializationError: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7615)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getCategories (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:24)
+Full: {"name":"PrismaClientInitializationError","clientVersion":"5.22.0"}
+
+[2026-03-15T12:28:20.067Z] Auth Error (login): 
+Invalid `prisma.user.findUnique()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\authController.ts:54:36
+
+  51 try {
+  52   const { email, password } = req.body;
+  53 
+→ 54   const user = await prisma.user.findUnique(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\authController.ts:54:36
+
+  51 try {
+  52   const { email, password } = req.body;
+  53 
+→ 54   const user = await prisma.user.findUnique(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7615)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at login (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\authController.ts:54:18)
+Full: {"name":"PrismaClientInitializationError","clientVersion":"5.22.0"}
+
+[2026-03-15T12:55:17.340Z] getProducts: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:17:43
+
+  14 
+  15 export const getProducts = async (req: Request, res: Response) => {
+  16   try {
+→ 17     const products = await prisma.product.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientInitializationError: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:17:43
+
+  14 
+  15 export const getProducts = async (req: Request, res: Response) => {
+  16   try {
+→ 17     const products = await prisma.product.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7615)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getProducts (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:17:22)
+Full: {"name":"PrismaClientInitializationError","clientVersion":"5.22.0"}
+
+[2026-03-15T12:57:23.013Z] getProducts: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:17:43
+
+  14 
+  15 export const getProducts = async (req: Request, res: Response) => {
+  16   try {
+→ 17     const products = await prisma.product.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientInitializationError: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:17:43
+
+  14 
+  15 export const getProducts = async (req: Request, res: Response) => {
+  16   try {
+→ 17     const products = await prisma.product.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7615)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getProducts (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:17:22)
+Full: {"name":"PrismaClientInitializationError","clientVersion":"5.22.0"}
+
+[2026-03-17T03:07:16.268Z] Auth Error (login): 
+Invalid `prisma.user.findUnique()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\authController.ts:73:34
+
+  70 let retries = 3;
+  71 while (retries > 0) {
+  72   try {
+→ 73     user = await prisma.user.findUnique(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientKnownRequestError: 
+Invalid `prisma.user.findUnique()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\authController.ts:73:34
+
+  70 let retries = 3;
+  71 while (retries > 0) {
+  72   try {
+→ 73     user = await prisma.user.findUnique(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at login (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\authController.ts:73:16)
+Full: {"name":"PrismaClientKnownRequestError","code":"P1001","clientVersion":"5.22.0","meta":{"modelName":"User","database_host":"interchange.proxy.rlwy.net","database_port":16769}}
+
+[2026-03-17T03:43:47.375Z] getCategories: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientKnownRequestError: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getCategories (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:24)
+Full: {"name":"PrismaClientKnownRequestError","code":"P1001","clientVersion":"5.22.0","meta":{"modelName":"Category","database_host":"interchange.proxy.rlwy.net","database_port":16769}}
+
+[2026-03-17T03:44:04.752Z] getCategories: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientKnownRequestError: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getCategories (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:24)
+Full: {"name":"PrismaClientKnownRequestError","code":"P1001","clientVersion":"5.22.0","meta":{"modelName":"Category","database_host":"interchange.proxy.rlwy.net","database_port":16769}}
+
+[2026-03-17T03:44:09.774Z] getCategories: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientKnownRequestError: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getCategories (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:24)
+Full: {"name":"PrismaClientKnownRequestError","code":"P1001","clientVersion":"5.22.0","meta":{"modelName":"Category","database_host":"interchange.proxy.rlwy.net","database_port":16769}}
+
+[2026-03-17T03:44:28.533Z] getProducts: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:17:43
+
+  14 
+  15 export const getProducts = async (req: Request, res: Response) => {
+  16   try {
+→ 17     const products = await prisma.product.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientKnownRequestError: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:17:43
+
+  14 
+  15 export const getProducts = async (req: Request, res: Response) => {
+  16   try {
+→ 17     const products = await prisma.product.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getProducts (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:17:22)
+Full: {"name":"PrismaClientKnownRequestError","code":"P1001","clientVersion":"5.22.0","meta":{"modelName":"Product","database_host":"interchange.proxy.rlwy.net","database_port":16769}}
+
+[2026-03-17T03:44:28.538Z] getCategories: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientKnownRequestError: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getCategories (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:24)
+Full: {"name":"PrismaClientKnownRequestError","code":"P1001","clientVersion":"5.22.0","meta":{"modelName":"Category","database_host":"interchange.proxy.rlwy.net","database_port":16769}}
+
+[2026-03-17T03:44:33.552Z] getCategories: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientKnownRequestError: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getCategories (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:24)
+Full: {"name":"PrismaClientKnownRequestError","code":"P1001","clientVersion":"5.22.0","meta":{"modelName":"Category","database_host":"interchange.proxy.rlwy.net","database_port":16769}}
+
+[2026-03-17T03:44:33.555Z] getProducts: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:17:43
+
+  14 
+  15 export const getProducts = async (req: Request, res: Response) => {
+  16   try {
+→ 17     const products = await prisma.product.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientKnownRequestError: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:17:43
+
+  14 
+  15 export const getProducts = async (req: Request, res: Response) => {
+  16   try {
+→ 17     const products = await prisma.product.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getProducts (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:17:22)
+Full: {"name":"PrismaClientKnownRequestError","code":"P1001","clientVersion":"5.22.0","meta":{"modelName":"Product","database_host":"interchange.proxy.rlwy.net","database_port":16769}}
+
+[2026-03-17T03:44:38.565Z] getProducts: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:17:43
+
+  14 
+  15 export const getProducts = async (req: Request, res: Response) => {
+  16   try {
+→ 17     const products = await prisma.product.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientKnownRequestError: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:17:43
+
+  14 
+  15 export const getProducts = async (req: Request, res: Response) => {
+  16   try {
+→ 17     const products = await prisma.product.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getProducts (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:17:22)
+Full: {"name":"PrismaClientKnownRequestError","code":"P1001","clientVersion":"5.22.0","meta":{"modelName":"Product","database_host":"interchange.proxy.rlwy.net","database_port":16769}}
+
+[2026-03-17T03:44:38.570Z] getCategories: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientKnownRequestError: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getCategories (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:24)
+Full: {"name":"PrismaClientKnownRequestError","code":"P1001","clientVersion":"5.22.0","meta":{"modelName":"Category","database_host":"interchange.proxy.rlwy.net","database_port":16769}}
+
+[2026-03-17T03:44:43.605Z] getCategories: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientKnownRequestError: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getCategories (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:24)
+Full: {"name":"PrismaClientKnownRequestError","code":"P1001","clientVersion":"5.22.0","meta":{"modelName":"Category","database_host":"interchange.proxy.rlwy.net","database_port":16769}}
+
+[2026-03-17T03:44:43.614Z] getProducts: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:17:43
+
+  14 
+  15 export const getProducts = async (req: Request, res: Response) => {
+  16   try {
+→ 17     const products = await prisma.product.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientKnownRequestError: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:17:43
+
+  14 
+  15 export const getProducts = async (req: Request, res: Response) => {
+  16   try {
+→ 17     const products = await prisma.product.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getProducts (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:17:22)
+Full: {"name":"PrismaClientKnownRequestError","code":"P1001","clientVersion":"5.22.0","meta":{"modelName":"Product","database_host":"interchange.proxy.rlwy.net","database_port":16769}}
+
+[2026-03-17T03:44:48.630Z] getCategories: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientKnownRequestError: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getCategories (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:24)
+Full: {"name":"PrismaClientKnownRequestError","code":"P1001","clientVersion":"5.22.0","meta":{"modelName":"Category","database_host":"interchange.proxy.rlwy.net","database_port":16769}}
+
+[2026-03-17T03:44:53.655Z] getCategories: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientKnownRequestError: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getCategories (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:24)
+Full: {"name":"PrismaClientKnownRequestError","code":"P1001","clientVersion":"5.22.0","meta":{"modelName":"Category","database_host":"interchange.proxy.rlwy.net","database_port":16769}}
+
+[2026-03-17T03:45:10.413Z] getCategories: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientKnownRequestError: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getCategories (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:24)
+Full: {"name":"PrismaClientKnownRequestError","code":"P1001","clientVersion":"5.22.0","meta":{"modelName":"Category","database_host":"interchange.proxy.rlwy.net","database_port":16769}}
+
+[2026-03-17T03:45:15.435Z] getCategories: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientKnownRequestError: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getCategories (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:24)
+Full: {"name":"PrismaClientKnownRequestError","code":"P1001","clientVersion":"5.22.0","meta":{"modelName":"Category","database_host":"interchange.proxy.rlwy.net","database_port":16769}}
+
+[2026-03-17T03:45:21.255Z] getCategories: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientKnownRequestError: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getCategories (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:24)
+Full: {"name":"PrismaClientKnownRequestError","code":"P1001","clientVersion":"5.22.0","meta":{"modelName":"Category","database_host":"interchange.proxy.rlwy.net","database_port":16769}}
+
+[2026-03-17T03:49:28.093Z] Auth Error (login): 
+Invalid `prisma.user.findUnique()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\authController.ts:73:34
+
+  70 let retries = 3;
+  71 while (retries > 0) {
+  72   try {
+→ 73     user = await prisma.user.findUnique(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientKnownRequestError: 
+Invalid `prisma.user.findUnique()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\authController.ts:73:34
+
+  70 let retries = 3;
+  71 while (retries > 0) {
+  72   try {
+→ 73     user = await prisma.user.findUnique(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at login (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\authController.ts:73:16)
+Full: {"name":"PrismaClientKnownRequestError","code":"P1001","clientVersion":"5.22.0","meta":{"modelName":"User","database_host":"interchange.proxy.rlwy.net","database_port":16769}}
+
+[2026-03-17T11:30:09.000Z] Auth Error (login): 
+Invalid `prisma.user.findUnique()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\authController.ts:73:34
+
+  70 let retries = 3;
+  71 while (retries > 0) {
+  72   try {
+→ 73     user = await prisma.user.findUnique(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientKnownRequestError: 
+Invalid `prisma.user.findUnique()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\authController.ts:73:34
+
+  70 let retries = 3;
+  71 while (retries > 0) {
+  72   try {
+→ 73     user = await prisma.user.findUnique(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at login (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\authController.ts:73:16)
+Full: {"name":"PrismaClientKnownRequestError","code":"P1001","clientVersion":"5.22.0","meta":{"modelName":"User","database_host":"interchange.proxy.rlwy.net","database_port":16769}}
+
+[2026-03-17T11:30:36.724Z] Auth Error (login): 
+Invalid `prisma.user.findUnique()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\authController.ts:73:34
+
+  70 let retries = 3;
+  71 while (retries > 0) {
+  72   try {
+→ 73     user = await prisma.user.findUnique(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientKnownRequestError: 
+Invalid `prisma.user.findUnique()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\authController.ts:73:34
+
+  70 let retries = 3;
+  71 while (retries > 0) {
+  72   try {
+→ 73     user = await prisma.user.findUnique(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at login (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\authController.ts:73:16)
+Full: {"name":"PrismaClientKnownRequestError","code":"P1001","clientVersion":"5.22.0","meta":{"modelName":"User","database_host":"interchange.proxy.rlwy.net","database_port":16769}}
+
+[2026-03-17T11:34:26.022Z] Auth Error (login): 
+Invalid `prisma.user.findUnique()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\authController.ts:73:34
+
+  70 let retries = 3;
+  71 while (retries > 0) {
+  72   try {
+→ 73     user = await prisma.user.findUnique(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientKnownRequestError: 
+Invalid `prisma.user.findUnique()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\authController.ts:73:34
+
+  70 let retries = 3;
+  71 while (retries > 0) {
+  72   try {
+→ 73     user = await prisma.user.findUnique(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at login (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\authController.ts:73:16)
+Full: {"name":"PrismaClientKnownRequestError","code":"P1001","clientVersion":"5.22.0","meta":{"modelName":"User","database_host":"interchange.proxy.rlwy.net","database_port":16769}}
+
+[2026-03-17T11:41:59.123Z] getCategories: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientKnownRequestError: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getCategories (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:24)
+Full: {"name":"PrismaClientKnownRequestError","code":"P1001","clientVersion":"5.22.0","meta":{"modelName":"Category","database_host":"interchange.proxy.rlwy.net","database_port":16769}}
+
+[2026-03-17T11:42:04.150Z] getCategories: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientKnownRequestError: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getCategories (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:24)
+Full: {"name":"PrismaClientKnownRequestError","code":"P1001","clientVersion":"5.22.0","meta":{"modelName":"Category","database_host":"interchange.proxy.rlwy.net","database_port":16769}}
+
+[2026-03-17T11:49:58.798Z] Auth Error (login): 
+Invalid `prisma.user.findUnique()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\authController.ts:73:34
+
+  70 let retries = 3;
+  71 while (retries > 0) {
+  72   try {
+→ 73     user = await prisma.user.findUnique(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientKnownRequestError: 
+Invalid `prisma.user.findUnique()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\authController.ts:73:34
+
+  70 let retries = 3;
+  71 while (retries > 0) {
+  72   try {
+→ 73     user = await prisma.user.findUnique(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at login (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\authController.ts:73:16)
+Full: {"name":"PrismaClientKnownRequestError","code":"P1001","clientVersion":"5.22.0","meta":{"modelName":"User","database_host":"interchange.proxy.rlwy.net","database_port":16769}}
+
+[2026-03-17T12:34:12.158Z] getCategories: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientKnownRequestError: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getCategories (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:24)
+Full: {"name":"PrismaClientKnownRequestError","code":"P1001","clientVersion":"5.22.0","meta":{"modelName":"Category","database_host":"interchange.proxy.rlwy.net","database_port":16769}}
+
+[2026-03-17T12:34:17.173Z] getCategories: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+Stack: PrismaClientKnownRequestError: 
+Invalid `prisma.category.findMany()` invocation in
+C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:46
+
+  65 
+  66 export const getCategories = async (req: Request, res: Response) => {
+  67   try {
+→ 68     const categories = await prisma.category.findMany(
+Can't reach database server at `interchange.proxy.rlwy.net:16769`
+
+Please make sure your database server is running at `interchange.proxy.rlwy.net:16769`.
+    at $n.handleRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at l (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at getCategories (C:\Users\Yash\OneDrive\Desktop\CoreInventory\backend\src\controllers\productController.ts:68:24)
+Full: {"name":"PrismaClientKnownRequestError","code":"P1001","clientVersion":"5.22.0","meta":{"modelName":"Category","database_host":"interchange.proxy.rlwy.net","database_port":16769}}
+

@@ -25,6 +25,30 @@ export const createReceipt = async (req: Request, res: Response) => {
   }
 };
 
+export const getReceiptDrafts = async (req: Request, res: Response) => {
+  try {
+    const drafts = await prisma.receipt.findMany({
+      where: { status: 'DRAFT' },
+      include: { items: { include: { product: true } } },
+      orderBy: { createdAt: 'desc' },
+    });
+    res.json(drafts);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching receipt drafts', error });
+  }
+};
+
+export const deleteReceipt = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    await prisma.receiptItem.deleteMany({ where: { receiptId: id } });
+    await prisma.receipt.delete({ where: { id } });
+    res.json({ message: 'Draft receipt deleted' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error deleting receipt', error });
+  }
+};
+
 export const validateReceipt = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
@@ -75,6 +99,30 @@ export const createDelivery = async (req: Request, res: Response) => {
   }
 };
 
+export const getDeliveryDrafts = async (req: Request, res: Response) => {
+  try {
+    const drafts = await prisma.delivery.findMany({
+      where: { status: 'DRAFT' },
+      include: { items: { include: { product: true } } },
+      orderBy: { createdAt: 'desc' },
+    });
+    res.json(drafts);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching delivery drafts', error });
+  }
+};
+
+export const deleteDelivery = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    await prisma.deliveryItem.deleteMany({ where: { deliveryId: id } });
+    await prisma.delivery.delete({ where: { id } });
+    res.json({ message: 'Draft delivery deleted' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error deleting delivery', error });
+  }
+};
+
 export const confirmDelivery = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
@@ -122,6 +170,30 @@ export const createTransfer = async (req: Request, res: Response) => {
     res.status(201).json(transfer);
   } catch (error) {
     res.status(500).json({ message: 'Error creating transfer', error });
+  }
+};
+
+export const getTransferDrafts = async (req: Request, res: Response) => {
+  try {
+    const drafts = await prisma.transfer.findMany({
+      where: { status: 'DRAFT' },
+      include: { items: { include: { product: true } } },
+      orderBy: { createdAt: 'desc' },
+    });
+    res.json(drafts);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching transfer drafts', error });
+  }
+};
+
+export const deleteTransfer = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    await prisma.transferItem.deleteMany({ where: { transferId: id } });
+    await prisma.transfer.delete({ where: { id } });
+    res.json({ message: 'Draft transfer deleted' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error deleting transfer', error });
   }
 };
 

@@ -5,6 +5,7 @@ import { Navbar } from '@/components/landing/Navbar';
 import { WaveAnimation } from '@/components/landing/WaveAnimation';
 import { Hero } from '@/components/landing/Hero';
 import { Features } from '@/components/landing/Features';
+import { HowToUse } from '@/components/landing/HowToUse';
 import { Solutions } from '@/components/landing/Solutions';
 import { Pricing } from '@/components/landing/Pricing';
 import { LoginForm } from '@/components/auth/LoginForm';
@@ -15,7 +16,7 @@ export default function Home() {
   const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
 
   return (
-    <main className="relative min-h-screen text-white overflow-x-hidden">
+    <main className="relative min-h-screen bg-[var(--ci-bg)] text-[var(--ci-text)] overflow-x-hidden transition-colors duration-300">
       <Navbar />
       <WaveAnimation />
       
@@ -29,7 +30,7 @@ export default function Home() {
                     <h2 className="text-4xl md:text-5xl font-bold leading-tight">
                         One Secure Entry Point for Your <span className="text-blue-500">Inventory Ecosystem.</span>
                     </h2>
-                    <p className="text-lg text-gray-400">
+                    <p className="text-lg text-[var(--ci-text-muted)]">
                         Join thousands of warehouse managers who have transformed their manual operations into a high-octane digital engine.
                     </p>
                     <div className="flex gap-4 pt-4">
@@ -40,7 +41,7 @@ export default function Home() {
                                 </div>
                             ))}
                         </div>
-                        <p className="text-sm text-gray-500 flex items-center">
+                        <p className="text-sm text-[var(--ci-text-muted)] flex items-center">
                             Trusted by 500+ global warehouses
                         </p>
                     </div>
@@ -73,6 +74,7 @@ export default function Home() {
         </section>
 
         <Features />
+        <HowToUse />
         <Solutions />
         <Pricing />
       </div>

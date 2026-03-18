@@ -48,8 +48,8 @@
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --background: oklch(0.985 0 0); /* white */
+  --foreground: oklch(0.145 0 0); /* dark text */
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
@@ -80,11 +80,21 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  /* Semantic CoreInventory Variables (Light Mode) */
+  --ci-bg: #F1F5F9;           /* Slate-100 */
+  --ci-sidebar: #FFFFFF;      /* White */
+  --ci-header: rgba(255,255,255,0.8);
+  --ci-card: rgba(255,255,255,0.7);
+  --ci-border: #E2E8F0;       /* Slate-200 */
+  --ci-text: #0F172A;         /* Slate-900 */
+  --ci-text-muted: #64748B;   /* Slate-500 */
+  --ci-glass: rgba(255,255,255,0.4);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
+  --background: oklch(0.145 0 0); /* dark background */
+  --foreground: oklch(0.985 0 0); /* light text */
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
@@ -114,6 +124,16 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+
+  /* Semantic CoreInventory Variables (Dark Mode) */
+  --ci-bg: #020617;           /* Slate-950 */
+  --ci-sidebar: #020617;      /* Sidebar same as bg but separated by border */
+  --ci-header: rgba(2,6,23,0.8);
+  --ci-card: rgba(17,24,39,0.7); /* Slate-900 glass */
+  --ci-border: #1F2937;       /* Slate-800 */
+  --ci-text: #FFFFFF;         /* White text */
+  --ci-text-muted: #94A3B8;   /* Slate-400 */
+  --ci-glass: rgba(17,24,39,0.4);
 }
 
 @layer base {
@@ -127,3 +147,11 @@
     @apply font-sans;
   }
 }
+
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar { width: 4px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(148,163,184,0.2); border-radius: 10px; }
+.custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(148,163,184,0.4); }
+
+

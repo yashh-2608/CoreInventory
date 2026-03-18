@@ -41,12 +41,20 @@ export const updateProduct = async (req: Request, res: Response) => {
 export const deleteProduct = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
+    // Cascade delete: remove dependent records first to avoid FK constraint errors
+    await prisma.stockLedger.deleteMany({ where: { productId: id } });
+    await prisma.receiptItem.deleteMany({ where: { productId: id } });
+    await prisma.deliveryItem.deleteMany({ where: { productId: id } });
+    await prisma.transferItem.deleteMany({ where: { productId: id } });
+    await prisma.adjustment.deleteMany({ where: { productId: id } });
+    await prisma.inventory.deleteMany({ where: { productId: id } });
     await prisma.product.delete({ where: { id } });
-    res.json({ message: 'Product deleted' });
+    res.json({ message: 'Product and all related records deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Error deleting product', error });
   }
 };
+
 
 export const getCategories = async (req: Request, res: Response) => {
   try {

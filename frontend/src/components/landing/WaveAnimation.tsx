@@ -77,7 +77,7 @@ export const WaveAnimation: React.FC = () => {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 -z-10 bg-[#020617]"
+      className="fixed inset-0 -z-10 bg-[var(--ci-bg)] transition-colors duration-300"
     />
   );
 };
