@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { KpiCard } from '@/components/dashboard/KpiCard';
+import { useSettings } from '@/context/SettingsContext';
 import { 
   Package, 
   AlertTriangle, 
@@ -41,7 +42,33 @@ interface Activity {
 
 const COLORS = ['#3b82f6', '#8b5cf6', '#10b981', '#f59e0b'];
 
+// ─── Static Demo Data ────────────────────────────────────────────
+const DEMO_STATS: Stats = {
+  totalProducts: 48,
+  lowStockItems: 5,
+  pendingReceipts: 3,
+  pendingDeliveries: 7,
+  scheduledTransfers: 2,
+};
+const DEMO_ACTIVITIES: Activity[] = [
+  { id: '1', qtyChange: 120, opType: 'RECEIPT',   createdAt: new Date(Date.now() - 1000*60*10).toISOString(), product: { name: 'Sony WH-1000XM5 Headphones' }, warehouse: { name: 'Main Warehouse' } },
+  { id: '2', qtyChange: -30, opType: 'DELIVERY',  createdAt: new Date(Date.now() - 1000*60*25).toISOString(), product: { name: 'Apple iPhone 15 Pro (256GB)' }, warehouse: { name: 'East Hub' } },
+  { id: '3', qtyChange: 60,  opType: 'RECEIPT',   createdAt: new Date(Date.now() - 1000*60*45).toISOString(), product: { name: 'Samsung 4K QLED TV 55"' },       warehouse: { name: 'West Depot' } },
+  { id: '4', qtyChange: -15, opType: 'DELIVERY',  createdAt: new Date(Date.now() - 1000*60*90).toISOString(), product: { name: 'Nike Air Max 270 (Size 10)' },     warehouse: { name: 'Main Warehouse' } },
+  { id: '5', qtyChange: 50,  opType: 'TRANSFER_IN',createdAt: new Date(Date.now() - 1000*60*120).toISOString(), product: { name: 'Logitech MX Master 3S Mouse' }, warehouse: { name: 'East Hub' } },
+  { id: '6', qtyChange: -8,  opType: 'ADJUSTMENT', createdAt: new Date(Date.now() - 1000*60*180).toISOString(), product: { name: 'Levi\'s 501 Original Jeans' },   warehouse: { name: 'West Depot' } },
+];
+const DEMO_DISTRIBUTION = [
+  { name: 'Electronics',  value: 18 },
+  { name: 'Apparel',      value: 12 },
+  { name: 'Home & Living',value: 10 },
+  { name: 'Accessories',  value: 8  },
+];
+// ─────────────────────────────────────────────────────────────────
+
 export default function DashboardPage() {
+  const { settings } = useSettings();
+  const [isDemo, setIsDemo] = React.useState(false);
   const [stats, setStats] = useState<Stats | null>(null);
   const [activities, setActivities] = useState<Activity[]>([]);
   const [distribution, setDistribution] = useState<any[]>([]);
@@ -50,7 +77,16 @@ export default function DashboardPage() {
   const [modalLoading, setModalLoading] = useState(false);
 
   useEffect(() => {
-    fetchDashboardData();
+    const demo = localStorage.getItem('demoMode') === 'true';
+    setIsDemo(demo);
+    if (demo) {
+      setStats(DEMO_STATS);
+      setActivities(DEMO_ACTIVITIES);
+      setDistribution(DEMO_DISTRIBUTION);
+      setLoading(false);
+    } else {
+      fetchDashboardData();
+    }
   }, []);
 
   const fetchDashboardData = async () => {
@@ -59,15 +95,20 @@ export default function DashboardPage() {
       const token = localStorage.getItem('token');
       const headers = { 'Authorization': `Bearer ${token}` };
       
+      const threshold = settings.lowStockThreshold;
       const [statsRes, activityRes, distRes] = await Promise.all([
-        fetch('http://localhost:5000/api/reports/stats', { headers }),
+        fetch(`http://localhost:5000/api/reports/stats?threshold=${threshold}`, { headers }),
         fetch('http://localhost:5000/api/reports/activity', { headers }),
         fetch('http://localhost:5000/api/reports/distribution', { headers })
       ]);
 
-      setStats(await statsRes.json());
-      setActivities(await activityRes.json());
-      setDistribution(await distRes.json());
+      const statsData = await statsRes.json();
+      const activityData = await activityRes.json();
+      const distData = await distRes.json();
+
+      setStats(statsData);
+      setActivities(Array.isArray(activityData) ? activityData : []);
+      setDistribution(Array.isArray(distData) ? distData : []);
     } catch (err) {
       console.error('Dashboard fetch error:', err);
     } finally {
@@ -82,9 +123,10 @@ export default function DashboardPage() {
       const token = localStorage.getItem('token');
       const headers = { 'Authorization': `Bearer ${token}` };
       
+      const threshold = settings.lowStockThreshold;
       const urlMap: Record<string, string> = {
         'Total Products': 'http://localhost:5000/api/products',
-        'Low Stock Items': 'http://localhost:5000/api/reports/low-stock',
+        'Low Stock Items': `http://localhost:5000/api/reports/low-stock?threshold=${threshold}`,
         'Pending Receipts': 'http://localhost:5000/api/reports/pending-receipts',
         'Pending Deliveries': 'http://localhost:5000/api/reports/pending-deliveries',
         'Active Transfers': 'http://localhost:5000/api/reports/pending-transfers',
@@ -129,23 +171,23 @@ export default function DashboardPage() {
         </div>
         <button 
             onClick={fetchDashboardData}
-            className="p-3 bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-2xl hover:bg-[var(--ci-glass)] hover:opacity-80 transition-all text-[var(--ci-text-muted)]"
+            className="ci-btn-secondary p-3 !px-3 !py-3 rounded-[10px]"
         >
             <RefreshCcw className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
         </button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-        <KpiCard title="Total Products" value={stats?.totalProducts.toString() || '0'} icon={Package} color="text-blue-500" trend="+12%" trendUp onClick={() => fetchDrillDown('Total Products')} />
-        <KpiCard title="Low Stock Items" value={stats?.lowStockItems.toString() || '0'} icon={AlertTriangle} color="text-red-500" trend="Critical" onClick={() => fetchDrillDown('Low Stock Items')} />
-        <KpiCard title="Pending Receipts" value={stats?.pendingReceipts.toString() || '0'} icon={ArrowDownLeft} color="text-emerald-500" onClick={() => fetchDrillDown('Pending Receipts')} />
-        <KpiCard title="Pending Deliveries" value={stats?.pendingDeliveries.toString() || '0'} icon={ArrowUpRight} color="text-purple-500" onClick={() => fetchDrillDown('Pending Deliveries')} />
-        <KpiCard title="Active Transfers" value={stats?.scheduledTransfers.toString() || '0'} icon={ArrowLeftRight} color="text-orange-500" onClick={() => fetchDrillDown('Active Transfers')} />
+        <KpiCard title="Total Products" value={String(stats?.totalProducts ?? 0)} icon={Package} color="text-blue-500" trend="+12%" trendUp onClick={() => fetchDrillDown('Total Products')} />
+        <KpiCard title="Low Stock Items" value={String(stats?.lowStockItems ?? 0)} icon={AlertTriangle} color="text-red-500" trend="Critical" onClick={() => fetchDrillDown('Low Stock Items')} />
+        <KpiCard title="Pending Receipts" value={String(stats?.pendingReceipts ?? 0)} icon={ArrowDownLeft} color="text-emerald-500" onClick={() => fetchDrillDown('Pending Receipts')} />
+        <KpiCard title="Pending Deliveries" value={String(stats?.pendingDeliveries ?? 0)} icon={ArrowUpRight} color="text-purple-500" onClick={() => fetchDrillDown('Pending Deliveries')} />
+        <KpiCard title="Active Transfers" value={String(stats?.scheduledTransfers ?? 0)} icon={ArrowLeftRight} color="text-orange-500" onClick={() => fetchDrillDown('Active Transfers')} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="p-8 bg-[var(--ci-card)] border border-[var(--ci-border)] rounded-3xl backdrop-blur-md shadow-xl transition-colors duration-300">
-            <h3 className="text-lg font-bold mb-8 flex items-center gap-2 uppercase tracking-widest text-[var(--ci-text-muted)]">
+        <div className="p-8 bg-[var(--ci-card)] backdrop-blur-[12px] border border-[var(--ci-border)] rounded-[14px] shadow-xl transition-all duration-300 hover:-translate-y-[2px] hover:shadow-[0_8px_24px_rgba(0,0,0,0.15)]">
+            <h3 className="text-sm font-semibold mb-8 flex items-center gap-2 uppercase tracking-widest text-[var(--ci-text-muted)]">
                 Category Distribution
             </h3>
             <div className="h-80 w-full flex items-center justify-center">
@@ -165,7 +207,7 @@ export default function DashboardPage() {
                             ))}
                         </Pie>
                         <Tooltip 
-                            contentStyle={{ backgroundColor: 'var(--ci-bg)', border: '1px solid var(--ci-border)', borderRadius: '12px' }}
+                            contentStyle={{ backgroundColor: 'var(--ci-bg)', border: '1px solid var(--ci-border)', borderRadius: '10px' }}
                             itemStyle={{ color: 'var(--ci-text)', fontSize: '12px', fontWeight: 'bold' }}
                         />
                         <Legend verticalAlign="bottom" height={36} iconType="circle" />
@@ -174,29 +216,29 @@ export default function DashboardPage() {
             </div>
         </div>
 
-        <div className="p-8 bg-[var(--ci-card)] border border-[var(--ci-border)] rounded-3xl backdrop-blur-md shadow-xl transition-colors duration-300">
-            <h3 className="text-lg font-bold mb-8 flex items-center gap-2 uppercase tracking-widest text-[var(--ci-text-muted)]">
+        <div className="p-8 bg-[var(--ci-card)] backdrop-blur-[12px] border border-[var(--ci-border)] rounded-[14px] shadow-xl transition-all duration-300 hover:-translate-y-[2px] hover:shadow-[0_8px_24px_rgba(0,0,0,0.15)]">
+            <h3 className="text-sm font-semibold mb-8 flex items-center gap-2 uppercase tracking-widest text-[var(--ci-text-muted)]">
                 Real-time Ledger
             </h3>
-            <div className="space-y-4 max-h-[340px] overflow-y-auto pr-2 custom-scrollbar">
+            <div className="space-y-3 max-h-[340px] overflow-y-auto pr-2 custom-scrollbar">
                 {activities.map((act) => (
-                    <div key={act.id} className="flex items-center gap-4 p-4 bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-2xl hover:bg-[var(--ci-glass)] hover:opacity-80 transition-all">
-                        <div className="p-3 bg-[var(--ci-glass)] rounded-xl">
+                    <div key={act.id} className="flex items-center gap-4 p-4 bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-[10px] hover:bg-[var(--ci-glass)] hover:opacity-90 transition-all">
+                        <div className="p-3 bg-white/[0.04] rounded-xl">
                             {getOpIcon(act.opType)}
                         </div>
                         <div className="flex-1">
-                            <p className="text-sm font-bold text-[var(--ci-text)]">{act.product.name}</p>
-                            <p className="text-[10px] text-[var(--ci-text-muted)] flex items-center gap-1 font-medium uppercase tracking-tight">
+                            <p className="text-sm font-semibold text-[var(--ci-text)]">{act.product.name}</p>
+                            <p className="text-[11px] text-[var(--ci-text-muted)] flex items-center gap-1 font-medium">
                                 {act.warehouse.name} • {new Date(act.createdAt).toLocaleTimeString()}
                             </p>
                         </div>
-                        <div className={`text-sm font-black ${act.qtyChange >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                        <div className={`text-sm font-bold ${act.qtyChange >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                             {act.qtyChange >= 0 ? '+' : ''}{act.qtyChange}
                         </div>
                     </div>
                 ))}
                 {activities.length === 0 && (
-                    <div className="flex flex-col items-center justify-center h-48 text-gray-600">
+                    <div className="flex flex-col items-center justify-center h-48 text-[var(--ci-text-muted)]/50">
                         <Package className="w-12 h-12 mb-2 opacity-20" />
                         <p className="text-sm italic">No recent movements detected</p>
                     </div>
@@ -259,7 +301,7 @@ export default function DashboardPage() {
                                       {/* Pending Receipts */}
                                       {drillDown.type === 'Pending Receipts' && (
                                         <div className="space-y-1">
-                                          <p className="font-bold text-white leading-tight">From: {item.supplier}</p>
+                                          <p className="font-bold text-[var(--ci-text)] leading-tight">From: {item.supplier}</p>
                                           <p className="text-[10px] text-gray-500 uppercase tracking-wider font-bold">{item.warehouse?.name}</p>
                                           <div className="flex flex-wrap gap-1 mt-2">
                                             {item.items?.map((sub: any) => (
@@ -307,7 +349,7 @@ export default function DashboardPage() {
                                       </>
                                   )}
                                   {drillDown.type === 'Total Products' && (
-                                      <p className="text-sm font-bold text-gray-300">{item.category?.name}</p>
+                                      <p className="text-sm font-bold text-[var(--ci-text-muted)]">{item.category?.name}</p>
                                   )}
                                   {(drillDown.type === 'Pending Receipts' || drillDown.type === 'Pending Deliveries' || drillDown.type === 'Active Transfers') && (
                                       <>

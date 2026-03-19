@@ -28,14 +28,19 @@ export const KpiCard: React.FC<KpiCardProps> = ({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       onClick={onClick}
-      className={`p-6 bg-[var(--ci-card)] border border-[var(--ci-border)] rounded-2xl backdrop-blur-md transition-all duration-300 group ${onClick ? 'cursor-pointer hover:bg-[var(--ci-glass)] hover:border-blue-500/30 hover:scale-[1.02]' : ''}`}
+      className={`
+        p-6 rounded-[14px] backdrop-blur-[12px] transition-all duration-300 group
+        bg-[var(--ci-card)] border border-[var(--ci-border)]
+        hover:-translate-y-[2px] hover:shadow-[0_8px_24px_rgba(0,0,0,0.15)]
+        ${onClick ? 'cursor-pointer hover:border-[var(--ci-accent)]/30' : ''}
+      `}
     >
       <div className="flex justify-between items-start mb-4">
-        <div className={`p-3 rounded-xl bg-white/5 group-hover:scale-110 transition-transform`}>
+        <div className="p-3 rounded-xl bg-[var(--ci-glass)] group-hover:scale-110 transition-transform">
           <Icon className={`w-6 h-6 ${color}`} />
         </div>
         {trend && (
-          <span className={`text-xs font-medium px-2 py-1 rounded-full ${trendUp ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'}`}>
+          <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${trendUp ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'}`}>
             {trend}
           </span>
         )}

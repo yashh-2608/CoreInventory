@@ -1,10 +1,13 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import prisma from '../lib/prisma';
+import { AuthRequest } from '../middleware/authMiddleware';
 
-export const exportProducts = async (req: Request, res: Response) => {
+export const exportProducts = async (req: AuthRequest, res: Response) => {
   try {
+    const userId = req.user!.id;
     const products = await prisma.product.findMany({
-      include: { category: true, inventory: true },
+      where: { userId },
+      include: { category: true, inventory: { where: { userId } } },
     });
 
     let csv = 'Name,SKU,Category,UOM,Initial Stock,Total Inventory\n';
@@ -21,9 +24,11 @@ export const exportProducts = async (req: Request, res: Response) => {
   }
 };
 
-export const exportLedger = async (req: Request, res: Response) => {
+export const exportLedger = async (req: AuthRequest, res: Response) => {
   try {
+    const userId = req.user!.id;
     const ledger = await prisma.stockLedger.findMany({
+      where: { userId },
       include: { product: true, warehouse: true },
       orderBy: { createdAt: 'desc' },
     });
@@ -41,18 +46,21 @@ export const exportLedger = async (req: Request, res: Response) => {
   }
 };
 
-export const exportGlobalReport = async (req: Request, res: Response) => {
+export const exportGlobalReport = async (req: AuthRequest, res: Response) => {
   try {
+    const userId = req.user!.id;
     const { warehouseId, categoryId } = req.query;
 
     const warehouses = await prisma.warehouse.findMany({
       where: {
-        ...(warehouseId && { id: warehouseId as string })
+        userId,
+        ...(warehouseId && { id: warehouseId as string }),
       },
       include: {
         inventory: {
           where: {
-            ...(categoryId && { product: { categoryId: categoryId as string } })
+            userId,
+            ...(categoryId && { product: { categoryId: categoryId as string } }),
           },
           include: { product: { include: { category: true } } },
         },

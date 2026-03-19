@@ -25,6 +25,7 @@ export const Hero: React.FC = () => {
         if (!res.ok) throw new Error(data.message || 'Demo access failed');
 
         localStorage.setItem('token', data.token);
+        localStorage.setItem('demoMode', 'true');
         router.push('/admin/dashboard');
     } catch (err) {
         console.error('Demo error:', err);
@@ -45,10 +46,10 @@ export const Hero: React.FC = () => {
         transition={{ duration: 0.8 }}
         className="max-w-4xl"
       >
-        <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-500 to-emerald-400 bg-clip-text text-transparent">
+        <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-500 to-emerald-400 bg-clip-text text-transparent font-[var(--font-playfair)]">
           Digitize or Die: The Future of Inventory is Here.
         </h1>
-        <p className="text-xl md:text-2xl text-[var(--ci-text-muted)] mb-10 max-w-2xl mx-auto">
+        <p className="text-xl md:text-2xl text-[var(--ci-text-muted)] mb-10 max-w-2xl mx-auto font-normal leading-[1.7]">
           Centralize, automate, and scale your e-commerce operations with CoreInventory. 
           Stop tracking in spreadsheets. Start leading in real-time.
         </p>

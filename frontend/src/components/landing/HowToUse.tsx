@@ -69,7 +69,7 @@ export const HowToUse: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.1 }}
-          className="text-4xl font-bold mb-4 text-[var(--ci-text)]"
+          className="text-4xl font-bold mb-4 text-[var(--ci-text)] font-[var(--font-playfair)]"
         >
           How to Use CoreInventory?
         </motion.h2>

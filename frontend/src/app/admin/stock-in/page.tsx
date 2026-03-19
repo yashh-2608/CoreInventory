@@ -95,7 +95,7 @@ export default function StockInPage() {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify({ supplier, warehouseId, items }),
+            body: JSON.stringify({ supplier, warehouseId, items, status: 'DRAFT' }),
         });
 
         const receipt = await createRes.json();
@@ -265,16 +265,16 @@ export default function StockInPage() {
                     <Package className="w-4 h-4" /> Receipt Manifest
                 </h4>
                 <div className="space-y-4 text-sm flex-1">
-                    <div className="flex justify-between items-center bg-white/5 p-4 rounded-2xl border border-white/5">
+                    <div className="flex justify-between items-center bg-[var(--ci-glass)] p-4 rounded-2xl border border-[var(--ci-border)]">
                         <span className="text-[var(--ci-text-muted)] font-medium">Unique SKUs</span>
                         <span className="font-bold text-lg">{items.filter(i => i.productId).length}</span>
                     </div>
-                    <div className="flex justify-between items-center bg-white/5 p-4 rounded-2xl border border-white/5">
+                    <div className="flex justify-between items-center bg-[var(--ci-glass)] p-4 rounded-2xl border border-[var(--ci-border)]">
                         <span className="text-[var(--ci-text-muted)] font-medium">Total Volume</span>
                         <span className="font-bold text-lg">{totalQty}</span>
                     </div>
                 </div>
-                <hr className="my-6 border-white/5" />
+                <hr className="my-6 border-[var(--ci-border)]" />
                 <div className="space-y-4">
                     {!isDraftSaved ? (
                     <button 
@@ -334,7 +334,7 @@ export default function StockInPage() {
                                         <Trash2 className="w-4 h-4" />
                                     </button>
                                 </div>
-                                <div className="flex justify-between items-center text-[10px] text-[var(--ci-text-muted)] border-t border-white/5 pt-2">
+                                <div className="flex justify-between items-center text-[10px] text-[var(--ci-text-muted)] border-t border-[var(--ci-border)] pt-2">
                                     <span>{d.items.length} Items</span>
                                     <button 
                                         onClick={() => {
@@ -363,7 +363,7 @@ export default function StockInPage() {
         {deleteDraftConfirm && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setDeleteDraftConfirm(null)} className="absolute inset-0 bg-black/80 backdrop-blur-md" />
-            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="relative w-full max-w-md bg-[#0f1115] border border-white/10 rounded-[2rem] shadow-2xl p-8 text-center">
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="relative w-full max-w-md bg-[#0f1115] border border-[var(--ci-border)] rounded-[2rem] shadow-2xl p-8 text-center">
               <div className="w-16 h-16 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <Trash2 className="w-8 h-8 text-red-500" />
               </div>
@@ -372,7 +372,7 @@ export default function StockInPage() {
               <div className="flex gap-4">
                 <button 
                   onClick={() => setDeleteDraftConfirm(null)}
-                  className="flex-1 py-4 bg-white/5 hover:bg-white/10 text-[var(--ci-text)] rounded-xl font-bold transition-all border border-white/5"
+                  className="flex-1 py-4 bg-[var(--ci-glass)] hover:opacity-80 text-[var(--ci-text)] rounded-xl font-bold transition-all border border-[var(--ci-border)]"
                 >
                   Cancel
                 </button>

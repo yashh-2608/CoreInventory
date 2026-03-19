@@ -35,7 +35,7 @@ export const Pricing: React.FC = () => {
   return (
     <section id="pricing" className="py-24 px-6 max-w-7xl mx-auto">
       <div className="text-center mb-16">
-        <h2 className="text-4xl font-bold mb-4 text-[var(--ci-text)]">Transparent <span className="text-blue-500">Pricing</span></h2>
+        <h2 className="text-4xl font-bold mb-4 text-[var(--ci-text)] font-[var(--font-playfair)]">Transparent <span className="text-blue-500">Pricing</span></h2>
         <p className="text-[var(--ci-text-muted)] max-w-2xl mx-auto">Scalable tiers designed to grow alongside your logistics empire.</p>
       </div>
 

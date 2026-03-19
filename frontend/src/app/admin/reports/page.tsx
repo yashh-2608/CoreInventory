@@ -93,7 +93,7 @@ export default function ReportsPage() {
 
   return (
     <div className="space-y-8 animate-in fade-in duration-700">
-      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6 pb-6 border-b border-white/5">
+      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6 pb-6 border-b border-[var(--ci-border)]">
         <div>
           <h1 className="text-3xl font-black mb-2 tracking-tight text-white flex items-center gap-3">
             <LayoutGrid className="w-8 h-8 text-blue-500" />
@@ -102,28 +102,28 @@ export default function ReportsPage() {
           <p className="text-gray-500 font-medium">Deep dive into inventory distribution and global hub performance.</p>
         </div>
         
-        <div className="flex flex-wrap items-center gap-4 bg-white/5 p-2 rounded-2xl border border-white/10 backdrop-blur-sm">
-            <div className="flex items-center gap-2 px-3 py-2 bg-[#0f172a] rounded-xl border border-white/5 group shadow-inner">
+        <div className="flex flex-wrap items-center gap-4 bg-[var(--ci-glass)] p-2 rounded-2xl border border-[var(--ci-border)] backdrop-blur-sm">
+            <div className="flex items-center gap-2 px-3 py-2 bg-[var(--ci-bg)] rounded-xl border border-[var(--ci-border)] group shadow-inner">
                 <WarehouseIcon className="w-4 h-4 text-blue-400 group-focus-within:text-blue-500 transition-colors" />
                 <select 
                     value={selectedWarehouse} 
                     onChange={(e) => setSelectedWarehouse(e.target.value)}
-                    className="bg-transparent text-sm font-bold text-gray-300 focus:outline-none min-w-[140px] appearance-none cursor-pointer"
+                    className="bg-transparent text-sm font-bold text-[var(--ci-text-muted)] focus:outline-none min-w-[140px] appearance-none cursor-pointer"
                 >
-                    <option value="" className="bg-[#0f172a]">All Warehouses</option>
-                    {warehouses.map(w => <option key={w.id} value={w.id} className="bg-[#0f172a]">{w.name}</option>)}
+                    <option value="" className="bg-[var(--ci-bg)]">All Warehouses</option>
+                    {warehouses.map(w => <option key={w.id} value={w.id} className="bg-[var(--ci-bg)]">{w.name}</option>)}
                 </select>
             </div>
 
-            <div className="flex items-center gap-2 px-3 py-2 bg-[#0f172a] rounded-xl border border-white/5 group shadow-inner">
+            <div className="flex items-center gap-2 px-3 py-2 bg-[var(--ci-bg)] rounded-xl border border-[var(--ci-border)] group shadow-inner">
                 <PackageSearch className="w-4 h-4 text-purple-400 group-focus-within:text-purple-500 transition-colors" />
                 <select 
                     value={selectedCategory} 
                     onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="bg-transparent text-sm font-bold text-gray-300 focus:outline-none min-w-[140px] appearance-none cursor-pointer"
+                    className="bg-transparent text-sm font-bold text-[var(--ci-text-muted)] focus:outline-none min-w-[140px] appearance-none cursor-pointer"
                 >
-                    <option value="" className="bg-[#0f172a]">All Categories</option>
-                    {categories.map(c => <option key={c.id} value={c.id} className="bg-[#0f172a]">{c.name}</option>)}
+                    <option value="" className="bg-[var(--ci-bg)]">All Categories</option>
+                    {categories.map(c => <option key={c.id} value={c.id} className="bg-[var(--ci-bg)]">{c.name}</option>)}
                 </select>
             </div>
 
@@ -132,7 +132,7 @@ export default function ReportsPage() {
             <div className="flex gap-2">
                 <button 
                     onClick={fetchReports}
-                    className="p-2.5 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all text-gray-400 hover:text-white"
+                    className="p-2.5 bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-xl hover:opacity-80 transition-all text-gray-400 hover:text-[var(--ci-text)]"
                     title="Refresh Data"
                 >
                     <RefreshCcw className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
@@ -148,42 +148,42 @@ export default function ReportsPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="p-8 bg-white/5 border border-white/10 rounded-3xl backdrop-blur-md shadow-xl">
+        <div className="p-8 bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-3xl backdrop-blur-md shadow-xl">
             <div className="flex items-center gap-3 mb-4">
                 <div className="p-2 bg-emerald-500/10 rounded-lg">
                     <Package className="w-5 h-5 text-emerald-400" />
                 </div>
                 <h4 className="text-sm font-bold text-gray-400 uppercase tracking-wider">Total Hub Stock</h4>
             </div>
-            <p className="text-4xl font-black text-white">{totalStock.toLocaleString()}</p>
+            <p className="text-4xl font-black text-[var(--ci-text)]">{totalStock.toLocaleString()}</p>
             <p className="text-xs text-emerald-400 mt-2 font-medium">Aggregated across {data.length} warehouses</p>
         </div>
 
-        <div className="p-8 bg-white/5 border border-white/10 rounded-3xl backdrop-blur-md shadow-xl">
+        <div className="p-8 bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-3xl backdrop-blur-md shadow-xl">
             <div className="flex items-center gap-3 mb-4">
                 <div className="p-2 bg-blue-500/10 rounded-lg">
                     <TrendingUp className="w-5 h-5 text-blue-400" />
                 </div>
                 <h4 className="text-sm font-bold text-gray-400 uppercase tracking-wider">SKU Coverage</h4>
             </div>
-            <p className="text-4xl font-black text-white">{stats?.totalProducts || 0}</p>
+            <p className="text-4xl font-black text-[var(--ci-text)]">{stats?.totalProducts || 0}</p>
             <p className="text-xs text-blue-400 mt-2 font-medium">Active unique identifiers</p>
         </div>
 
-        <div className="p-8 bg-white/5 border border-white/10 rounded-3xl backdrop-blur-md shadow-xl">
+        <div className="p-8 bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-3xl backdrop-blur-md shadow-xl">
             <div className="flex items-center gap-3 mb-4">
                 <div className="p-2 bg-purple-500/10 rounded-lg">
                     <AlertTriangle className="w-5 h-5 text-purple-400" />
                 </div>
                 <h4 className="text-sm font-bold text-gray-400 uppercase tracking-wider">Critical Alerts</h4>
             </div>
-            <p className="text-4xl font-black text-white">{stats?.lowStockItems || 0}</p>
+            <p className="text-4xl font-black text-[var(--ci-text)]">{stats?.lowStockItems || 0}</p>
             <p className="text-xs text-purple-400 mt-2 font-medium">Items requiring replenishment</p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 p-8 bg-white/5 border border-white/10 rounded-3xl backdrop-blur-md shadow-xl">
+        <div className="lg:col-span-2 p-8 bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-3xl backdrop-blur-md shadow-xl">
             <h3 className="text-lg font-bold mb-8 uppercase tracking-widest text-gray-500">Stock Distribution by Warehouse</h3>
             <div className="h-[400px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
@@ -202,11 +202,11 @@ export default function ReportsPage() {
             </div>
         </div>
 
-        <div className="p-8 bg-white/5 border border-white/10 rounded-3xl backdrop-blur-md shadow-xl">
+        <div className="p-8 bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-3xl backdrop-blur-md shadow-xl">
             <h3 className="text-lg font-bold mb-6 uppercase tracking-widest text-gray-500">Hub Insights</h3>
             <div className="space-y-6">
                 {data.map((h, i) => (
-                    <div key={i} className="flex items-center gap-4 p-4 bg-white/[0.02] border border-white/5 rounded-2xl hover:bg-white/[0.05] transition-all">
+                    <div key={i} className="flex items-center gap-4 p-4 bg-white/[0.02] border border-[var(--ci-border)] rounded-2xl hover:bg-white/[0.05] transition-all">
                         <div className="p-3 bg-blue-500/10 rounded-xl">
                             <BarChart3 className="w-5 h-5 text-blue-400" />
                         </div>

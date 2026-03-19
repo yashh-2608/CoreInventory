@@ -6,6 +6,7 @@ import {
   Plus, Search, Download, MoreVertical, X, Package,
   AlertCircle, Trash2, FileText, ChevronDown, AlertTriangle
 } from 'lucide-react';
+import { useSearch } from '@/context/SearchContext';
 
 interface Product {
   id: string;
@@ -22,25 +23,6 @@ interface Category {
   name: string;
 }
 
-interface DraftProduct {
-  id: string;
-  name: string;
-  sku: string;
-  categoryId: string;
-  categoryName?: string;
-  uom: string;
-  initialStock: number;
-  savedAt: string;
-}
-
-const DRAFT_KEY = 'ci_product_drafts';
-
-function loadDrafts(): DraftProduct[] {
-  try { return JSON.parse(localStorage.getItem(DRAFT_KEY) || '[]'); } catch { return []; }
-}
-function saveDrafts(drafts: DraftProduct[]) {
-  localStorage.setItem(DRAFT_KEY, JSON.stringify(drafts));
-}
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -49,10 +31,8 @@ export default function ProductsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
-  const [drafts, setDrafts] = useState<DraftProduct[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState<Product | null>(null);
-  const [deleteDraftConfirm, setDeleteDraftConfirm] = useState<string | null>(null);
   const [deleting, setDeleting] = useState(false);
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
@@ -60,12 +40,12 @@ export default function ProductsPage() {
   const [newProduct, setNewProduct] = useState({
     name: '', sku: '', categoryId: '', uom: 'PCS', initialStock: 0
   });
+  const [newCategoryName, setNewCategoryName] = useState('');
+  const { searchQuery } = useSearch();
   const [filterCategory, setFilterCategory] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     fetchData();
-    setDrafts(loadDrafts());
   }, []);
 
   // Close menu on outside click
@@ -102,10 +82,25 @@ export default function ProductsPage() {
     setError('');
     try {
       const token = localStorage.getItem('token');
+      let categoryId = newProduct.categoryId;
+
+      // If user is creating a new category inline, create it first
+      if (categoryId === '__new__' && newCategoryName.trim()) {
+        const catRes = await fetch('http://localhost:5000/api/products/categories', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({ name: newCategoryName.trim() }),
+        });
+        const catData = await catRes.json();
+        if (!catRes.ok) throw new Error(catData.message || 'Failed to create category');
+        categoryId = catData.id;
+        setNewCategoryName('');
+      }
+
       const res = await fetch('http://localhost:5000/api/products', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-        body: JSON.stringify(newProduct)
+        body: JSON.stringify({ ...newProduct, categoryId })
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Failed to create product');
@@ -119,47 +114,6 @@ export default function ProductsPage() {
     }
   };
 
-  const handleSaveDraft = () => {
-    if (!newProduct.name && !newProduct.sku) return;
-    const cat = categories.find(c => c.id === newProduct.categoryId);
-    const draft: DraftProduct = {
-      id: Date.now().toString(),
-      ...newProduct,
-      categoryName: cat?.name || '',
-      savedAt: new Date().toISOString(),
-    };
-    const updated = [...drafts, draft];
-    setDrafts(updated);
-    saveDrafts(updated);
-    setIsModalOpen(false);
-    setNewProduct({ name: '', sku: '', categoryId: '', uom: 'PCS', initialStock: 0 });
-  };
-
-  const handleSubmitDraft = async (draft: DraftProduct) => {
-    setError('');
-    try {
-      const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5000/api/products', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-        body: JSON.stringify({ name: draft.name, sku: draft.sku, categoryId: draft.categoryId, uom: draft.uom, initialStock: draft.initialStock })
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'Failed to submit draft');
-      const updated = drafts.filter(d => d.id !== draft.id);
-      setDrafts(updated);
-      saveDrafts(updated);
-      fetchData();
-    } catch (err: any) {
-      setError(err.message);
-    }
-  };
-
-  const handleDeleteDraft = (id: string) => {
-    const updated = drafts.filter(d => d.id !== id);
-    setDrafts(updated);
-    saveDrafts(updated);
-  };
 
   const handleDeleteProduct = async () => {
     if (!deleteConfirm) return;
@@ -198,7 +152,7 @@ export default function ProductsPage() {
   };
 
   const filteredProducts = products.filter(p => {
-    const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase()) || p.sku.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || p.sku.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = filterCategory === '' || p.category.name === filterCategory;
     return matchesSearch && matchesCategory;
   });
@@ -226,9 +180,9 @@ export default function ProductsPage() {
         </div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
         {/* Column 1: Filters & Search */}
-        <div className="flex flex-col space-y-6">
+        <div className="lg:col-span-4 flex flex-col space-y-6">
           <div className="p-8 bg-[var(--ci-card)] border border-[var(--ci-border)] rounded-[2rem] backdrop-blur-md shadow-xl flex-1">
             <h3 className="text-lg font-bold mb-8 flex items-center gap-2 uppercase tracking-widest text-[var(--ci-text-muted)]">
                 <Search className="w-5 h-5 text-blue-500" /> Refinement
@@ -236,14 +190,9 @@ export default function ProductsPage() {
             
             <div className="space-y-6">
                 <div>
-                    <label className="block text-[10px] font-bold text-[var(--ci-text-muted)] uppercase tracking-[0.2em] mb-3">Search Catalog</label>
-                    <div className="relative">
-                      <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--ci-text-muted)]" />
-                      <input 
-                        type="text" placeholder="Name or SKU..."
-                        value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full pl-12 pr-4 py-4 bg-[var(--ci-card)] border border-[var(--ci-border)] rounded-2xl text-[var(--ci-text)] focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-bold placeholder:text-[var(--ci-text-muted)]/30"
-                      />
+                    <label className="block text-[10px] font-bold text-[var(--ci-text-muted)] uppercase tracking-[0.2em] mb-3">Refine Results</label>
+                    <div className="p-4 bg-blue-500/5 border border-blue-500/10 rounded-2xl text-[var(--ci-text-muted)] text-xs italic">
+                      Use the global search bar in the header to filter products across the platform.
                     </div>
                 </div>
                 <div>
@@ -275,9 +224,9 @@ export default function ProductsPage() {
         </div>
 
         {/* Column 2: Main Table */}
-        <div className="flex flex-col space-y-6">
+        <div className="lg:col-span-8 flex flex-col space-y-6">
           <div className="bg-[var(--ci-card)] border border-[var(--ci-border)] rounded-[2rem] overflow-hidden backdrop-blur-md shadow-xl flex-1 flex flex-col">
-            <div className="p-6 border-b border-white/10">
+            <div className="p-6 border-b border-[var(--ci-border)]">
                 <h3 className="text-sm font-bold text-[var(--ci-text-muted)] flex items-center gap-2 uppercase tracking-widest">
                     <Package className="w-4 h-4" /> Global Ledger
                 </h3>
@@ -285,7 +234,7 @@ export default function ProductsPage() {
             <div className="flex-1 overflow-x-auto overflow-y-auto custom-scrollbar">
               <table className="w-full text-left">
                 <thead>
-                  <tr className="border-b border-white/5 bg-white/[0.02]">
+                  <tr className="border-b border-[var(--ci-border)] bg-white/[0.02]">
                     <th className="px-6 py-4 text-[8px] font-bold text-[var(--ci-text-muted)] uppercase tracking-[0.2em]">Product Details</th>
                     <th className="px-6 py-4 text-[8px] font-bold text-[var(--ci-text-muted)] uppercase tracking-[0.2em]">Stock Status</th>
                     <th className="px-6 py-4"></th>
@@ -316,7 +265,7 @@ export default function ProductsPage() {
                                   {totalStock} {p.uom}
                                 </span>
                               </div>
-                              <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden">
+                              <div className="w-full h-1 bg-[var(--ci-glass)] rounded-full overflow-hidden">
                                 <div className={`h-full transition-all duration-500 ${isLow ? 'bg-red-500' : 'bg-blue-500'}`} style={{ width: `${Math.min((totalStock / 1000) * 100, 100)}%` }} />
                               </div>
                             </div>
@@ -327,7 +276,7 @@ export default function ProductsPage() {
                         <div className="relative" ref={openMenuId === p.id ? menuRef : null}>
                           <button 
                             onClick={() => setOpenMenuId(openMenuId === p.id ? null : p.id)}
-                            className="p-2 hover:bg-white/10 rounded-xl transition-all"
+                            className="p-2 hover:opacity-80 rounded-xl transition-all"
                           >
                             <MoreVertical className="w-4 h-4 text-[var(--ci-text-muted)]" />
                           </button>
@@ -335,7 +284,7 @@ export default function ProductsPage() {
                             {openMenuId === p.id && (
                               <motion.div
                                 initial={{ opacity: 0, scale: 0.95, y: -5 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: -5 }}
-                                className="absolute right-0 mt-1 w-40 bg-[#0f1115] border border-white/10 rounded-xl shadow-2xl overflow-hidden z-20"
+                                className="absolute right-0 mt-1 w-40 bg-[#0f1115] border border-[var(--ci-border)] rounded-xl shadow-2xl overflow-hidden z-20"
                               >
                                 <button
                                   onClick={() => { setDeleteConfirm(p); setOpenMenuId(null); }}
@@ -362,79 +311,6 @@ export default function ProductsPage() {
           </div>
         </div>
 
-        {/* Column 3: Saved Drafts */}
-        <div className="flex flex-col space-y-6">
-          <div className="p-6 bg-[var(--ci-card)] border border-[var(--ci-border)] rounded-[2rem] backdrop-blur-md shadow-xl flex-1 overflow-hidden flex flex-col">
-            <h4 className="text-amber-400 font-bold text-[10px] uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
-              <FileText className="w-4 h-4" /> Saved Drafts ({drafts.length})
-            </h4>
-            
-            <div className="space-y-4 overflow-y-auto custom-scrollbar pr-2 flex-1">
-              {drafts.length === 0 ? (
-                <div className="flex flex-col items-center justify-center h-full text-center py-10 opacity-30">
-                    <FileText className="w-12 h-12 mb-4" />
-                    <p className="text-xs italic">No drafts found</p>
-                </div>
-              ) : (
-                drafts.map((d) => (
-                  <div key={d.id} className="p-5 bg-[var(--ci-card)] border border-[var(--ci-border)] rounded-2xl space-y-4 group hover:border-amber-500/30 transition-all">
-                    <div className="flex justify-between items-start">
-                      <div className="flex-1 min-w-0">
-                        <p className="font-bold text-[var(--ci-text)] text-sm line-clamp-1">{d.name || 'Unnamed Product'}</p>
-                        <p className="text-[10px] text-[var(--ci-text-muted)] font-mono mt-0.5 tracking-tight">{d.sku || 'NO-SKU'}</p>
-                      </div>
-                      <button 
-                        onClick={() => setDeleteDraftConfirm(d.id)}
-                        className="p-2 hover:bg-red-500/10 text-[var(--ci-text-muted)] hover:text-red-400 rounded-lg transition-colors"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-2 text-[10px]">
-                      <div className="px-2 py-1 bg-white/5 rounded-md border border-white/5">
-                        <span className="text-[var(--ci-text-muted)] block">Category</span>
-                        <span className="text-gray-300 font-bold truncate block">{d.categoryName || '—'}</span>
-                      </div>
-                      <div className="px-2 py-1 bg-white/5 rounded-md border border-white/5">
-                        <span className="text-[var(--ci-text-muted)] block">Stock</span>
-                        <span className="text-[var(--ci-text)] font-bold block">{d.initialStock} {d.uom}</span>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-2 pt-2 border-t border-white/5">
-                      <button 
-                        onClick={() => handleSubmitDraft(d)}
-                        className="flex-1 py-2 bg-blue-600 hover:bg-blue-700 text-[var(--ci-text)] text-[10px] font-bold rounded-xl transition-all active:scale-95"
-                      >
-                        Submit
-                      </button>
-                      <button 
-                        onClick={() => {
-                          setNewProduct({ name: d.name, sku: d.sku, categoryId: d.categoryId, uom: d.uom, initialStock: d.initialStock });
-                          setIsModalOpen(true);
-                          setError('');
-                        }}
-                        className="px-3 py-2 bg-white/5 hover:bg-white/10 text-[var(--ci-text-muted)] hover:text-[var(--ci-text)] text-[10px] font-bold rounded-xl transition-all border border-white/10"
-                      >
-                        Edit
-                      </button>
-                    </div>
-                  </div>
-                ))
-              )}
-            </div>
-          </div>
-
-          <div className="p-6 bg-[var(--ci-card)] border border-[var(--ci-border)] rounded-[2rem] backdrop-blur-md">
-            <div className="flex items-start gap-3">
-              <AlertCircle className="w-4 h-4 text-[var(--ci-text-muted)] mt-0.5" />
-              <p className="text-[10px] text-[var(--ci-text-muted)] leading-relaxed italic">
-                Product drafts are stored locally in your browser. Submitting a draft will register it permanently in the global SKU directory.
-              </p>
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* Modals & Overlays */}
@@ -448,7 +324,7 @@ export default function ProductsPage() {
                   <div className="p-3 bg-blue-600 rounded-2xl shadow-lg shadow-blue-600/30"><Plus className="w-8 h-8 text-[var(--ci-text)]" /></div>
                   Register SKU
                 </h2>
-                <button onClick={() => setIsModalOpen(false)} className="p-3 hover:bg-white/5 rounded-full transition-colors"><X className="w-6 h-6" /></button>
+                <button onClick={() => setIsModalOpen(false)} className="p-3 hover:bg-[var(--ci-glass)] rounded-full transition-colors"><X className="w-6 h-6" /></button>
               </div>
 
               {error && (
@@ -461,18 +337,29 @@ export default function ProductsPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="md:col-span-2">
                     <label className="block text-[10px] font-bold text-[var(--ci-text-muted)] uppercase tracking-[0.2em] mb-3">Product Name</label>
-                    <input type="text" required value={newProduct.name} onChange={(e) => setNewProduct({...newProduct, name: e.target.value})} placeholder="e.g. iPhone 15 Pro Titanium" className="w-full px-6 py-5 bg-[var(--ci-card)] border border-[var(--ci-border)] rounded-[1.5rem] text-[var(--ci-text)] focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-bold placeholder:text-gray-700" />
+                    <input type="text" required value={newProduct.name} onChange={(e) => setNewProduct({...newProduct, name: e.target.value})} placeholder="e.g. iPhone 15 Pro Titanium" className="w-full px-6 py-5 bg-[var(--ci-card)] border border-[var(--ci-border)] rounded-[1.5rem] text-[var(--ci-text)] focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-bold placeholder:text-[var(--ci-text-muted)]/50" />
                   </div>
                   <div>
                     <label className="block text-[10px] font-bold text-[var(--ci-text-muted)] uppercase tracking-[0.2em] mb-3">Unique SKU</label>
-                    <input type="text" required value={newProduct.sku} onChange={(e) => setNewProduct({...newProduct, sku: e.target.value})} placeholder="SKU-XXXX-XXXX" className="w-full px-6 py-5 bg-[var(--ci-card)] border border-[var(--ci-border)] rounded-[1.5rem] text-[var(--ci-text)] focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-mono font-bold placeholder:text-gray-700 uppercase" />
+                    <input type="text" required value={newProduct.sku} onChange={(e) => setNewProduct({...newProduct, sku: e.target.value})} placeholder="SKU-XXXX-XXXX" className="w-full px-6 py-5 bg-[var(--ci-card)] border border-[var(--ci-border)] rounded-[1.5rem] text-[var(--ci-text)] focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-mono font-bold placeholder:text-[var(--ci-text-muted)]/50 uppercase" />
                   </div>
                   <div>
                     <label className="block text-[10px] font-bold text-[var(--ci-text-muted)] uppercase tracking-[0.2em] mb-3">Category</label>
-                    <select required value={newProduct.categoryId} onChange={(e) => setNewProduct({...newProduct, categoryId: e.target.value})} className="w-full px-6 py-5 bg-[var(--ci-card)] border border-[var(--ci-border)] rounded-[1.5rem] text-[var(--ci-text)] focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-bold">
+                    <select required value={newProduct.categoryId} onChange={(e) => { setNewProduct({...newProduct, categoryId: e.target.value}); if (e.target.value !== '__new__') setNewCategoryName(''); }} className="w-full px-6 py-5 bg-[var(--ci-card)] border border-[var(--ci-border)] rounded-[1.5rem] text-[var(--ci-text)] focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-bold">
                       <option value="">Select Category...</option>
                       {categories.map(cat => <option key={cat.id} value={cat.id}>{cat.name}</option>)}
+                      <option value="__new__">+ Create New Category</option>
                     </select>
+                    {newProduct.categoryId === '__new__' && (
+                      <input
+                        type="text"
+                        required
+                        value={newCategoryName}
+                        onChange={(e) => setNewCategoryName(e.target.value)}
+                        placeholder="New category name..."
+                        className="w-full mt-3 px-6 py-4 bg-[var(--ci-card)] border border-blue-500/40 rounded-[1.5rem] text-[var(--ci-text)] focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-bold placeholder:text-[var(--ci-text-muted)]/50"
+                      />
+                    )}
                   </div>
                   <div>
                     <label className="block text-[10px] font-bold text-[var(--ci-text-muted)] uppercase tracking-[0.2em] mb-3">Unit of Measure</label>
@@ -489,9 +376,6 @@ export default function ProductsPage() {
                   </div>
                 </div>
                 <div className="flex gap-4">
-                  <button type="button" onClick={handleSaveDraft} className="flex-1 py-5 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/20 text-amber-400 rounded-[1.5rem] font-bold transition-all flex items-center justify-center gap-2">
-                    <FileText className="w-5 h-5" /> Save Draft
-                  </button>
                   <button disabled={submitting} type="submit" className="flex-1 py-5 bg-blue-600 hover:bg-blue-700 text-[var(--ci-text)] rounded-[1.5rem] font-bold transition-all flex items-center justify-center gap-3 shadow-xl shadow-blue-600/30 active:scale-[0.98] disabled:opacity-50 text-lg">
                     {submitting ? 'Registering...' : 'Register SKU'}
                   </button>
@@ -515,7 +399,7 @@ export default function ProductsPage() {
                     <p className="text-xs text-[var(--ci-text-muted)] uppercase tracking-widest font-black font-mono mt-1">{selectedProduct?.sku}</p>
                   </div>
                 </div>
-                <button onClick={() => setSelectedProduct(null)} className="p-2 hover:bg-white/5 rounded-full transition-colors text-[var(--ci-text-muted)] hover:text-[var(--ci-text)]"><X /></button>
+                <button onClick={() => setSelectedProduct(null)} className="p-2 hover:bg-[var(--ci-glass)] rounded-full transition-colors text-[var(--ci-text-muted)] hover:text-[var(--ci-text)]"><X /></button>
               </div>
               <div className="flex-1 overflow-y-auto custom-scrollbar pr-2 space-y-6">
                 <div>
@@ -530,14 +414,14 @@ export default function ProductsPage() {
                         <p className="text-lg font-black text-blue-400">{inv.quantity} <span className="text-[10px] text-[var(--ci-text-muted)] font-bold uppercase">{selectedProduct?.uom}</span></p>
                       </div>
                     )) : (
-                      <div className="text-center py-12 bg-white/5 border border-dashed border-white/10 rounded-2xl">
+                      <div className="text-center py-12 bg-[var(--ci-glass)] border border-dashed border-[var(--ci-border)] rounded-2xl">
                         <Package className="w-10 h-10 text-gray-800 mx-auto mb-3" />
                         <p className="text-sm text-gray-600 italic">No distribution recorded</p>
                       </div>
                     )}
                   </div>
                 </div>
-                <div className="pt-6 border-t border-white/5">
+                <div className="pt-6 border-t border-[var(--ci-border)]">
                   <div className="flex items-center justify-between p-4 bg-blue-500/5 rounded-2xl">
                     <span className="text-sm font-bold text-[var(--ci-text-muted)]">Opening (Base) Stock</span>
                     <span className="font-black text-[var(--ci-text)]">{selectedProduct?.initialStock} {selectedProduct?.uom}</span>
@@ -567,27 +451,6 @@ export default function ProductsPage() {
           </div>
         )}
 
-        {deleteDraftConfirm && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setDeleteDraftConfirm(null)} className="absolute inset-0 bg-black/80 backdrop-blur-md" />
-            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="relative w-full max-w-md bg-[var(--ci-bg)] border border-[var(--ci-border)] rounded-[2.5rem] shadow-2xl p-10 text-center">
-              <div className="w-16 h-16 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                <Trash2 className="w-8 h-8 text-red-500" />
-              </div>
-              <h3 className="text-xl font-bold text-[var(--ci-text)] mb-2">Discard Draft?</h3>
-              <p className="text-[var(--ci-text-muted)] text-sm mb-8">This will remove the product draft from your local storage.</p>
-              <div className="flex gap-4">
-                <button onClick={() => setDeleteDraftConfirm(null)} className="flex-1 py-4 bg-white/5 hover:bg-white/10 text-[var(--ci-text)] rounded-2xl font-bold transition-all border border-white/5">Cancel</button>
-                <button 
-                  onClick={() => { handleDeleteDraft(deleteDraftConfirm); setDeleteDraftConfirm(null); }}
-                  className="flex-1 py-4 bg-red-600 hover:bg-red-700 text-[var(--ci-text)] rounded-2xl font-bold transition-all shadow-lg shadow-red-600/30"
-                >
-                  Confirm
-                </button>
-              </div>
-            </motion.div>
-          </div>
-        )}
       </AnimatePresence>
     </div>
   );

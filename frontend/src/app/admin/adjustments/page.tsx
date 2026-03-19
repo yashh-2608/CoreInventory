@@ -117,7 +117,7 @@ export default function AdjustmentsPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div className="md:col-span-2">
-          <div className="p-8 bg-white/5 border border-white/10 rounded-3xl backdrop-blur-md shadow-xl space-y-6">
+          <div className="p-8 bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-3xl backdrop-blur-md shadow-xl space-y-6">
             <h3 className="text-lg font-bold mb-8 flex items-center gap-2 uppercase tracking-widest text-gray-500">
                 <ClipboardCheck className="w-5 h-5 text-red-500" /> Manual Adjustment
             </h3>
@@ -128,7 +128,7 @@ export default function AdjustmentsPage() {
                     <select 
                         value={productId}
                         onChange={(e) => setProductId(e.target.value)}
-                        className="w-full px-4 py-4 bg-white/5 border border-white/10 rounded-2xl text-white focus:outline-none focus:ring-2 focus:ring-red-500/50 transition-all font-bold"
+                        className="w-full px-4 py-4 bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-2xl text-[var(--ci-text)] focus:outline-none focus:ring-2 focus:ring-red-500/50 transition-all font-bold"
                     >
                         <option value="">Select Product...</option>
                         {products.map(p => (
@@ -141,7 +141,7 @@ export default function AdjustmentsPage() {
                     <select 
                         value={warehouseId}
                         onChange={(e) => setWarehouseId(e.target.value)}
-                        className="w-full px-4 py-4 bg-white/5 border border-white/10 rounded-2xl text-white focus:outline-none focus:ring-2 focus:ring-red-500/50 transition-all font-bold"
+                        className="w-full px-4 py-4 bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-2xl text-[var(--ci-text)] focus:outline-none focus:ring-2 focus:ring-red-500/50 transition-all font-bold"
                     >
                         <option value="">Select Warehouse...</option>
                         {warehouses.map(w => (
@@ -154,7 +154,7 @@ export default function AdjustmentsPage() {
                     <select 
                         value={type}
                         onChange={(e) => setType(e.target.value)}
-                        className="w-full px-4 py-4 bg-white/5 border border-white/10 rounded-2xl text-white focus:outline-none focus:ring-2 focus:ring-red-500/50 transition-all font-bold"
+                        className="w-full px-4 py-4 bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-2xl text-[var(--ci-text)] focus:outline-none focus:ring-2 focus:ring-red-500/50 transition-all font-bold"
                     >
                         <option value="COUNT_CORRECTION">Count Correction</option>
                         <option value="DAMAGE_LOSS">Damage / Loss</option>
@@ -163,7 +163,7 @@ export default function AdjustmentsPage() {
                 </div>
                 <div>
                     <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] mb-3">Live Recorded Stock</label>
-                    <div className="w-full px-4 py-4 bg-white/5 border border-white/10 rounded-2xl text-gray-400 font-bold">
+                    <div className="w-full px-4 py-4 bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-2xl text-gray-400 font-bold">
                         {recordedQty} Units
                     </div>
                 </div>
@@ -174,7 +174,7 @@ export default function AdjustmentsPage() {
                         value={quantity}
                         onChange={(e) => setQuantity(Number(e.target.value))}
                         placeholder="Actual count found..."
-                        className="w-full px-4 py-4 bg-white/5 border border-white/10 rounded-2xl text-white focus:outline-none focus:ring-2 focus:ring-red-500/50 transition-all font-bold"
+                        className="w-full px-4 py-4 bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-2xl text-[var(--ci-text)] focus:outline-none focus:ring-2 focus:ring-red-500/50 transition-all font-bold"
                     />
                 </div>
                 <div className="sm:col-span-2">
@@ -184,7 +184,7 @@ export default function AdjustmentsPage() {
                         value={reason}
                         onChange={(e) => setReason(e.target.value)}
                         placeholder="Explain the discrepancy for the immutable ledger..."
-                        className="w-full px-4 py-4 bg-white/5 border border-white/10 rounded-2xl text-white focus:outline-none focus:ring-2 focus:ring-red-500/50 resize-none font-medium"
+                        className="w-full px-4 py-4 bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-2xl text-[var(--ci-text)] focus:outline-none focus:ring-2 focus:ring-red-500/50 resize-none font-medium"
                     ></textarea>
                 </div>
             </div>
@@ -207,7 +207,7 @@ export default function AdjustmentsPage() {
                 <Save className="w-5 h-5" /> {loading ? 'Committing...' : 'Commit to Ledger'}
             </button>
 
-            <div className="p-8 bg-white/5 border border-white/10 rounded-3xl backdrop-blur-md">
+            <div className="p-8 bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-3xl backdrop-blur-md">
                 <h4 className="text-gray-500 font-bold text-[10px] mb-4 flex items-center gap-2 uppercase tracking-[0.2em]">
                     <Info className="w-4 h-4" /> Compliance Audit
                 </h4>

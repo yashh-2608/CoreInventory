@@ -53,72 +53,68 @@ export default function ResetPasswordPage() {
 
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-6 bg-[#020617]">
-        <AuthCard title="Password Reset" subtitle="Your security credentials have been updated">
-          <div className="text-center space-y-6 py-4">
-            <div className="flex justify-center">
-              <div className="p-4 bg-emerald-500/10 rounded-full">
-                <CheckCircle2 className="w-12 h-12 text-emerald-500" />
-              </div>
+      <AuthCard title="Password Reset" subtitle="Your security credentials have been updated">
+        <div className="text-center space-y-6 py-4">
+          <div className="flex justify-center">
+            <div className="p-4 bg-emerald-500/10 rounded-full">
+              <CheckCircle2 className="w-12 h-12 text-emerald-500" />
             </div>
-            <p className="text-gray-400">You can now sign in to your dashboard with your new password.</p>
-            <Link 
-              href="/" 
-              className="block w-full py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-bold transition-all"
-            >
-              Go to Login
-            </Link>
           </div>
-        </AuthCard>
-      </div>
+          <p className="text-[var(--ci-text-muted)]">You can now sign in to your dashboard with your new password.</p>
+          <Link 
+            href="/" 
+            className="block w-full py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-bold transition-all"
+          >
+            Go to Login
+          </Link>
+        </div>
+      </AuthCard>
     );
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 bg-[#020617]">
-      <AuthCard title="New Password" subtitle="Enter a strong, unique password for your account">
-        <form className="space-y-6" onSubmit={handleSubmit}>
-          {error && <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm">{error}</div>}
-          
-          <div>
-            <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">New Password</label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
-              <input 
-                type="password" 
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all"
-              />
-            </div>
+    <AuthCard title="New Password" subtitle="Enter a strong, unique password for your account">
+      <form className="space-y-6" onSubmit={handleSubmit}>
+        {error && <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm">{error}</div>}
+        
+        <div>
+          <label className="block text-xs font-bold text-[var(--ci-text-muted)] uppercase tracking-widest mb-2">New Password</label>
+          <div className="relative">
+            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--ci-text-muted)]" />
+            <input 
+              type="password" 
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
+              className="w-full pl-10 pr-4 py-3 bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-xl text-[var(--ci-text)] placeholder:text-[var(--ci-text-muted)]/50 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all"
+            />
           </div>
+        </div>
 
-          <div>
-            <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Confirm Password</label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
-              <input 
-                type="password" 
-                required
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="••••••••"
-                className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all"
-              />
-            </div>
+        <div>
+          <label className="block text-xs font-bold text-[var(--ci-text-muted)] uppercase tracking-widest mb-2">Confirm Password</label>
+          <div className="relative">
+            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--ci-text-muted)]" />
+            <input 
+              type="password" 
+              required
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder="••••••••"
+              className="w-full pl-10 pr-4 py-3 bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-xl text-[var(--ci-text)] placeholder:text-[var(--ci-text-muted)]/50 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all"
+            />
           </div>
+        </div>
 
-          <button 
-            type="submit"
-            disabled={loading}
-            className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-bold transition-all hover:scale-[1.02] shadow-lg shadow-blue-600/30 flex items-center justify-center gap-2 disabled:opacity-50"
-          >
-            {loading ? 'Updating...' : 'Set New Password'} <ArrowRight className="w-4 h-4" />
-          </button>
-        </form>
-      </AuthCard>
-    </div>
+        <button 
+          type="submit"
+          disabled={loading}
+          className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-bold transition-all hover:scale-[1.02] shadow-lg shadow-blue-600/30 flex items-center justify-center gap-2 disabled:opacity-50"
+        >
+          {loading ? 'Updating...' : 'Set New Password'} <ArrowRight className="w-4 h-4" />
+        </button>
+      </form>
+    </AuthCard>
   );
 }

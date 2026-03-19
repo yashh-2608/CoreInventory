@@ -137,7 +137,7 @@ export const Features: React.FC = () => {
   return (
     <section id="features" className="py-24 px-6 max-w-7xl mx-auto">
       <div className="text-center mb-16">
-        <h2 className="text-4xl font-bold mb-4 text-[var(--ci-text)]">Powerful Features for Small to Enterprise</h2>
+        <h2 className="text-4xl font-bold mb-4 text-[var(--ci-text)] font-[var(--font-playfair)]">Powerful Features for Small to Enterprise</h2>
         <p className="text-[var(--ci-text-muted)] max-w-2xl mx-auto">Everything you need to digitize your warehouse operations. Click any feature to learn more.</p>
       </div>
 

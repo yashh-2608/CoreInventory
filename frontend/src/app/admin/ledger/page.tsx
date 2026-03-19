@@ -29,7 +29,7 @@ export default function LedgerPage() {
           <h1 className="text-3xl font-bold mb-2">Inventory Ledger</h1>
           <p className="text-gray-400">Immutable audit log of every stock movement in the system.</p>
         </div>
-        <button className="flex items-center gap-2 px-6 py-2.5 bg-white/5 border border-white/10 rounded-xl text-sm font-semibold hover:bg-white/10 transition-all">
+        <button className="flex items-center gap-2 px-6 py-2.5 bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-xl text-sm font-semibold hover:opacity-80 transition-all">
             <Archive className="w-4 h-4" /> Export Audit Log
         </button>
       </div>
@@ -40,24 +40,24 @@ export default function LedgerPage() {
             <input 
                 type="text" 
                 placeholder="Search ledger by product, reference, or warehouse..."
-                className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                className="w-full pl-10 pr-4 py-3 bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-xl text-sm text-[var(--ci-text)] focus:outline-none focus:ring-2 focus:ring-blue-500/50"
             />
         </div>
         <div className="flex gap-2">
-            <button className="flex items-center gap-2 px-5 py-3 bg-white/5 border border-white/10 rounded-xl text-sm font-medium text-gray-300">
+            <button className="flex items-center gap-2 px-5 py-3 bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-xl text-sm font-medium text-[var(--ci-text-muted)]">
                 <Calendar className="w-4 h-4" /> Date Range
             </button>
-            <button className="flex items-center gap-2 px-5 py-3 bg-white/5 border border-white/10 rounded-xl text-sm font-medium text-gray-300">
+            <button className="flex items-center gap-2 px-5 py-3 bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-xl text-sm font-medium text-[var(--ci-text-muted)]">
                 <Filter className="w-4 h-4" /> Op Type
             </button>
         </div>
       </div>
 
-      <div className="bg-white/5 border border-white/10 rounded-3xl backdrop-blur-md overflow-hidden">
+      <div className="bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-3xl backdrop-blur-md overflow-hidden">
         <div className="overflow-x-auto">
             <table className="w-full text-left">
                 <thead>
-                    <tr className="border-b border-white/5">
+                    <tr className="border-b border-[var(--ci-border)]">
                         <th className="px-6 py-5 font-bold text-gray-500 text-xs uppercase tracking-widest">Entry ID</th>
                         <th className="px-6 py-5 font-bold text-gray-500 text-xs uppercase tracking-widest">Product</th>
                         <th className="px-6 py-5 font-bold text-gray-500 text-xs uppercase tracking-widest">Type</th>

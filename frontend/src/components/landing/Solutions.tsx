@@ -31,7 +31,7 @@ export const Solutions: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
-                <h2 className="text-4xl md:text-5xl font-bold mb-6 text-[var(--ci-text)]">Built for the <span className="text-blue-500">Fastest Teams</span> on Earth.</h2>
+                <h2 className="text-4xl md:text-5xl font-bold mb-6 text-[var(--ci-text)] font-[var(--font-playfair)]">Built for the <span className="text-blue-500">Fastest Teams</span> on Earth.</h2>
                 <p className="text-[var(--ci-text-muted)] text-lg mb-8 leading-relaxed">
                     CoreInventory isn't just a database. It's a high-performance engine designed for industries that demand zero latency and 100% accuracy.
                 </p>
