@@ -1,11 +1,18 @@
 import { Response } from 'express';
 import prisma from '../lib/prisma';
 import { AuthRequest } from '../middleware/authMiddleware';
+import { sendServerError } from '../lib/errors';
+
+const getThreshold = (value: unknown) => {
+  const parsed = Number(value ?? 10);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : 10;
+};
 
 export const getDashboardStats = async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.user!.id;
     const { warehouseId, categoryId } = req.query;
+    const lowStockThreshold = getThreshold(req.query.threshold);
 
     const totalProducts = await prisma.product.count({
       where: {
@@ -18,7 +25,7 @@ export const getDashboardStats = async (req: AuthRequest, res: Response) => {
     const lowStockItems = await prisma.inventory.count({
       where: {
         userId,
-        quantity: { lt: 10 },
+        quantity: { lt: lowStockThreshold },
         ...(warehouseId && { warehouseId: warehouseId as string }),
         ...(categoryId && { product: { categoryId: categoryId as string } }),
       },
@@ -75,13 +82,13 @@ export const getDashboardStats = async (req: AuthRequest, res: Response) => {
       pendingReceipts,
       pendingDeliveries,
       scheduledTransfers,
-      stockByWarehouse: stockByWarehouse.map(w => ({
-        name: w.name,
-        value: w.inventory.reduce((acc, inv) => acc + inv.quantity, 0),
+      stockByWarehouse: stockByWarehouse.map((warehouse) => ({
+        name: warehouse.name,
+        value: warehouse.inventory.reduce((acc, inventory) => acc + inventory.quantity, 0),
       })),
     });
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching dashboard stats', error });
+    sendServerError(res, error, 'Error fetching dashboard stats');
   }
 };
 
@@ -96,7 +103,7 @@ export const getInventoryActivity = async (req: AuthRequest, res: Response) => {
     });
     res.json(activity);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching inventory activity', error });
+    sendServerError(res, error, 'Error fetching inventory activity');
   }
 };
 
@@ -111,22 +118,24 @@ export const getCategoryDistribution = async (req: AuthRequest, res: Response) =
         },
       },
     });
-    res.json(distribution.map((c: any) => ({ name: c.name, value: c._count.products })));
+    res.json(distribution.map((category: any) => ({ name: category.name, value: category._count.products })));
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching category distribution', error });
+    sendServerError(res, error, 'Error fetching category distribution');
   }
 };
 
 export const getLowStockItems = async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.user!.id;
+    const lowStockThreshold = getThreshold(req.query.threshold);
+
     const items = await prisma.inventory.findMany({
-      where: { userId, quantity: { lt: 10 } },
+      where: { userId, quantity: { lt: lowStockThreshold } },
       include: { product: true, warehouse: true },
     });
     res.json(items);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching low stock items', error });
+    sendServerError(res, error, 'Error fetching low stock items');
   }
 };
 
@@ -143,7 +152,7 @@ export const getPendingReceipts = async (req: AuthRequest, res: Response) => {
     });
     res.json(receipts);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching pending receipts', error });
+    sendServerError(res, error, 'Error fetching pending receipts');
   }
 };
 
@@ -160,7 +169,7 @@ export const getPendingDeliveries = async (req: AuthRequest, res: Response) => {
     });
     res.json(deliveries);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching pending deliveries', error });
+    sendServerError(res, error, 'Error fetching pending deliveries');
   }
 };
 
@@ -178,6 +187,6 @@ export const getPendingTransfers = async (req: AuthRequest, res: Response) => {
     });
     res.json(transfers);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching pending transfers', error });
+    sendServerError(res, error, 'Error fetching pending transfers');
   }
 };

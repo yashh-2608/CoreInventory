@@ -1,83 +1,71 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { CSSProperties, useMemo } from 'react';
+
+type BoxStyle = CSSProperties & {
+  '--drift-x'?: string;
+  '--drift-y'?: string;
+  '--duration'?: string;
+  '--delay'?: string;
+  '--box-opacity'?: string;
+  '--box-blur'?: string;
+};
+
+type FloatingBox = {
+  id: string;
+  className: string;
+  style: BoxStyle;
+};
+
+const randomBetween = (min: number, max: number) => min + Math.random() * (max - min);
+const BOX_COUNT = 26;
+
+const createDistributedPosition = (index: number, total: number) => {
+  const columns = Math.ceil(Math.sqrt(total));
+  const rows = Math.ceil(total / columns);
+  const column = index % columns;
+  const row = Math.floor(index / columns);
+  const cellWidth = 100 / columns;
+  const cellHeight = 100 / rows;
+
+  return {
+    top: row * cellHeight + randomBetween(10, 90) * (cellHeight / 100),
+    left: column * cellWidth + randomBetween(10, 90) * (cellWidth / 100),
+  };
+};
+
+const createBox = (index: number): FloatingBox => {
+  const usePurple = index % 2 === 0;
+  const delay = randomBetween(-6, 0);
+  const duration = randomBetween(6, 8.5);
+  const blur = index < 4 ? 0 : randomBetween(0.4, 1);
+  const opacity = randomBetween(0.32, 0.4);
+  const { top, left } = createDistributedPosition(index, BOX_COUNT);
+
+  return {
+    id: `box-${index}`,
+    className: usePurple ? 'floating-box floating-box-purple' : 'floating-box floating-box-blue',
+    style: {
+      top: `${top}%`,
+      left: `${left}%`,
+      '--drift-x': `${randomBetween(-64, 64)}px`,
+      '--drift-y': `${randomBetween(-72, 72)}px`,
+      '--duration': `${duration}s`,
+      '--delay': `${delay}s`,
+      '--box-opacity': `${opacity}`,
+      '--box-blur': `${blur}px`,
+    },
+  };
+};
 
 export const WaveAnimation: React.FC = () => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const mouse = useRef({ x: 0, y: 0 });
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    let animationFrameId: number;
-    let w: number, h: number;
-
-    const resize = () => {
-      w = canvas.width = window.innerWidth;
-      h = canvas.height = window.innerHeight;
-    };
-
-    window.addEventListener('resize', resize);
-    resize();
-
-    window.addEventListener('mousemove', (e) => {
-      mouse.current.x = e.clientX;
-      mouse.current.y = e.clientY;
-    });
-
-    const waves = Array.from({ length: 3 }, (_, i) => ({
-      y: h / 2,
-      length: 0.01,
-      amplitude: 50 + i * 20,
-      frequency: 0.01 + i * 0.005,
-      phase: i * Math.PI / 2,
-    }));
-
-    const animate = () => {
-      animationFrameId = requestAnimationFrame(animate);
-      ctx.clearRect(0, 0, w, h);
-
-      waves.forEach((wave, i) => {
-        ctx.beginPath();
-        ctx.moveTo(0, h / 2);
-
-        for (let x = 0; x < w; x++) {
-          const distance = Math.abs(x - mouse.current.x);
-          const mouseFactor = Math.max(0, 1 - distance / 500);
-          
-          const y = h / 2 + 
-            Math.sin(x * wave.length + wave.phase) * 
-            (wave.amplitude + mouseFactor * 50);
-            
-          ctx.lineTo(x, y);
-        }
-
-        ctx.strokeStyle = i === 0 ? 'rgba(59, 130, 246, 0.5)' : 
-                          i === 1 ? 'rgba(147, 51, 234, 0.4)' : 
-                                   'rgba(16, 185, 129, 0.3)';
-        ctx.lineWidth = 2;
-        ctx.stroke();
-
-        wave.phase += wave.frequency;
-      });
-    };
-
-    animate();
-
-    return () => {
-      window.removeEventListener('resize', resize);
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, []);
+  const boxes = useMemo(() => Array.from({ length: BOX_COUNT }, (_, index) => createBox(index)), []);
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="fixed inset-0 -z-10 bg-[var(--ci-bg)] transition-colors duration-300"
-    />
+    <div className="floating-scene" aria-hidden="true">
+      {boxes.map((box) => (
+        <span key={box.id} className={box.className} style={box.style} />
+      ))}
+    </div>
   );
 };

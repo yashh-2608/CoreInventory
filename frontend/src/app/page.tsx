@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { Navbar } from '@/components/landing/Navbar';
-import { WaveAnimation } from '@/components/landing/WaveAnimation';
 import { Hero } from '@/components/landing/Hero';
 import { Features } from '@/components/landing/Features';
 import { HowToUse } from '@/components/landing/HowToUse';
@@ -16,9 +15,8 @@ export default function Home() {
   const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
 
   return (
-    <main className="relative min-h-screen bg-[var(--ci-bg)] text-[var(--ci-text)] overflow-x-hidden transition-colors duration-300">
+    <main className="relative min-h-screen text-[var(--ci-text)] overflow-x-hidden transition-colors duration-300">
       <Navbar />
-      <WaveAnimation />
       
       <div className="relative z-10 w-full">
         <Hero />
@@ -36,7 +34,7 @@ export default function Home() {
                     <div className="flex gap-4 pt-4">
                         <div className="flex -space-x-3">
                             {[1, 2, 3, 4].map((i) => (
-                                <div key={i} className="w-10 h-10 rounded-full border-2 border-[#020617] bg-gray-800 flex items-center justify-center text-[10px] font-bold">
+                                <div key={i} className="w-10 h-10 rounded-full border-2 border-[var(--ci-border)] bg-[var(--ci-panel)] text-[var(--ci-text)] flex items-center justify-center text-[10px] font-bold shadow-[0_8px_20px_var(--ci-shadow)]">
                                     U{i}
                                 </div>
                             ))}
@@ -48,7 +46,7 @@ export default function Home() {
                 </div>
 
                 <div className="relative">
-                    <div className="absolute -inset-4 bg-blue-500/20 blur-3xl opacity-20" />
+                    <div className="absolute -inset-4 bg-[radial-gradient(circle,_var(--ci-shadow)_0%,_transparent_70%)] blur-3xl opacity-70" />
                     <AnimatePresence mode="wait">
                         <motion.div
                             key={authMode}
@@ -79,7 +77,7 @@ export default function Home() {
         <Pricing />
       </div>
       
-      <footer className="py-12 border-t border-white/5 text-center text-gray-500 text-sm relative z-10">
+      <footer className="py-12 border-t border-[var(--ci-border)] text-center text-[var(--ci-text-muted)] text-sm relative z-10 bg-[linear-gradient(180deg,transparent,rgba(15,23,42,0.04))]">
         <p>&copy; 2026 CoreInventory SaaS. All rights reserved.</p>
       </footer>
     </main>

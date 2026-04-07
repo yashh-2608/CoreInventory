@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AuthCard } from '@/components/auth/AuthCard';
 import { Lock, ArrowRight, CheckCircle2 } from 'lucide-react';
 import Link from 'next/link';
+import { apiUrl, readApiResponse } from '@/lib/api';
 
 export default function ResetPasswordPage() {
   const [password, setPassword] = useState('');
@@ -12,20 +13,31 @@ export default function ResetPasswordPage() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const [email, setEmail] = useState('');
+  const [resetToken, setResetToken] = useState('');
 
   useEffect(() => {
     const storedEmail = sessionStorage.getItem('resetEmail');
-    if (!storedEmail) {
+    const storedResetToken = sessionStorage.getItem('resetToken');
+
+    if (!storedEmail || !storedResetToken) {
       window.location.href = '/auth/forgot-password';
-    } else {
-      setEmail(storedEmail);
+      return;
     }
+
+    setEmail(storedEmail);
+    setResetToken(storedResetToken);
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (password !== confirmPassword) {
       setError('Passwords do not match');
+      return;
+    }
+
+    if (password.length < 8) {
+      setError('Password must be at least 8 characters long');
       return;
     }
 
@@ -33,19 +45,19 @@ export default function ResetPasswordPage() {
     setError('');
 
     try {
-      const res = await fetch('http://localhost:5000/api/auth/reset-password', {
+      const res = await fetch(apiUrl('/api/auth/reset-password'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password, resetToken }),
       });
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'Reset failed');
+      await readApiResponse<{ message: string }>(res);
 
       setSuccess(true);
       sessionStorage.removeItem('resetEmail');
-    } catch (err: any) {
-      setError(err.message);
+      sessionStorage.removeItem('resetToken');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Reset failed');
     } finally {
       setLoading(false);
     }
@@ -61,8 +73,8 @@ export default function ResetPasswordPage() {
             </div>
           </div>
           <p className="text-[var(--ci-text-muted)]">You can now sign in to your dashboard with your new password.</p>
-          <Link 
-            href="/" 
+          <Link
+            href="/"
             className="block w-full py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-bold transition-all"
           >
             Go to Login
@@ -76,17 +88,17 @@ export default function ResetPasswordPage() {
     <AuthCard title="New Password" subtitle="Enter a strong, unique password for your account">
       <form className="space-y-6" onSubmit={handleSubmit}>
         {error && <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm">{error}</div>}
-        
+
         <div>
           <label className="block text-xs font-bold text-[var(--ci-text-muted)] uppercase tracking-widest mb-2">New Password</label>
           <div className="relative">
             <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--ci-text-muted)]" />
-            <input 
-              type="password" 
+            <input
+              type="password"
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
+              placeholder="Minimum 8 characters"
               className="w-full pl-10 pr-4 py-3 bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-xl text-[var(--ci-text)] placeholder:text-[var(--ci-text-muted)]/50 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all"
             />
           </div>
@@ -96,18 +108,18 @@ export default function ResetPasswordPage() {
           <label className="block text-xs font-bold text-[var(--ci-text-muted)] uppercase tracking-widest mb-2">Confirm Password</label>
           <div className="relative">
             <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--ci-text-muted)]" />
-            <input 
-              type="password" 
+            <input
+              type="password"
               required
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              placeholder="••••••••"
+              placeholder="Re-enter password"
               className="w-full pl-10 pr-4 py-3 bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-xl text-[var(--ci-text)] placeholder:text-[var(--ci-text-muted)]/50 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all"
             />
           </div>
         </div>
 
-        <button 
+        <button
           type="submit"
           disabled={loading}
           className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-bold transition-all hover:scale-[1.02] shadow-lg shadow-blue-600/30 flex items-center justify-center gap-2 disabled:opacity-50"

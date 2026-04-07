@@ -2,21 +2,20 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useRouter } from 'next/navigation';
-import { 
-  LayoutDashboard, 
-  Package, 
-  Warehouse, 
-  ArrowDownLeft, 
-  ArrowUpRight, 
-  ArrowLeftRight, 
-  ClipboardCheck, 
-  BarChart3, 
-  Settings,
-  Package2,
+import { usePathname, useRouter } from 'next/navigation';
+import {
+  ArrowDownLeft,
+  ArrowLeftRight,
+  ArrowUpRight,
+  BarChart3,
+  ClipboardCheck,
+  LayoutDashboard,
   Lock,
-  LogOut
+  LogOut,
+  Package,
+  Package2,
+  Settings,
+  Warehouse,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -48,23 +47,20 @@ export const Sidebar: React.FC = () => {
   };
 
   return (
-    <aside className="fixed left-0 top-0 h-screen w-64 bg-[var(--ci-sidebar)] border-r border-[var(--ci-border)] flex flex-col z-50 transition-colors duration-300">
-      {/* Brand */}
+    <aside className="fixed left-0 top-0 h-screen w-64 bg-[var(--ci-sidebar)] border-r border-[var(--ci-border)] flex flex-col z-50 transition-colors duration-300 shadow-[18px_0_40px_var(--ci-shadow)]">
       <div className="p-6 flex items-center gap-3 border-b border-[var(--ci-border)]">
-        <div className="w-10 h-10 bg-[var(--ci-accent)] rounded-xl flex items-center justify-center shadow-lg shadow-blue-600/20">
+        <div className="w-10 h-10 bg-gradient-to-br from-[var(--ci-accent)] to-[var(--ci-accent-2)] rounded-xl flex items-center justify-center shadow-lg shadow-[var(--ci-shadow)]">
           <Package2 className="w-6 h-6 text-white" />
         </div>
         <span className="font-semibold text-xl tracking-tight text-[var(--ci-text)]">CoreInventory</span>
       </div>
 
-      {/* Demo Banner */}
       {isDemo && (
         <div className="mx-4 mt-4 px-4 py-2.5 bg-amber-500/10 border border-amber-500/30 rounded-xl">
-          <p className="text-xs font-semibold text-amber-400 text-center">👁 Demo Mode - Read only</p>
+          <p className="text-xs font-semibold text-amber-500 text-center">Demo Mode - Read only</p>
         </div>
       )}
 
-      {/* Navigation */}
       <nav className="flex-1 overflow-y-auto p-4 space-y-1 py-4">
         {menuItems.map((item) => {
           const isActive = pathname === item.href;
@@ -81,39 +77,38 @@ export const Sidebar: React.FC = () => {
                 }
               }}
               className={cn(
-                "flex items-center gap-3 px-4 py-3 rounded-[10px] text-sm font-medium transition-all duration-200 group relative",
+                'flex items-center gap-3 px-4 py-3 rounded-[10px] text-sm font-medium transition-all duration-200 group relative',
                 isActive
-                  ? "bg-[var(--ci-accent)]/10 text-[var(--ci-accent)] border border-[var(--ci-accent)]/20"
+                  ? 'bg-[var(--ci-accent)]/10 text-[var(--ci-accent)] border border-[var(--ci-accent)]/20'
                   : isDashboardOnly
-                    ? "text-[var(--ci-text-muted)]/40 cursor-not-allowed border border-transparent"
-                    : "text-[var(--ci-text-muted)] hover:text-[var(--ci-text)] hover:bg-[var(--ci-accent)]/[0.08] border border-transparent"
+                    ? 'text-[var(--ci-text-muted)]/40 cursor-not-allowed border border-transparent'
+                    : 'text-[var(--ci-text-muted)] hover:text-[var(--ci-text)] hover:bg-[var(--ci-panel)] border border-transparent'
               )}
             >
-              <item.icon className={cn(
-                "w-5 h-5 transition-colors",
-                isActive ? "text-[var(--ci-accent)]" : isDashboardOnly ? "text-[var(--ci-text-muted)]/30" : "text-[var(--ci-text-muted)] group-hover:text-[var(--ci-text)]"
-              )} />
+              <item.icon
+                className={cn(
+                  'w-5 h-5 transition-colors',
+                  isActive ? 'text-[var(--ci-accent)]' : isDashboardOnly ? 'text-[var(--ci-text-muted)]/30' : 'text-[var(--ci-text-muted)] group-hover:text-[var(--ci-text)]'
+                )}
+              />
               {item.name}
-              {isDashboardOnly && (
-                <Lock className="w-3 h-3 ml-auto text-[var(--ci-text-muted)]/30" />
-              )}
+              {isDashboardOnly && <Lock className="w-3 h-3 ml-auto text-[var(--ci-text-muted)]/30" />}
             </Link>
           );
         })}
       </nav>
 
-      {/* Footer */}
       <div className="p-4 border-t border-[var(--ci-border)] space-y-3">
         {isDemo ? (
           <button
             onClick={handleExitDemo}
-            className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 rounded-xl text-sm font-semibold text-amber-400 transition-all duration-200"
+            className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 rounded-xl text-sm font-semibold text-amber-500 transition-all duration-200"
           >
             <LogOut className="w-4 h-4" />
             Exit Demo
           </button>
         ) : (
-          <div className="p-4 bg-[var(--ci-card)] rounded-xl border border-[var(--ci-border)]">
+          <div className="p-4 bg-[var(--ci-panel)] rounded-xl border border-[var(--ci-border)]">
             <p className="text-xs text-[var(--ci-text-muted)] mb-1 font-normal">Signed in as</p>
             <p className="text-sm font-medium text-[var(--ci-text)] truncate">Administrator</p>
           </div>

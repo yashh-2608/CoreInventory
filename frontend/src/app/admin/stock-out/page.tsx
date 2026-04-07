@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingBag, Plus, Trash2, Package, Send, AlertCircle, CheckCircle2, FileText } from 'lucide-react';
 import SearchableSelect from '@/components/ui/SearchableSelect';
+import { apiUrl } from '@/lib/api';
 
 interface Product {
   id: string;
@@ -37,7 +38,7 @@ export default function StockOutPage() {
   const fetchDrafts = async () => {
     try {
         const token = localStorage.getItem('token');
-        const res = await fetch('http://localhost:5000/api/operations/deliveries/drafts', {
+        const res = await fetch(apiUrl('/api/operations/deliveries/drafts'), {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await res.json();
@@ -51,8 +52,8 @@ export default function StockOutPage() {
     try {
         const token = localStorage.getItem('token');
         const [prodRes, warRes] = await Promise.all([
-          fetch('http://localhost:5000/api/products', { headers: { 'Authorization': `Bearer ${token}` } }),
-          fetch('http://localhost:5000/api/warehouses', { headers: { 'Authorization': `Bearer ${token}` } })
+          fetch(apiUrl('/api/products'), { headers: { 'Authorization': `Bearer ${token}` } }),
+          fetch(apiUrl('/api/warehouses'), { headers: { 'Authorization': `Bearer ${token}` } })
         ]);
         const prodData = await prodRes.json();
         const warData = await warRes.json();
@@ -88,7 +89,7 @@ export default function StockOutPage() {
 
     try {
         const token = localStorage.getItem('token');
-        const createRes = await fetch('http://localhost:5000/api/operations/deliveries', {
+        const createRes = await fetch(apiUrl('/api/operations/deliveries'), {
             method: 'POST',
             headers: { 
                 'Content-Type': 'application/json',
@@ -114,7 +115,7 @@ export default function StockOutPage() {
   const handleDeleteDraft = async (id: string) => {
     try {
         const token = localStorage.getItem('token');
-        const res = await fetch(`http://localhost:5000/api/operations/deliveries/${id}`, {
+        const res = await fetch(apiUrl(`/api/operations/deliveries/${id}`), {
             method: 'DELETE',
             headers: { 'Authorization': `Bearer ${token}` }
         });
@@ -139,7 +140,7 @@ export default function StockOutPage() {
 
     try {
         const token = localStorage.getItem('token');
-        const confirmRes = await fetch(`http://localhost:5000/api/operations/deliveries/${draftId}/confirm`, {
+        const confirmRes = await fetch(apiUrl(`/api/operations/deliveries/${draftId}/confirm`), {
             method: 'POST',
             headers: { 'Authorization': `Bearer ${token}` }
         });

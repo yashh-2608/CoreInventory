@@ -7,6 +7,7 @@ import {
   AlertCircle, Trash2, FileText, ChevronDown, AlertTriangle
 } from 'lucide-react';
 import { useSearch } from '@/context/SearchContext';
+import { apiUrl } from '@/lib/api';
 
 interface Product {
   id: string;
@@ -63,8 +64,8 @@ export default function ProductsPage() {
     try {
       const token = localStorage.getItem('token');
       const [prodRes, catRes] = await Promise.all([
-        fetch('http://localhost:5000/api/products', { headers: { 'Authorization': `Bearer ${token}` } }),
-        fetch('http://localhost:5000/api/products/categories', { headers: { 'Authorization': `Bearer ${token}` } })
+        fetch(apiUrl('/api/products'), { headers: { 'Authorization': `Bearer ${token}` } }),
+        fetch(apiUrl('/api/products/categories'), { headers: { 'Authorization': `Bearer ${token}` } })
       ]);
       if (!prodRes.ok || !catRes.ok) throw new Error('Failed to fetch data');
       setProducts(await prodRes.json());
@@ -86,7 +87,7 @@ export default function ProductsPage() {
 
       // If user is creating a new category inline, create it first
       if (categoryId === '__new__' && newCategoryName.trim()) {
-        const catRes = await fetch('http://localhost:5000/api/products/categories', {
+        const catRes = await fetch(apiUrl('/api/products/categories'), {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
           body: JSON.stringify({ name: newCategoryName.trim() }),
@@ -97,7 +98,7 @@ export default function ProductsPage() {
         setNewCategoryName('');
       }
 
-      const res = await fetch('http://localhost:5000/api/products', {
+      const res = await fetch(apiUrl('/api/products'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({ ...newProduct, categoryId })
@@ -121,7 +122,7 @@ export default function ProductsPage() {
     setError('');
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`http://localhost:5000/api/products/${deleteConfirm.id}`, {
+      const res = await fetch(apiUrl(`/api/products/${deleteConfirm.id}`), {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -141,7 +142,7 @@ export default function ProductsPage() {
   const handleExport = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5000/api/export/products', { headers: { 'Authorization': `Bearer ${token}` } });
+      const res = await fetch(apiUrl('/api/export/products'), { headers: { 'Authorization': `Bearer ${token}` } });
       if (!res.ok) throw new Error('Export failed');
       const blob = await res.blob();
       const url = window.URL.createObjectURL(blob);

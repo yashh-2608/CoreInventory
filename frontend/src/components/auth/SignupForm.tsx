@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { User, Mail, Lock, ShieldCheck, Eye, EyeOff } from 'lucide-react';
+import { apiUrl, readApiResponse } from '@/lib/api';
 
 interface SignupFormProps {
   onToggleLogin: () => void;
@@ -22,21 +23,20 @@ export const SignupForm: React.FC<SignupFormProps> = ({ onToggleLogin }) => {
     setError('');
 
     try {
-      const res = await fetch('http://localhost:5000/api/auth/signup', {
+      const res = await fetch(apiUrl('/api/auth/signup'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password }),
       });
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'Signup failed');
+      await readApiResponse<{ token: string }>(res);
 
       setSuccess(true);
       setTimeout(() => {
         window.location.href = '/';
       }, 2000);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Signup failed');
     } finally {
       setLoading(false);
     }
@@ -50,7 +50,7 @@ export const SignupForm: React.FC<SignupFormProps> = ({ onToggleLogin }) => {
         </div>
         <h2 className="text-2xl font-bold mb-2 text-[var(--ci-text)]">Account Created!</h2>
         <p className="text-[var(--ci-text-muted)] mb-8">Your workspace has been initialized. You can now log in to the portal.</p>
-        <button 
+        <button
           onClick={onToggleLogin}
           className="w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-bold transition-all shadow-lg"
         >
@@ -64,7 +64,7 @@ export const SignupForm: React.FC<SignupFormProps> = ({ onToggleLogin }) => {
     <div className="w-full max-w-md mx-auto p-8 bg-[var(--ci-card)] border border-[var(--ci-border)] rounded-3xl backdrop-blur-xl shadow-2xl">
       <h2 className="text-2xl font-bold mb-2 text-[var(--ci-text)]">Create Account</h2>
       <p className="text-[var(--ci-text-muted)] mb-8 text-sm">Join the next generation of inventory control</p>
-      
+
       {error && (
         <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm">
           {error}
@@ -76,8 +76,8 @@ export const SignupForm: React.FC<SignupFormProps> = ({ onToggleLogin }) => {
           <label className="block text-xs font-bold text-[var(--ci-text-muted)] uppercase tracking-widest mb-2">Full Name</label>
           <div className="relative">
             <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--ci-text-muted)]" />
-            <input 
-              type="text" 
+            <input
+              type="text"
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -91,8 +91,8 @@ export const SignupForm: React.FC<SignupFormProps> = ({ onToggleLogin }) => {
           <label className="block text-xs font-bold text-[var(--ci-text-muted)] uppercase tracking-widest mb-2">Work Email</label>
           <div className="relative">
             <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--ci-text-muted)]" />
-            <input 
-              type="email" 
+            <input
+              type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -106,21 +106,21 @@ export const SignupForm: React.FC<SignupFormProps> = ({ onToggleLogin }) => {
           <label className="block text-xs font-bold text-[var(--ci-text-muted)] uppercase tracking-widest mb-2">Secure Password</label>
           <div className="relative">
             <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--ci-text-muted)]" />
-            <input 
+            <input
               type={showPass ? 'text' : 'password'}
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
+              placeholder="Minimum 8 characters"
               className="w-full pl-10 pr-10 py-3 bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-xl text-[var(--ci-text)] placeholder:text-[var(--ci-text-muted)]/50 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all"
             />
-            <button type="button" onClick={() => setShowPass(p => !p)} className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--ci-text-muted)] hover:text-[var(--ci-text)]">
+            <button type="button" onClick={() => setShowPass((open) => !open)} className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--ci-text-muted)] hover:text-[var(--ci-text)]">
               {showPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
             </button>
           </div>
         </div>
 
-        <button 
+        <button
           type="submit"
           disabled={loading}
           className="w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-bold transition-all hover:scale-[1.02] shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-2 mt-4 disabled:opacity-50"

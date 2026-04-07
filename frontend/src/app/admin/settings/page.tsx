@@ -5,6 +5,7 @@ import { Settings as SettingsIcon, User, Bell, Shield, Database, Globe, RefreshC
 import { useSettings } from '@/context/SettingsContext';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
+import { apiUrl } from '@/lib/api';
 
 interface UserProfile {
   name: string;
@@ -37,7 +38,7 @@ export default function SettingsPage() {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5000/api/auth/me', {
+      const res = await fetch(apiUrl('/api/auth/me'), {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (res.ok) {

@@ -7,7 +7,7 @@ const router = Router();
 router.get('/', authenticate, getProducts);
 router.post('/', authenticate, authorize(['ADMIN', 'STAFF']), createProduct);
 router.put('/:id', authenticate, authorize(['ADMIN', 'STAFF']), updateProduct);
-router.delete('/:id', authenticate, authorize(['ADMIN']), deleteProduct);
+router.delete('/:id', authenticate, authorize(['ADMIN', 'STAFF']), deleteProduct);
 router.get('/categories', authenticate, getCategories);
 router.post('/categories', authenticate, authorize(['ADMIN', 'STAFF']), createCategory);
 

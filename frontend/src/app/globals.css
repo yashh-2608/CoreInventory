@@ -48,8 +48,10 @@
 }
 
 :root {
-  --background: oklch(0.985 0 0); /* white */
-  --foreground: oklch(0.145 0 0); /* dark text */
+  --font-questrial: "Trebuchet MS", "Segoe UI", sans-serif;
+  --font-playfair: Georgia, "Times New Roman", serif;
+  --background: oklch(0.985 0 0);
+  --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
@@ -81,22 +83,28 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 
-  /* Semantic CoreInventory Variables — Light Mode */
-  --ci-bg: #F1F5F9;
-  --ci-sidebar: #FFFFFF;
-  --ci-header: rgba(255,255,255,0.85);
-  --ci-card: rgba(255,255,255,0.7);
-  --ci-border: #E2E8F0;
-  --ci-text: #0F172A;
-  --ci-text-muted: #64748B;
-  --ci-glass: rgba(255,255,255,0.4);
-  --ci-accent: #3B82F6;
-  --ci-accent-hover: #2563EB;
+  --ci-bg: #eef4fb;
+  --ci-sidebar: rgba(255, 255, 255, 0.86);
+  --ci-header: rgba(255, 255, 255, 0.76);
+  --ci-card: rgba(255, 255, 255, 0.72);
+  --ci-panel: rgba(255, 255, 255, 0.78);
+  --ci-panel-strong: rgba(255, 255, 255, 0.92);
+  --ci-border: rgba(15, 23, 42, 0.1);
+  --ci-text: #0f172a;
+  --ci-text-muted: #64748b;
+  --ci-glass: rgba(255, 255, 255, 0.5);
+  --ci-accent: #2563eb;
+  --ci-accent-2: #7c3aed;
+  --ci-accent-hover: #1d4ed8;
+  --ci-shadow: rgba(37, 99, 235, 0.2);
+  --ci-shadow-soft: rgba(255, 255, 255, 0.45);
+  --ci-canvas-start: #f8fbff;
+  --ci-canvas-end: #dbeafe;
 }
 
 .dark {
-  --background: oklch(0.145 0 0); /* dark background */
-  --foreground: oklch(0.985 0 0); /* light text */
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
@@ -113,11 +121,6 @@
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.809 0.105 251.813);
-  --chart-2: oklch(0.623 0.214 259.815);
-  --chart-3: oklch(0.546 0.245 262.881);
-  --chart-4: oklch(0.488 0.243 264.376);
-  --chart-5: oklch(0.424 0.199 265.638);
   --sidebar: oklch(0.205 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-primary: oklch(0.488 0.243 264.376);
@@ -127,73 +130,184 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
 
-  /* Semantic CoreInventory Variables (Dark Mode) */
-  --ci-bg: #0F172A;
-  --ci-sidebar: #020617;
-  --ci-header: rgba(15,23,42,0.85);
-  --ci-card: rgba(17,24,39,0.7);
-  --ci-border: #1F2937;
-  --ci-text: #FFFFFF;
-  --ci-text-muted: #94A3B8;
-  --ci-glass: rgba(17,24,39,0.4);
-  --ci-accent: #3B82F6;
-  --ci-accent-hover: #2563EB;
+  --ci-bg: #030712;
+  --ci-sidebar: rgba(2, 6, 23, 0.86);
+  --ci-header: rgba(6, 11, 27, 0.78);
+  --ci-card: rgba(10, 18, 37, 0.68);
+  --ci-panel: rgba(9, 15, 31, 0.82);
+  --ci-panel-strong: rgba(11, 19, 39, 0.94);
+  --ci-border: rgba(148, 163, 184, 0.18);
+  --ci-text: #f8fafc;
+  --ci-text-muted: #94a3b8;
+  --ci-glass: rgba(15, 23, 42, 0.5);
+  --ci-accent: #3b82f6;
+  --ci-accent-2: #8b5cf6;
+  --ci-accent-hover: #60a5fa;
+  --ci-shadow: rgba(59, 130, 246, 0.28);
+  --ci-shadow-soft: rgba(15, 23, 42, 0.24);
+  --ci-canvas-start: #020617;
+  --ci-canvas-end: #1e3a8a;
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
-  body {
-    @apply bg-background text-foreground;
-  }
+
   html {
     @apply font-sans;
+    background: var(--ci-bg);
+  }
+
+body {
+    @apply bg-background text-foreground;
+    background:
+      radial-gradient(circle at top, color-mix(in srgb, var(--ci-accent) 14%, transparent), transparent 40%),
+      radial-gradient(circle at 80% 20%, color-mix(in srgb, var(--ci-accent-2) 16%, transparent), transparent 30%),
+      linear-gradient(180deg, color-mix(in srgb, var(--ci-bg) 95%, white 5%), var(--ci-bg));
+    color: var(--ci-text);
+    min-height: 100vh;
+    position: relative;
+    isolation: isolate;
+    overflow-x: clip;
   }
 }
 
-/* Custom scrollbar */
-.custom-scrollbar::-webkit-scrollbar { width: 4px; }
-.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-.custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(148,163,184,0.2); border-radius: 10px; }
-.custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(148,163,184,0.4); }
+.app-shell {
+  position: relative;
+  min-height: 100vh;
+}
 
-/* === SaaS Design System Utilities === */
+.app-background {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  display: block;
+  visibility: visible;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 1;
+}
 
-/* Glassmorphism card */
+.floating-scene {
+  position: absolute;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.floating-box {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  display: block;
+  pointer-events: none;
+  opacity: var(--box-opacity, 0.36);
+  filter: blur(var(--box-blur, 0px));
+  border-radius: 0;
+  box-shadow:
+    0 16px 30px rgba(30, 41, 59, 0.14),
+    0 0 18px rgba(59, 130, 246, 0.12);
+  will-change: transform, opacity;
+  animation: floating-box-drift var(--duration, 10s) ease-in-out var(--delay, 0s) infinite alternate;
+  transform: translate3d(0, 0, 0);
+}
+
+.floating-box-purple {
+  background: linear-gradient(to bottom right, rgba(168, 85, 247, 0.4), rgba(59, 130, 246, 0.34));
+  border: 1px solid rgba(124, 58, 237, 0.42);
+}
+
+.floating-box-blue {
+  background: linear-gradient(to bottom right, rgba(59, 130, 246, 0.4), rgba(37, 99, 235, 0.32));
+  border: 1px solid rgba(37, 99, 235, 0.42);
+}
+
+@keyframes floating-box-drift {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(var(--drift-x, 0px), var(--drift-y, 0px), 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floating-box {
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+  }
+}
+
+.app-content {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--ci-text-muted) 28%, transparent);
+  border-radius: 999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--ci-text-muted) 44%, transparent);
+}
+
+.ci-panel {
+  background: var(--ci-panel);
+  border: 1px solid var(--ci-border);
+  border-radius: 1.25rem;
+  backdrop-filter: blur(18px);
+  box-shadow: 0 18px 40px var(--ci-shadow);
+}
+
 .ci-card {
-  background: rgba(17, 24, 39, 0.7);
-  backdrop-filter: blur(12px);
-  border: 1px solid #1F2937;
+  background: var(--ci-card);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--ci-border);
   border-radius: 14px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
 .ci-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+  box-shadow: 0 8px 24px var(--ci-shadow);
 }
 
-/* Primary button */
 .ci-btn-primary {
-  background: #3B82F6;
-  color: #FFFFFF;
+  background: var(--ci-accent);
+  color: #ffffff;
   border-radius: 10px;
   font-weight: 600;
   padding: 10px 20px;
   font-size: 14px;
-  transition: background 0.2s ease;
+  transition: filter 0.2s ease;
   border: none;
   cursor: pointer;
 }
+
 .ci-btn-primary:hover {
-  background: #2563EB;
+  filter: brightness(1.07);
 }
 
-/* Secondary button */
 .ci-btn-secondary {
-  background: transparent;
-  border: 1px solid #1F2937;
-  color: #94A3B8;
+  background: var(--ci-panel);
+  border: 1px solid var(--ci-border);
+  color: var(--ci-text-muted);
   border-radius: 10px;
   font-weight: 500;
   padding: 10px 20px;
@@ -201,17 +315,16 @@
   transition: all 0.2s ease;
   cursor: pointer;
 }
+
 .ci-btn-secondary:hover {
-  border-color: #3B82F6;
-  color: #FFFFFF;
+  border-color: color-mix(in srgb, var(--ci-accent) 40%, var(--ci-border));
+  color: var(--ci-text);
 }
 
-/* Table row hover */
 .ci-table-row {
   transition: background 0.15s ease;
 }
-.ci-table-row:hover {
-  background: rgba(148,163,184,0.05);
-}
 
-
+.ci-table-row:hover {
+  background: color-mix(in srgb, var(--ci-text-muted) 8%, transparent);
+}

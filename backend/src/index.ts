@@ -1,14 +1,13 @@
+import './env';
 import express from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes';
 import productRoutes from './routes/productRoutes';
 import warehouseRoutes from './routes/warehouseRoutes';
 import operationsRoutes from './routes/operationsRoutes';
 import reportRoutes from './routes/reportRoutes';
 import exportRoutes from './routes/exportRoutes';
-
-dotenv.config();
+import { sendServerError } from './lib/errors';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -25,6 +24,18 @@ app.use('/api/export', exportRoutes);
 
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', message: 'CoreInventory API is running' });
+});
+
+app.use((req, res) => {
+  res.status(404).json({ message: 'Route not found' });
+});
+
+app.use((error: unknown, req: express.Request, res: express.Response, next: express.NextFunction) => {
+  if (res.headersSent) {
+    return next(error);
+  }
+
+  return sendServerError(res, error);
 });
 
 app.listen(PORT, () => {

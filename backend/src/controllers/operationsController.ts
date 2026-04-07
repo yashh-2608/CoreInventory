@@ -3,6 +3,7 @@ import prisma from '../lib/prisma';
 import { AuthRequest } from '../middleware/authMiddleware';
 import { updateInventory } from '../services/inventoryService';
 import { OpType } from '@prisma/client';
+import { sendServerError } from '../lib/errors';
 
 // ─── RECEIPTS ───────────────────────────────────────────────────────────────
 
@@ -103,7 +104,7 @@ export const validateReceipt = async (req: AuthRequest, res: Response) => {
       }
 
       for (const item of receipt.items) {
-        await updateInventory(item.productId, receipt.warehouseId, item.quantity, OpType.RECEIPT, receipt.id, userId);
+        await updateInventory(item.productId, receipt.warehouseId, item.quantity, OpType.RECEIPT, receipt.id, userId, tx);
       }
       await tx.receipt.update({
         where: { id },
@@ -113,7 +114,7 @@ export const validateReceipt = async (req: AuthRequest, res: Response) => {
 
     res.json({ message: 'Receipt validated and stock updated' });
   } catch (error) {
-    res.status(500).json({ message: 'Error validating receipt', error });
+    sendServerError(res, error, 'Error validating receipt');
   }
 };
 
@@ -211,7 +212,7 @@ export const confirmDelivery = async (req: AuthRequest, res: Response) => {
         if (!inv || inv.quantity < item.quantity) {
           throw new Error(`Insufficient stock for one or more items during confirmation`);
         }
-        await updateInventory(item.productId, delivery.warehouseId, -item.quantity, OpType.DELIVERY, delivery.id, userId);
+        await updateInventory(item.productId, delivery.warehouseId, -item.quantity, OpType.DELIVERY, delivery.id, userId, tx);
       }
       await tx.delivery.update({
         where: { id },
@@ -221,7 +222,7 @@ export const confirmDelivery = async (req: AuthRequest, res: Response) => {
 
     res.json({ message: 'Delivery confirmed and stock updated' });
   } catch (error) {
-    res.status(500).json({ message: 'Error confirming delivery', error });
+    sendServerError(res, error, 'Error confirming delivery');
   }
 };
 
@@ -338,9 +339,9 @@ export const completeTransfer = async (req: AuthRequest, res: Response) => {
         }
 
         // Out from source
-        await updateInventory(item.productId, transfer.fromWarehouseId, -item.quantity, OpType.TRANSFER_OUT, transfer.id, userId);
+        await updateInventory(item.productId, transfer.fromWarehouseId, -item.quantity, OpType.TRANSFER_OUT, transfer.id, userId, tx);
         // In to destination
-        await updateInventory(item.productId, transfer.toWarehouseId, item.quantity, OpType.TRANSFER_IN, transfer.id, userId);
+        await updateInventory(item.productId, transfer.toWarehouseId, item.quantity, OpType.TRANSFER_IN, transfer.id, userId, tx);
       }
       await tx.transfer.update({
         where: { id },
@@ -350,7 +351,7 @@ export const completeTransfer = async (req: AuthRequest, res: Response) => {
 
     res.json({ message: 'Transfer completed and stock updated' });
   } catch (error) {
-    res.status(500).json({ message: 'Error completing transfer', error });
+    sendServerError(res, error, 'Error completing transfer');
   }
 };
 
@@ -393,11 +394,11 @@ export const createAdjustment = async (req: AuthRequest, res: Response) => {
       const adjustment = await tx.adjustment.create({
         data: { productId, warehouseId, userId, recordedQty, countedQty, reason },
       });
-      await updateInventory(productId, warehouseId, diff, OpType.ADJUSTMENT, adjustment.id, userId);
+      await updateInventory(productId, warehouseId, diff, OpType.ADJUSTMENT, adjustment.id, userId, tx);
     });
 
     res.status(201).json({ message: 'Adjustment recorded and stock updated' });
   } catch (error) {
-    res.status(500).json({ message: 'Error creating adjustment', error });
+    sendServerError(res, error, 'Error creating adjustment');
   }
 };

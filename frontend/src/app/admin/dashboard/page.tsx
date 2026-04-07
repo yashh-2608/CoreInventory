@@ -22,6 +22,7 @@ import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   PieChart, Pie, Cell, Legend
 } from 'recharts';
+import { apiUrl } from '@/lib/api';
 
 interface Stats {
   totalProducts: number;
@@ -97,9 +98,9 @@ export default function DashboardPage() {
       
       const threshold = settings.lowStockThreshold;
       const [statsRes, activityRes, distRes] = await Promise.all([
-        fetch(`http://localhost:5000/api/reports/stats?threshold=${threshold}`, { headers }),
-        fetch('http://localhost:5000/api/reports/activity', { headers }),
-        fetch('http://localhost:5000/api/reports/distribution', { headers })
+        fetch(apiUrl(`/api/reports/stats?threshold=${threshold}`), { headers }),
+        fetch(apiUrl('/api/reports/activity'), { headers }),
+        fetch(apiUrl('/api/reports/distribution'), { headers })
       ]);
 
       const statsData = await statsRes.json();
@@ -125,11 +126,11 @@ export default function DashboardPage() {
       
       const threshold = settings.lowStockThreshold;
       const urlMap: Record<string, string> = {
-        'Total Products': 'http://localhost:5000/api/products',
-        'Low Stock Items': `http://localhost:5000/api/reports/low-stock?threshold=${threshold}`,
-        'Pending Receipts': 'http://localhost:5000/api/reports/pending-receipts',
-        'Pending Deliveries': 'http://localhost:5000/api/reports/pending-deliveries',
-        'Active Transfers': 'http://localhost:5000/api/reports/pending-transfers',
+        'Total Products': apiUrl('/api/products'),
+        'Low Stock Items': apiUrl(`/api/reports/low-stock?threshold=${threshold}`),
+        'Pending Receipts': apiUrl('/api/reports/pending-receipts'),
+        'Pending Deliveries': apiUrl('/api/reports/pending-deliveries'),
+        'Active Transfers': apiUrl('/api/reports/pending-transfers'),
       };
       
       const url = urlMap[type];

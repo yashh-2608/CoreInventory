@@ -14,42 +14,33 @@ const ThemeContext = createContext<ThemeContextType>({
   toggleTheme: () => {},
 });
 
-// Apply theme to DOM immediately (call this before React renders)
-function applyTheme(t: Theme) {
+function applyTheme(theme: Theme) {
   const root = document.documentElement;
   root.classList.remove('dark', 'light');
-  root.classList.add(t);
-  root.style.colorScheme = t;
+  root.classList.add(theme);
+  root.style.colorScheme = theme;
 }
 
+const getInitialTheme = (): Theme => {
+  if (typeof window === 'undefined') {
+    return 'dark';
+  }
+
+  const storedTheme = localStorage.getItem('ci-theme');
+  return storedTheme === 'light' ? 'light' : 'dark';
+};
+
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [theme, setTheme] = useState<Theme>('dark');
-  const [mounted, setMounted] = useState(false);
+  const [theme, setTheme] = useState<Theme>(getInitialTheme);
 
-  useEffect(() => {
-    setMounted(true);
-    const stored = localStorage.getItem('ci-theme') as Theme | null;
-    if (stored) {
-      setTheme(stored);
-      applyTheme(stored);
-    } else {
-      applyTheme('dark');
-    }
-  }, []);
-
-  const toggleTheme = () => {
-    setTheme(prev => {
-      const next = prev === 'dark' ? 'light' : 'dark';
-      applyTheme(next);
-      localStorage.setItem('ci-theme', next);
-      return next;
-    });
-  };
-
-  // Also sync on mount in case SSR rendered differently
   useEffect(() => {
     applyTheme(theme);
+    localStorage.setItem('ci-theme', theme);
   }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((current) => (current === 'dark' ? 'light' : 'dark'));
+  };
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>

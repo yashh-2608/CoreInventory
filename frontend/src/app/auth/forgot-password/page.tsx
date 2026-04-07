@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { AuthCard } from '@/components/auth/AuthCard';
 import Link from 'next/link';
 import { Mail, ArrowLeft, ArrowRight } from 'lucide-react';
+import { apiUrl, readApiResponse } from '@/lib/api';
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
@@ -14,29 +15,29 @@ export default function ForgotPasswordPage() {
     e.preventDefault();
     setLoading(true);
     setError('');
-    
+
     try {
-      const res = await fetch('http://localhost:5000/api/auth/forgot-password', {
+      const res = await fetch(apiUrl('/api/auth/forgot-password'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
       });
-      
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'Failed to send OTP');
+
+      await readApiResponse<{ message: string }>(res);
 
       sessionStorage.setItem('resetEmail', email);
+      sessionStorage.removeItem('resetToken');
       window.location.href = '/auth/otp-verification';
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to send OTP');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <AuthCard 
-      title="Reset Password" 
+    <AuthCard
+      title="Reset Password"
       subtitle="Enter your email to receive a 6-digit verification code"
     >
       <form className="space-y-6" onSubmit={handleSubmit}>
@@ -45,8 +46,8 @@ export default function ForgotPasswordPage() {
           <label className="block text-xs font-bold text-[var(--ci-text-muted)] uppercase tracking-widest mb-2">Email Address</label>
           <div className="relative">
             <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--ci-text-muted)]" />
-            <input 
-              type="email" 
+            <input
+              type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -56,7 +57,7 @@ export default function ForgotPasswordPage() {
           </div>
         </div>
 
-        <button 
+        <button
           type="submit"
           disabled={loading}
           className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-bold transition-all hover:scale-[1.02] shadow-lg shadow-blue-600/30 flex items-center justify-center gap-2 disabled:opacity-50"

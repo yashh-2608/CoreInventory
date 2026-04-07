@@ -7,37 +7,34 @@ export const updateInventory = async (
   quantityChange: number,
   opType: OpType,
   referenceId: string,
-  userId: string
+  userId: string,
+  txClient: any = prisma
 ) => {
-  return await prisma.$transaction(async (tx: any) => {
-    // 1. Update or create Inventory entry (scoped to this user)
-    const inventory = await tx.inventory.upsert({
-      where: {
-        productId_warehouseId_userId: { productId, warehouseId, userId },
-      },
-      update: {
-        quantity: { increment: quantityChange },
-      },
-      create: {
-        productId,
-        warehouseId,
-        userId,
-        quantity: quantityChange,
-      },
-    });
-
-    // 2. Create StockLedger entry (scoped to this user)
-    await tx.stockLedger.create({
-      data: {
-        productId,
-        warehouseId,
-        userId,
-        qtyChange: quantityChange,
-        opType,
-        referenceId,
-      },
-    });
-
-    return inventory;
+  const inventory = await txClient.inventory.upsert({
+    where: {
+      productId_warehouseId_userId: { productId, warehouseId, userId },
+    },
+    update: {
+      quantity: { increment: quantityChange },
+    },
+    create: {
+      productId,
+      warehouseId,
+      userId,
+      quantity: quantityChange,
+    },
   });
+
+  await txClient.stockLedger.create({
+    data: {
+      productId,
+      warehouseId,
+      userId,
+      qtyChange: quantityChange,
+      opType,
+      referenceId,
+    },
+  });
+
+  return inventory;
 };

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 interface Settings {
   lowStockThreshold: number;
@@ -29,23 +29,30 @@ const defaultSettings: Settings = {
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
 
-export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [settings, setSettings] = useState<Settings>(defaultSettings);
+const getInitialSettings = (): Settings => {
+  if (typeof window === 'undefined') {
+    return defaultSettings;
+  }
 
-  useEffect(() => {
-    const saved = localStorage.getItem('ci-settings');
-    if (saved) {
-      try {
-        setSettings(JSON.parse(saved));
-      } catch (e) {
-        console.error('Failed to parse settings', e);
-      }
-    }
-  }, []);
+  const saved = localStorage.getItem('ci-settings');
+  if (!saved) {
+    return defaultSettings;
+  }
+
+  try {
+    return JSON.parse(saved) as Settings;
+  } catch (error) {
+    console.error('Failed to parse settings', error);
+    return defaultSettings;
+  }
+};
+
+export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [settings, setSettings] = useState<Settings>(getInitialSettings);
 
   const updateSettings = (newSettings: Partial<Settings>) => {
-    setSettings(prev => {
-      const updated = { ...prev, ...newSettings };
+    setSettings((previous) => {
+      const updated = { ...previous, ...newSettings };
       localStorage.setItem('ci-settings', JSON.stringify(updated));
       return updated;
     });
