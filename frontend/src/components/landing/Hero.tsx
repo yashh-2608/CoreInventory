@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Play, Sparkles } from 'lucide-react';
+import { ArrowRight, Play } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { apiUrl, readApiResponse } from '@/lib/api';
 
@@ -45,21 +45,15 @@ export const Hero: React.FC = () => {
         transition={{ duration: 0.8 }}
         className="max-w-6xl"
       >
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--ci-panel)] border border-[var(--ci-border)] text-xs font-semibold tracking-[0.18em] uppercase text-[var(--ci-text-muted)] mb-8 shadow-[0_16px_40px_var(--ci-shadow)]">
-          <Sparkles className="w-4 h-4 text-[var(--ci-accent)]" />
-          Real-time inventory intelligence
-        </div>
-
         <h1 className="text-5xl md:text-7xl font-bold mb-6 text-[var(--ci-text)] font-[var(--font-playfair)] leading-[0.95]">
-          A Frozen Explosion of
+          Stop Managing Inventory.
           <span className="block bg-gradient-to-r from-[var(--ci-accent)] via-[var(--ci-accent-2)] to-[#38bdf8] bg-clip-text text-transparent">
-            Products, Motion, and Data.
+            Start Commanding It.
           </span>
         </h1>
 
-        <p className="text-xl md:text-2xl text-[var(--ci-text-muted)] mb-10 max-w-3xl mx-auto font-normal leading-[1.7]">
-          CoreInventory turns every box, transfer, receipt, alert, and warehouse signal into one high-energy operating surface,
-          so your team can control inventory with speed, accuracy, and confidence.
+        <p className="text-center text-xl md:text-2xl text-gray-600 mb-10 max-w-3xl mx-auto font-normal leading-relaxed transform-none not-italic">
+          CoreInventory unifies every product, movement, and warehouse signal into a single real-time control system&mdash;giving your team speed, accuracy, and complete clarity.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -80,9 +74,9 @@ export const Hero: React.FC = () => {
 
         <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-4 text-left">
           {[
-            ['Hundreds of product signals', 'Products, data particles, and flows synchronized in one control plane.'],
-            ['Cinematic operational visibility', 'Receipts, deliveries, transfers, and alerts stay connected in real time.'],
-            ['Dark and light mode parity', 'Every panel, card, and surface now inherits a consistent theme language.'],
+            ['Real-Time Sync', 'Everything updates instantly across all warehouses.'],
+            ['Smart Insights', 'Turn raw inventory into actionable decisions.'],
+            ['Enterprise-Ready', 'Secure, scalable, and built for growth.'],
           ].map(([title, text]) => (
             <div key={title} className="ci-panel p-5">
               <p className="text-sm font-semibold text-[var(--ci-text)] mb-2">{title}</p>
