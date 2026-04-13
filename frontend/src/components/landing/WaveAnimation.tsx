@@ -1,6 +1,6 @@
 'use client';
 
-import React, { CSSProperties, useMemo } from 'react';
+import React, { CSSProperties, useState, useEffect } from 'react';
 
 type BoxStyle = CSSProperties & {
   '--drift-x'?: string;
@@ -59,7 +59,11 @@ const createBox = (index: number): FloatingBox => {
 };
 
 export const WaveAnimation: React.FC = () => {
-  const boxes = useMemo(() => Array.from({ length: BOX_COUNT }, (_, index) => createBox(index)), []);
+  const [boxes, setBoxes] = useState<FloatingBox[]>([]);
+
+  useEffect(() => {
+    setBoxes(Array.from({ length: BOX_COUNT }, (_, index) => createBox(index)));
+  }, []);
 
   return (
     <div className="floating-scene" aria-hidden="true">
