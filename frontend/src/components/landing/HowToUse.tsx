@@ -54,8 +54,8 @@ const steps = [
 
 export const HowToUse: React.FC = () => {
   return (
-    <section id="how-to-use" className="py-24 px-6 max-w-7xl mx-auto">
-      <div className="text-center mb-16">
+    <section id="how-to-use" className="py-10 sm:py-14 lg:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <div className="text-center mb-12 sm:mb-16">
         <motion.span
           initial={{ opacity: 0, y: -10 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -69,7 +69,7 @@ export const HowToUse: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.1 }}
-          className="text-4xl font-bold mb-4 text-[var(--ci-text)] font-[var(--font-playfair)]"
+          className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 text-[var(--ci-text)] font-[var(--font-playfair)]"
         >
           How to Use CoreInventory?
         </motion.h2>
@@ -78,7 +78,7 @@ export const HowToUse: React.FC = () => {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.2 }}
-          className="text-[var(--ci-text-muted)] max-w-2xl mx-auto"
+          className="text-sm sm:text-base md:text-lg text-[var(--ci-text-muted)] max-w-2xl mx-auto px-2"
         >
           Get your warehouse operations running in minutes. Follow these simple steps to unlock the full power of CoreInventory.
         </motion.p>
@@ -98,24 +98,24 @@ export const HowToUse: React.FC = () => {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1, duration: 0.5 }}
-                className={`flex flex-col lg:flex-row items-center gap-6 ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'}`}
+                className={`flex flex-col-reverse lg:flex-row items-center gap-4 lg:gap-6 ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'}`}
               >
                 {/* Card */}
-                <div className={`flex-1 group p-7 rounded-2xl border ${step.border} ${step.glow} bg-[var(--ci-card)] backdrop-blur-md hover:bg-[var(--ci-glass)] transition-all`}>
-                  <div className="flex items-start gap-5">
+                <div className={`flex-1 w-full group p-5 sm:p-7 rounded-2xl border ${step.border} ${step.glow} bg-[var(--ci-card)] backdrop-blur-md hover:bg-[var(--ci-glass)] transition-all`}>
+                  <div className="flex flex-col sm:flex-row items-start sm:items-start gap-4 sm:gap-5">
                     <div className={`shrink-0 w-12 h-12 rounded-xl bg-[var(--ci-glass)] border ${step.border} flex items-center justify-center group-hover:scale-110 transition-transform`}>
                       <step.icon className={`w-6 h-6 ${step.color}`} />
                     </div>
                     <div>
-                      <h3 className="text-xl font-semibold mb-2 text-[var(--ci-text)]">{step.title}</h3>
-                      <p className="text-[var(--ci-text-muted)] leading-relaxed">{step.desc}</p>
+                      <h3 className="text-lg sm:text-xl font-semibold mb-2 text-[var(--ci-text)] text-center sm:text-left">{step.title}</h3>
+                      <p className="text-sm sm:text-base text-[var(--ci-text-muted)] leading-relaxed text-center sm:text-left">{step.desc}</p>
                     </div>
                   </div>
                 </div>
 
                 {/* Center step badge */}
-                <div className="shrink-0 w-14 h-14 rounded-full bg-[var(--ci-bg)] border border-[var(--ci-border)] flex items-center justify-center z-10 shadow-lg">
-                  <span className={`text-sm font-bold ${step.color}`}>{step.step}</span>
+                <div className="shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[var(--ci-bg)] border border-[var(--ci-border)] flex items-center justify-center z-10 shadow-lg">
+                  <span className={`text-xs sm:text-sm font-bold ${step.color}`}>{step.step}</span>
                 </div>
 
                 {/* Spacer for opposite side on desktop */}

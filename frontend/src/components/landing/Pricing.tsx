@@ -33,13 +33,13 @@ const plans = [
 
 export const Pricing: React.FC = () => {
   return (
-    <section id="pricing" className="py-24 px-6 max-w-7xl mx-auto">
-      <div className="text-center mb-16">
-        <h2 className="text-4xl font-bold mb-4 text-[var(--ci-text)] font-[var(--font-playfair)]">Transparent <span className="text-blue-500">Pricing</span></h2>
-        <p className="text-[var(--ci-text-muted)] max-w-2xl mx-auto">Scalable tiers designed to grow alongside your logistics empire.</p>
+    <section id="pricing" className="py-10 sm:py-14 lg:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <div className="text-center mb-12 sm:mb-16">
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 text-[var(--ci-text)] font-[var(--font-playfair)]">Transparent <span className="text-blue-500">Pricing</span></h2>
+        <p className="text-sm sm:text-base md:text-lg text-[var(--ci-text-muted)] max-w-2xl mx-auto px-2">Scalable tiers designed to grow alongside your logistics empire.</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
         {plans.map((plan, i) => (
           <motion.div
             key={i}
@@ -47,14 +47,14 @@ export const Pricing: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.1 }}
-            className={`relative p-8 rounded-3xl backdrop-blur-md border ${
+            className={`relative p-6 sm:p-8 rounded-3xl backdrop-blur-md border ${
                 plan.popular 
-                ? 'bg-blue-600/10 border-blue-500 shadow-[0_0_30px_rgba(59,130,246,0.15)]' 
+                ? 'bg-blue-600/10 border-blue-500 shadow-[0_0_30px_rgba(59,130,246,0.15)] mt-4 lg:mt-0' 
                 : 'bg-[var(--ci-card)] border-[var(--ci-border)]'
             }`}
           >
             {plan.popular && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-blue-600 text-white text-[10px] font-bold rounded-full uppercase tracking-widest flex items-center gap-1">
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1.5 sm:py-1 bg-blue-600 text-white text-[10px] sm:text-[10px] font-bold rounded-full uppercase tracking-widest flex items-center gap-1 whitespace-nowrap">
                     <Zap className="w-3 h-3 fill-white" /> Recommended
                 </div>
             )}

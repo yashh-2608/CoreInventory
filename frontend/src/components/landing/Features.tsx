@@ -135,13 +135,13 @@ export const Features: React.FC = () => {
   const [selected, setSelected] = useState<typeof features[0] | null>(null);
 
   return (
-    <section id="features" className="py-24 px-6 max-w-7xl mx-auto">
-      <div className="text-center mb-16">
-        <h2 className="text-4xl font-bold mb-4 text-[var(--ci-text)] font-[var(--font-playfair)]">Powerful Features for Small to Enterprise</h2>
-        <p className="text-[var(--ci-text-muted)] max-w-2xl mx-auto">Everything you need to digitize your warehouse operations. Click any feature to learn more.</p>
+    <section id="features" className="py-10 sm:py-14 lg:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <div className="text-center mb-12 sm:mb-16">
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 text-[var(--ci-text)] font-[var(--font-playfair)]">Powerful Features for Small to Enterprise</h2>
+        <p className="text-sm sm:text-base md:text-lg text-[var(--ci-text-muted)] max-w-2xl mx-auto px-2">Everything you need to digitize your warehouse operations. Click any feature to learn more.</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
         {features.map((feature, i) => (
           <motion.div
             key={i}
@@ -180,10 +180,10 @@ export const Features: React.FC = () => {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              className="relative w-full max-w-2xl bg-[var(--ci-bg)] border border-[var(--ci-border)] rounded-[3rem] shadow-2xl overflow-hidden p-12"
+              className="relative w-full max-w-2xl bg-[var(--ci-bg)] border border-[var(--ci-border)] rounded-3xl sm:rounded-[3rem] shadow-2xl overflow-y-auto max-h-[90vh] p-6 sm:p-8 md:p-12"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex justify-between items-center mb-10">
+              <div className="flex justify-between items-center mb-6 sm:mb-10">
                 <div className={`p-4 bg-[var(--ci-glass)] rounded-2xl`}>
                   <selected.icon className={`w-10 h-10 ${selected.color}`} />
                 </div>
@@ -195,8 +195,8 @@ export const Features: React.FC = () => {
                 </button>
               </div>
               
-              <h2 className="text-4xl font-bold mb-4 text-[var(--ci-text)]">{selected.details.headline}</h2>
-              <p className="text-xl text-[var(--ci-text-muted)] mb-10 leading-relaxed">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 text-[var(--ci-text)]">{selected.details.headline}</h2>
+              <p className="text-sm sm:text-base md:text-lg text-[var(--ci-text-muted)] mb-6 sm:mb-10 leading-relaxed">
                 {selected.details.body}
               </p>
               <ul className="space-y-3">

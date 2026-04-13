@@ -11,23 +11,22 @@ export default function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [isAuthorized] = useState(() => {
-    if (typeof window === 'undefined') {
-      return false;
-    }
+  const [mounted, setMounted] = useState(false);
+  const [isAuthorized, setIsAuthorized] = useState(false);
 
+  React.useEffect(() => {
+    setMounted(true);
     const token = localStorage.getItem('token');
     const isDemo = localStorage.getItem('demoMode') === 'true';
 
     if (!token && !isDemo) {
       window.location.href = '/';
-      return false;
+    } else {
+      setIsAuthorized(true);
     }
+  }, []);
 
-    return true;
-  });
-
-  if (!isAuthorized) {
+  if (!mounted || !isAuthorized) {
     return (
       <div className="min-h-screen text-[var(--ci-text)] flex items-center justify-center">
         <div className="ci-panel px-6 py-5 text-sm text-[var(--ci-text-muted)]">Loading workspace...</div>

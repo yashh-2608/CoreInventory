@@ -22,16 +22,16 @@ export default function Home() {
         <Hero />
         
         {/* Integrated Authentication Section */}
-        <section id="auth-portal" className="py-24 px-6">
-            <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <section id="auth-portal" className="py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                 <div className="space-y-6">
-                    <h2 className="text-4xl md:text-5xl font-bold leading-tight">
+                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight text-center lg:text-left">
                         One Secure Entry Point for Your <span className="text-blue-500">Inventory Ecosystem.</span>
                     </h2>
-                    <p className="text-lg text-[var(--ci-text-muted)]">
+                    <p className="text-base sm:text-lg text-[var(--ci-text-muted)] text-center lg:text-left">
                         Join thousands of warehouse managers who have transformed their manual operations into a high-octane digital engine.
                     </p>
-                    <div className="flex gap-4 pt-4">
+                    <div className="flex flex-col sm:flex-row items-center lg:items-start gap-4 pt-4 justify-center lg:justify-start">
                         <div className="flex -space-x-3">
                             {[1, 2, 3, 4].map((i) => (
                                 <div key={i} className="w-10 h-10 rounded-full border-2 border-[var(--ci-border)] bg-[var(--ci-panel)] text-[var(--ci-text)] flex items-center justify-center text-[10px] font-bold shadow-[0_8px_20px_var(--ci-shadow)]">
@@ -39,7 +39,7 @@ export default function Home() {
                                 </div>
                             ))}
                         </div>
-                        <p className="text-sm text-[var(--ci-text-muted)] flex items-center">
+                        <p className="text-sm text-[var(--ci-text-muted)] flex items-center text-center lg:text-left">
                             Trusted by 500+ global warehouses
                         </p>
                     </div>
@@ -77,7 +77,7 @@ export default function Home() {
         <Pricing />
       </div>
       
-      <footer className="py-12 border-t border-[var(--ci-border)] text-center text-[var(--ci-text-muted)] text-sm relative z-10 bg-[linear-gradient(180deg,transparent,rgba(15,23,42,0.04))]">
+      <footer className="py-10 sm:py-12 border-t border-[var(--ci-border)] text-center text-[var(--ci-text-muted)] text-sm relative z-10 bg-[linear-gradient(180deg,transparent,rgba(15,23,42,0.04))]">
         <p>&copy; 2026 CoreInventory SaaS. All rights reserved.</p>
       </footer>
     </main>

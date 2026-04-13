@@ -27,12 +27,12 @@ const solutions = [
 
 export const Solutions: React.FC = () => {
   return (
-    <section id="solutions" className="py-24 px-6 bg-[var(--ci-glass)] border-y border-[var(--ci-border)]">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+    <section id="solutions" className="py-10 sm:py-14 lg:py-20 px-4 sm:px-6 lg:px-8 bg-[var(--ci-glass)] border-y border-[var(--ci-border)]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div>
-                <h2 className="text-4xl md:text-5xl font-bold mb-6 text-[var(--ci-text)] font-[var(--font-playfair)]">Built for the <span className="text-blue-500">Fastest Teams</span> on Earth.</h2>
-                <p className="text-[var(--ci-text-muted)] text-lg mb-8 leading-relaxed">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-[var(--ci-text)] font-[var(--font-playfair)] text-center lg:text-left">Built for the <span className="text-blue-500">Fastest Teams</span> on Earth.</h2>
+                <p className="text-[var(--ci-text-muted)] text-sm sm:text-base md:text-lg lg:text-xl mb-6 sm:mb-8 leading-relaxed text-center lg:text-left">
                     CoreInventory isn't just a database. It's a high-performance engine designed for industries that demand zero latency and 100% accuracy.
                 </p>
                 <div className="space-y-4">
@@ -50,10 +50,10 @@ export const Solutions: React.FC = () => {
                 </div>
             </div>
             
-            <div className="relative">
+            <div className="relative mt-8 lg:mt-0">
                 <div className="absolute -inset-4 bg-blue-500/10 blur-3xl opacity-20" />
-                <div className="relative p-8 bg-[var(--ci-card)] border border-[var(--ci-border)] rounded-3xl backdrop-blur-xl">
-                    <div className="flex items-center gap-2 mb-8">
+                <div className="relative p-6 sm:p-8 bg-[var(--ci-card)] border border-[var(--ci-border)] rounded-3xl backdrop-blur-xl">
+                    <div className="flex items-center gap-2 mb-6 sm:mb-8">
                         <Zap className="w-5 h-5 text-yellow-500 fill-yellow-500" />
                         <span className="text-[10px] font-bold text-[var(--ci-text-muted)] uppercase tracking-[0.2em]">Industry Performance</span>
                     </div>
