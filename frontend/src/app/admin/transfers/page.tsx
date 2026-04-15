@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeftRight, Plus, Trash2, Package, Check, AlertCircle, CheckCircle2, FileText } from 'lucide-react';
 import SearchableSelect from '@/components/ui/SearchableSelect';
-import { apiUrl } from '@/lib/api';
+import { apiRequest } from '@/lib/api';
 
 interface Product {
   id: string;
@@ -23,6 +23,7 @@ export default function TransfersPage() {
   const [fromWarehouseId, setFromWarehouseId] = useState('');
   const [toWarehouseId, setToWarehouseId] = useState('');
   const [loading, setLoading] = useState(false);
+  const [metaLoading, setMetaLoading] = useState(true);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [draftId, setDraftId] = useState<string | null>(null);
@@ -37,30 +38,27 @@ export default function TransfersPage() {
 
   const fetchDrafts = async () => {
     try {
-        const token = localStorage.getItem('token');
-        const res = await fetch(apiUrl('/api/operations/transfers/drafts'), {
-            headers: { 'Authorization': `Bearer ${token}` }
-        });
-        const data = await res.json();
-        if (res.ok) setDrafts(data);
-    } catch (err) {
+        const data = await apiRequest<any[]>('/api/operations/transfers/drafts');
+        setDrafts(data);
+    } catch (err: any) {
         console.error('Drafts fetch error:', err);
     }
   };
 
   const fetchMeta = async () => {
+    setMetaLoading(true);
     try {
-        const token = localStorage.getItem('token');
-        const [prodRes, warRes] = await Promise.all([
-          fetch(apiUrl('/api/products'), { headers: { 'Authorization': `Bearer ${token}` } }),
-          fetch(apiUrl('/api/warehouses'), { headers: { 'Authorization': `Bearer ${token}` } })
+        const [prodData, warData] = await Promise.all([
+          apiRequest<Product[]>('/api/products'),
+          apiRequest<Warehouse[]>('/api/warehouses')
         ]);
-        const prodData = await prodRes.json();
-        const warData = await warRes.json();
         setProducts(prodData);
         setWarehouses(warData);
-    } catch (err) {
+    } catch (err: any) {
         console.error('Meta fetch error:', err);
+        setError('Failed to load internal mapping data.');
+    } finally {
+        setMetaLoading(false);
     }
   };
 
@@ -88,18 +86,10 @@ export default function TransfersPage() {
     setSuccess('');
 
     try {
-        const token = localStorage.getItem('token');
-        const createRes = await fetch(apiUrl('/api/operations/transfers'), {
+        const transfer = await apiRequest<any>('/api/operations/transfers', {
             method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({ fromWarehouseId, toWarehouseId, items, status: 'DRAFT' }),
+            body: { fromWarehouseId, toWarehouseId, items, status: 'DRAFT' },
         });
-
-        const transfer = await createRes.json();
-        if (!createRes.ok) throw new Error(transfer.message || 'Failed to save draft');
 
         setDraftId(transfer.id);
         setIsDraftSaved(true);
@@ -114,20 +104,17 @@ export default function TransfersPage() {
 
   const handleDeleteDraft = async (id: string) => {
     try {
-        const token = localStorage.getItem('token');
-        const res = await fetch(apiUrl(`/api/operations/transfers/${id}`), {
-            method: 'DELETE',
-            headers: { 'Authorization': `Bearer ${token}` }
+        await apiRequest(`/api/operations/transfers/${id}`, {
+            method: 'DELETE'
         });
-        if (res.ok) {
-            fetchDrafts();
-            if (draftId === id) {
-                setDraftId(null);
-                setIsDraftSaved(false);
-            }
+        fetchDrafts();
+        if (draftId === id) {
+            setDraftId(null);
+            setIsDraftSaved(false);
         }
-    } catch (err) {
+    } catch (err: any) {
         console.error('Delete draft error:', err);
+        setError(err.message);
     }
   };
 
@@ -139,14 +126,9 @@ export default function TransfersPage() {
     setSuccess('');
 
     try {
-        const token = localStorage.getItem('token');
-        const completeRes = await fetch(apiUrl(`/api/operations/transfers/${draftId}/complete`), {
-            method: 'POST',
-            headers: { 'Authorization': `Bearer ${token}` }
+        await apiRequest(`/api/operations/transfers/${draftId}/complete`, {
+            method: 'POST'
         });
-
-        const completeData = await completeRes.json();
-        if (!completeRes.ok) throw new Error(completeData.message || 'Failed to complete transfer');
 
         setSuccess('Inter-warehouse Transfer Executed! Inventory balanced.');
         setItems([{ productId: '', quantity: 1 }]);
@@ -162,6 +144,14 @@ export default function TransfersPage() {
     }
   };
 
+  if (metaLoading) {
+    return (
+        <div className="flex h-96 items-center justify-center">
+            <ArrowLeftRight className="w-8 h-8 text-orange-500 animate-spin" />
+        </div>
+    );
+  }
+
   return (
     <div className="max-w-[1600px] mx-auto space-y-8 px-4">
       <div>
@@ -170,13 +160,13 @@ export default function TransfersPage() {
       </div>
 
       {error && (
-          <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center gap-3 text-red-400 text-sm font-medium">
+          <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center gap-3 text-red-400 text-sm font-medium animate-in slide-in-from-top-2 duration-500">
               <AlertCircle className="w-5 h-5 flex-shrink-0" /> {error}
           </div>
       )}
 
       {success && (
-          <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl flex items-center gap-3 text-emerald-400 text-sm font-medium">
+          <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl flex items-center gap-3 text-emerald-400 text-sm font-medium animate-in slide-in-from-top-2 duration-500">
               <CheckCircle2 className="w-5 h-5 flex-shrink-0" /> {success}
           </div>
       )}

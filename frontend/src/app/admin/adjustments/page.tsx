@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { ClipboardCheck, Info, Save, AlertCircle, CheckCircle2 } from 'lucide-react';
-import { apiUrl, getAuthHeaders, readApiResponse } from '@/lib/api';
+import { apiRequest } from '@/lib/api';
 
 interface InventoryRecord {
   warehouseId: string;
@@ -41,25 +41,21 @@ export default function AdjustmentsPage() {
   }, [currentStock]);
 
   useEffect(() => {
-    const fetchMeta = async () => {
-      try {
-        const headers = getAuthHeaders();
-        const [prodRes, warRes] = await Promise.all([
-          fetch(apiUrl('/api/products'), { headers }),
-          fetch(apiUrl('/api/warehouses'), { headers }),
-        ]);
-
-        const prodData = await readApiResponse<Product[]>(prodRes);
-        const warData = await readApiResponse<Warehouse[]>(warRes);
-        setProducts(prodData);
-        setWarehouses(warData);
-      } catch (err: unknown) {
-        console.error('Meta fetch error:', err);
-      }
-    };
-
     fetchMeta();
   }, []);
+
+  const fetchMeta = async () => {
+    try {
+      const [prodData, warData] = await Promise.all([
+        apiRequest<Product[]>('/api/products'),
+        apiRequest<Warehouse[]>('/api/warehouses'),
+      ]);
+      setProducts(prodData);
+      setWarehouses(warData);
+    } catch (err) {
+      console.error('Meta fetch error:', err);
+    }
+  };
 
   const handleCommit = async () => {
     if (!productId || !warehouseId || !reason) {
@@ -72,30 +68,24 @@ export default function AdjustmentsPage() {
     setSuccess('');
 
     try {
-      const res = await fetch(apiUrl('/api/operations/adjustments'), {
+      await apiRequest('/api/operations/adjustments', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...getAuthHeaders(),
-        },
-        body: JSON.stringify({
+        body: {
           productId,
           warehouseId,
           recordedQty,
           countedQty: quantity,
           reason: `${type}: ${reason}`,
-        }),
+        },
       });
-
-      await readApiResponse<{ message: string }>(res);
 
       setSuccess('Inventory Adjustment Committed! Ledger updated.');
       setProductId('');
       setWarehouseId('');
       setReason('');
       setQuantity(0);
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Failed to commit adjustment');
+    } catch (err: any) {
+      setError(err.message || 'Failed to commit adjustment');
     } finally {
       setLoading(false);
     }
@@ -109,20 +99,20 @@ export default function AdjustmentsPage() {
       </div>
 
       {error && (
-        <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center gap-3 text-red-400 text-sm font-medium">
+        <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center gap-3 text-red-400 text-sm font-medium animate-in slide-in-from-top-2 duration-500">
           <AlertCircle className="w-5 h-5 flex-shrink-0" /> {error}
         </div>
       )}
 
       {success && (
-        <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl flex items-center gap-3 text-emerald-400 text-sm font-medium">
+        <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl flex items-center gap-3 text-emerald-400 text-sm font-medium animate-in slide-in-from-top-2 duration-500">
           <CheckCircle2 className="w-5 h-5 flex-shrink-0" /> {success}
         </div>
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div className="md:col-span-2">
-          <div className="p-8 bg-[var(--ci-panel)] border border-[var(--ci-border)] rounded-3xl backdrop-blur-md shadow-xl space-y-6">
+          <div className="p-8 bg-[var(--ci-card)] border border-[var(--ci-border)] rounded-3xl backdrop-blur-md shadow-xl space-y-6">
             <h3 className="text-lg font-bold mb-8 flex items-center gap-2 uppercase tracking-widest text-[var(--ci-text-muted)]">
               <ClipboardCheck className="w-5 h-5 text-red-500" /> Manual Adjustment
             </h3>
@@ -133,7 +123,7 @@ export default function AdjustmentsPage() {
                 <select
                   value={productId}
                   onChange={(e) => setProductId(e.target.value)}
-                  className="w-full px-4 py-4 bg-[var(--ci-panel-strong)] border border-[var(--ci-border)] rounded-2xl text-[var(--ci-text)] focus:outline-none focus:ring-2 focus:ring-red-500/50 transition-all font-bold"
+                  className="w-full px-4 py-4 bg-[var(--ci-card)] border border-[var(--ci-border)] rounded-2xl text-[var(--ci-text)] focus:outline-none focus:ring-2 focus:ring-red-500/50 transition-all font-bold"
                 >
                   <option value="">Select Product...</option>
                   {products.map((product) => (
@@ -146,7 +136,7 @@ export default function AdjustmentsPage() {
                 <select
                   value={warehouseId}
                   onChange={(e) => setWarehouseId(e.target.value)}
-                  className="w-full px-4 py-4 bg-[var(--ci-panel-strong)] border border-[var(--ci-border)] rounded-2xl text-[var(--ci-text)] focus:outline-none focus:ring-2 focus:ring-red-500/50 transition-all font-bold"
+                  className="w-full px-4 py-4 bg-[var(--ci-card)] border border-[var(--ci-border)] rounded-2xl text-[var(--ci-text)] focus:outline-none focus:ring-2 focus:ring-red-500/50 transition-all font-bold"
                 >
                   <option value="">Select Warehouse...</option>
                   {warehouses.map((warehouse) => (
@@ -159,7 +149,7 @@ export default function AdjustmentsPage() {
                 <select
                   value={type}
                   onChange={(e) => setType(e.target.value)}
-                  className="w-full px-4 py-4 bg-[var(--ci-panel-strong)] border border-[var(--ci-border)] rounded-2xl text-[var(--ci-text)] focus:outline-none focus:ring-2 focus:ring-red-500/50 transition-all font-bold"
+                  className="w-full px-4 py-4 bg-[var(--ci-card)] border border-[var(--ci-border)] rounded-2xl text-[var(--ci-text)] focus:outline-none focus:ring-2 focus:ring-red-500/50 transition-all font-bold"
                 >
                   <option value="COUNT_CORRECTION">Count Correction</option>
                   <option value="DAMAGE_LOSS">Damage / Loss</option>
@@ -168,7 +158,7 @@ export default function AdjustmentsPage() {
               </div>
               <div>
                 <label className="block text-[10px] font-bold text-[var(--ci-text-muted)] uppercase tracking-[0.2em] mb-3">Live Recorded Stock</label>
-                <div className="w-full px-4 py-4 bg-[var(--ci-panel-strong)] border border-[var(--ci-border)] rounded-2xl text-[var(--ci-text-muted)] font-bold">
+                <div className="w-full px-4 py-4 bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-2xl text-[var(--ci-text-muted)] font-bold">
                   {recordedQty} Units
                 </div>
               </div>
@@ -179,7 +169,7 @@ export default function AdjustmentsPage() {
                   value={quantity}
                   onChange={(e) => setQuantity(Number(e.target.value))}
                   placeholder="Actual count found..."
-                  className="w-full px-4 py-4 bg-[var(--ci-panel-strong)] border border-[var(--ci-border)] rounded-2xl text-[var(--ci-text)] focus:outline-none focus:ring-2 focus:ring-red-500/50 transition-all font-bold"
+                  className="w-full px-4 py-4 bg-[var(--ci-card)] border border-[var(--ci-border)] rounded-2xl text-[var(--ci-text)] focus:outline-none focus:ring-2 focus:ring-red-500/50 transition-all font-bold"
                 />
               </div>
               <div className="sm:col-span-2">
@@ -189,7 +179,7 @@ export default function AdjustmentsPage() {
                   value={reason}
                   onChange={(e) => setReason(e.target.value)}
                   placeholder="Explain the discrepancy for the immutable ledger..."
-                  className="w-full px-4 py-4 bg-[var(--ci-panel-strong)] border border-[var(--ci-border)] rounded-2xl text-[var(--ci-text)] focus:outline-none focus:ring-2 focus:ring-red-500/50 resize-none font-medium"
+                  className="w-full px-4 py-4 bg-[var(--ci-card)] border border-[var(--ci-border)] rounded-2xl text-[var(--ci-text)] focus:outline-none focus:ring-2 focus:ring-red-500/50 resize-none font-medium"
                 />
               </div>
             </div>
@@ -212,7 +202,7 @@ export default function AdjustmentsPage() {
             <Save className="w-5 h-5" /> {loading ? 'Committing...' : 'Commit to Ledger'}
           </button>
 
-          <div className="p-8 bg-[var(--ci-panel)] border border-[var(--ci-border)] rounded-3xl backdrop-blur-md">
+          <div className="p-8 bg-[var(--ci-card)] border border-[var(--ci-border)] rounded-3xl backdrop-blur-md">
             <h4 className="text-[var(--ci-text-muted)] font-bold text-[10px] mb-4 flex items-center gap-2 uppercase tracking-[0.2em]">
               <Info className="w-4 h-4" /> Compliance Audit
             </h4>

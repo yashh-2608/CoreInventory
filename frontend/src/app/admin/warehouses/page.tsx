@@ -13,7 +13,7 @@ import {
   Search,
   AlertCircle
 } from 'lucide-react';
-import { apiUrl } from '@/lib/api';
+import { apiRequest } from '@/lib/api';
 
 interface Warehouse {
   id: string;
@@ -37,16 +37,14 @@ export default function WarehousesPage() {
   }, []);
 
   const fetchWarehouses = async () => {
+    setLoading(true);
+    setError('');
     try {
-      const token = localStorage.getItem('token');
-      const res = await fetch(apiUrl('/api/warehouses'), {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      if (!res.ok) throw new Error('Failed to fetch warehouses');
-      const data = await res.json();
+      const data = await apiRequest<Warehouse[]>('/api/warehouses');
       setWarehouses(data);
     } catch (err: any) {
-      setError(err.message);
+      console.error('Fetch error:', err);
+      setError(err.message || 'Failed to sync warehouse network.');
     } finally {
       setLoading(false);
     }
@@ -57,18 +55,10 @@ export default function WarehousesPage() {
     setSubmitting(true);
     setError('');
     try {
-      const token = localStorage.getItem('token');
-      const res = await fetch(apiUrl('/api/warehouses'), {
+      await apiRequest('/api/warehouses', {
         method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(newWarehouse)
+        body: newWarehouse
       });
-      
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'Failed to create warehouse');
       
       setIsModalOpen(false);
       setNewWarehouse({ name: '', location: '', capacity: 0 });
@@ -96,11 +86,16 @@ export default function WarehousesPage() {
       </div>
 
       {error && (
-        <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center gap-3 text-red-400 text-sm font-medium">
+        <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center gap-3 text-red-400 text-sm font-medium animate-in slide-in-from-top-2 duration-500">
           <AlertCircle className="w-5 h-5 flex-shrink-0" /> {error}
         </div>
       )}
 
+      {loading && warehouses.length === 0 ? (
+          <div className="flex h-64 items-center justify-center">
+              <Building2 className="w-8 h-8 text-blue-500 animate-pulse" />
+          </div>
+      ) : (
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {warehouses.map((warehouse) => (
           <motion.div 
@@ -108,7 +103,7 @@ export default function WarehousesPage() {
             animate={{ opacity: 1, y: 0 }}
             key={warehouse.id} 
             onClick={() => setSelectedWarehouse(warehouse)}
-            className="group p-8 bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-3xl backdrop-blur-md hover:opacity-80 transition-all cursor-pointer relative overflow-hidden active:scale-[0.98]"
+            className="group p-8 bg-[var(--ci-card)] border border-[var(--ci-border)] rounded-3xl backdrop-blur-md hover:bg-white/[0.02] transition-all cursor-pointer relative overflow-hidden active:scale-[0.98] shadow-sm"
           >
             <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
                 <Building2 className="w-24 h-24" />
@@ -154,7 +149,14 @@ export default function WarehousesPage() {
             })()}
           </motion.div>
         ))}
+        {warehouses.length === 0 && !loading && (
+            <div className="md:col-span-2 xl:col-span-3 flex flex-col items-center justify-center py-20 opacity-30 border-2 border-dashed border-[var(--ci-border)] rounded-[3rem]">
+                <Building2 className="w-16 h-16 mb-4" />
+                <p className="text-sm italic">No physical hubs mapped to the network</p>
+            </div>
+        )}
       </div>
+      )}
 
       <AnimatePresence>
         {isModalOpen && (
@@ -196,7 +198,7 @@ export default function WarehousesPage() {
                     value={newWarehouse.name}
                     onChange={(e) => setNewWarehouse({...newWarehouse, name: e.target.value})}
                     placeholder="e.g. London Central Hub" 
-                    className="w-full px-6 py-4 bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-2xl text-[var(--ci-text)] focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-bold placeholder:text-[var(--ci-text-muted)]/50"
+                    className="w-full px-6 py-4 bg-[var(--ci-card)] border border-[var(--ci-border)] rounded-2xl text-[var(--ci-text)] focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-bold placeholder:text-[var(--ci-text-muted)]/50"
                   />
                 </div>
                 <div>
@@ -207,7 +209,7 @@ export default function WarehousesPage() {
                     value={newWarehouse.location}
                     onChange={(e) => setNewWarehouse({...newWarehouse, location: e.target.value})}
                     placeholder="e.g. Greenwich, London SE10" 
-                    className="w-full px-6 py-4 bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-2xl text-[var(--ci-text)] focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-bold placeholder:text-[var(--ci-text-muted)]/50"
+                    className="w-full px-6 py-4 bg-[var(--ci-card)] border border-[var(--ci-border)] rounded-2xl text-[var(--ci-text)] focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-bold placeholder:text-[var(--ci-text-muted)]/50"
                   />
                 </div>
                 <div>
@@ -218,7 +220,7 @@ export default function WarehousesPage() {
                     value={newWarehouse.capacity}
                     onChange={(e) => setNewWarehouse({...newWarehouse, capacity: Number(e.target.value)})}
                     placeholder="Units (e.g. 50000)" 
-                    className="w-full px-6 py-4 bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-2xl text-[var(--ci-text)] focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-bold placeholder:text-[var(--ci-text-muted)]/50"
+                    className="w-full px-6 py-4 bg-[var(--ci-card)] border border-[var(--ci-border)] rounded-2xl text-[var(--ci-text)] focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-bold placeholder:text-[var(--ci-text-muted)]/50 text-center"
                   />
                 </div>
                 <button 

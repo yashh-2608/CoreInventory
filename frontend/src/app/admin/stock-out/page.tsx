@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingBag, Plus, Trash2, Package, Send, AlertCircle, CheckCircle2, FileText } from 'lucide-react';
 import SearchableSelect from '@/components/ui/SearchableSelect';
-import { apiUrl } from '@/lib/api';
+import { apiRequest } from '@/lib/api';
 
 interface Product {
   id: string;
@@ -23,6 +23,7 @@ export default function StockOutPage() {
   const [customer, setCustomer] = useState('');
   const [warehouseId, setWarehouseId] = useState('');
   const [loading, setLoading] = useState(false);
+  const [metaLoading, setMetaLoading] = useState(true);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [draftId, setDraftId] = useState<string | null>(null);
@@ -37,30 +38,27 @@ export default function StockOutPage() {
 
   const fetchDrafts = async () => {
     try {
-        const token = localStorage.getItem('token');
-        const res = await fetch(apiUrl('/api/operations/deliveries/drafts'), {
-            headers: { 'Authorization': `Bearer ${token}` }
-        });
-        const data = await res.json();
-        if (res.ok) setDrafts(data);
-    } catch (err) {
+        const data = await apiRequest<any[]>('/api/operations/deliveries/drafts');
+        setDrafts(data);
+    } catch (err: any) {
         console.error('Drafts fetch error:', err);
     }
   };
 
   const fetchMeta = async () => {
+    setMetaLoading(true);
     try {
-        const token = localStorage.getItem('token');
-        const [prodRes, warRes] = await Promise.all([
-          fetch(apiUrl('/api/products'), { headers: { 'Authorization': `Bearer ${token}` } }),
-          fetch(apiUrl('/api/warehouses'), { headers: { 'Authorization': `Bearer ${token}` } })
+        const [prodData, warData] = await Promise.all([
+          apiRequest<Product[]>('/api/products'),
+          apiRequest<Warehouse[]>('/api/warehouses')
         ]);
-        const prodData = await prodRes.json();
-        const warData = await warRes.json();
         setProducts(prodData);
         setWarehouses(warData);
-    } catch (err) {
+    } catch (err: any) {
         console.error('Meta fetch error:', err);
+        setError('Failed to load logistics mapping.');
+    } finally {
+        setMetaLoading(false);
     }
   };
 
@@ -88,18 +86,10 @@ export default function StockOutPage() {
     setSuccess('');
 
     try {
-        const token = localStorage.getItem('token');
-        const createRes = await fetch(apiUrl('/api/operations/deliveries'), {
+        const delivery = await apiRequest<any>('/api/operations/deliveries', {
             method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({ customer, warehouseId, items, status: 'DRAFT' }),
+            body: { customer, warehouseId, items, status: 'DRAFT' },
         });
-
-        const delivery = await createRes.json();
-        if (!createRes.ok) throw new Error(delivery.message || 'Failed to save draft');
 
         setDraftId(delivery.id);
         setIsDraftSaved(true);
@@ -114,20 +104,17 @@ export default function StockOutPage() {
 
   const handleDeleteDraft = async (id: string) => {
     try {
-        const token = localStorage.getItem('token');
-        const res = await fetch(apiUrl(`/api/operations/deliveries/${id}`), {
-            method: 'DELETE',
-            headers: { 'Authorization': `Bearer ${token}` }
+        await apiRequest(`/api/operations/deliveries/${id}`, {
+            method: 'DELETE'
         });
-        if (res.ok) {
-            fetchDrafts();
-            if (draftId === id) {
-                setDraftId(null);
-                setIsDraftSaved(false);
-            }
+        fetchDrafts();
+        if (draftId === id) {
+            setDraftId(null);
+            setIsDraftSaved(false);
         }
-    } catch (err) {
+    } catch (err: any) {
         console.error('Delete draft error:', err);
+        setError(err.message);
     }
   };
 
@@ -139,14 +126,9 @@ export default function StockOutPage() {
     setSuccess('');
 
     try {
-        const token = localStorage.getItem('token');
-        const confirmRes = await fetch(apiUrl(`/api/operations/deliveries/${draftId}/confirm`), {
-            method: 'POST',
-            headers: { 'Authorization': `Bearer ${token}` }
+        await apiRequest(`/api/operations/deliveries/${draftId}/confirm`, {
+            method: 'POST'
         });
-
-        const confirmData = await confirmRes.json();
-        if (!confirmRes.ok) throw new Error(confirmData.message || 'Failed to confirm delivery');
 
         setSuccess('Delivery Confirmed Successfully! Stock updated.');
         setItems([{ productId: '', quantity: 1 }]);
@@ -162,21 +144,29 @@ export default function StockOutPage() {
     }
   };
 
+  if (metaLoading) {
+    return (
+        <div className="flex h-96 items-center justify-center">
+            <ShoppingBag className="w-8 h-8 text-purple-500 animate-spin" />
+        </div>
+    );
+  }
+
   return (
     <div className="max-w-[1600px] mx-auto space-y-8 px-4">
       <div>
-        <h1 className="text-3xl font-bold mb-2">Delivery Order (Stock Out)</h1>
+        <h1 className="text-3xl font-bold mb-2 text-[var(--ci-text)]">Delivery Order (Stock Out)</h1>
         <p className="text-[var(--ci-text-muted)]">Confirm goods departure for customers or external sales.</p>
       </div>
 
       {error && (
-          <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center gap-3 text-red-400 text-sm font-medium">
+          <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center gap-3 text-red-400 text-sm font-medium animate-in slide-in-from-top-2 duration-500">
               <AlertCircle className="w-5 h-5 flex-shrink-0" /> {error}
           </div>
       )}
 
       {success && (
-          <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl flex items-center gap-3 text-emerald-400 text-sm font-medium">
+          <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl flex items-center gap-3 text-emerald-400 text-sm font-medium animate-in slide-in-from-top-2 duration-500">
               <CheckCircle2 className="w-5 h-5 flex-shrink-0" /> {success}
           </div>
       )}
@@ -214,8 +204,8 @@ export default function StockOutPage() {
             <div className="space-y-4">
                 <div className="flex justify-between items-center mb-6">
                     <label className="text-[10px] font-bold text-[var(--ci-text-muted)] uppercase tracking-[0.2em]">Itemized Manifest</label>
-                    <button onClick={addItem} className="flex items-center gap-1 text-xs font-bold text-purple-400 hover:text-purple-300">
-                        <Plus className="w-3 h-3" /> Add Item
+                    <button onClick={addItem} className="flex items-center gap-1 text-xs font-bold text-purple-400 hover:text-purple-300 uppercase tracking-widest">
+                        <Plus className="w-3.5 h-3.5" /> Append Row
                     </button>
                 </div>
                 
@@ -316,7 +306,7 @@ export default function StockOutPage() {
                         </div>
                     ) : (
                         drafts.map((d) => (
-                            <div key={d.id} className="p-4 bg-[var(--ci-card)] border border-[var(--ci-border)] rounded-2xl space-y-3 hover:border-amber-500/30 transition-all group">
+                            <div key={d.id} className="p-4 bg-[var(--ci-card)] border border-[var(--ci-border)] rounded-2xl space-y-3 hover:border-amber-500/30 transition-all group shadow-sm">
                                 <div className="flex justify-between items-start">
                                     <div>
                                         <p className="text-sm font-bold text-[var(--ci-text)] uppercase tracking-tight line-clamp-1">{d.customer}</p>

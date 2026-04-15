@@ -5,7 +5,7 @@ import { Settings as SettingsIcon, User, Bell, Shield, Database, Globe, RefreshC
 import { useSettings } from '@/context/SettingsContext';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import { apiUrl } from '@/lib/api';
+import { apiRequest } from '@/lib/api';
 
 interface UserProfile {
   name: string;
@@ -37,13 +37,8 @@ export default function SettingsPage() {
   const fetchUser = async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem('token');
-      const res = await fetch(apiUrl('/api/auth/me'), {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      if (res.ok) {
-        setUser(await res.json());
-      }
+      const userData = await apiRequest<UserProfile>('/api/auth/me');
+      setUser(userData);
     } catch (err) {
       console.error('Failed to fetch user:', err);
     } finally {
@@ -85,7 +80,7 @@ export default function SettingsPage() {
                         item.name === 'Logout'
                         ? 'text-red-400 hover:bg-red-500/10 hover:text-red-300'
                         : activeTab === item.name 
-                        ? 'bg-[var(--ci-accent)] text-white shadow-lg shadow-blue-600/20' 
+                        ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20' 
                         : 'text-[var(--ci-text-muted)] hover:text-[var(--ci-text)] hover:bg-[rgba(59,130,246,0.08)]'
                     }`}
                 >
@@ -110,7 +105,7 @@ export default function SettingsPage() {
                                 type="number" 
                                 value={localSettings.lowStockThreshold} 
                                 onChange={(e) => setLocalSettings({...localSettings, lowStockThreshold: parseInt(e.target.value)})}
-                                className="w-24 px-4 py-3 bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-[10px] text-sm font-bold text-center text-[var(--ci-accent)] focus:outline-none focus:ring-2 focus:ring-blue-500/50" 
+                                className="w-24 px-4 py-3 bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-[10px] text-sm font-bold text-center text-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50" 
                             />
                         </div>
                         <div className="flex items-center justify-between p-6 bg-[var(--ci-glass)] rounded-[10px] border border-[var(--ci-border)] group hover:opacity-90 transition-all">

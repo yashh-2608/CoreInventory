@@ -13,7 +13,7 @@ import {
   TrendingUp,
   Warehouse as WarehouseIcon,
 } from 'lucide-react';
-import { apiUrl, readApiResponse } from '@/lib/api';
+import { apiRequest } from '@/lib/api';
 
 interface WarehouseOption {
   id: string;
@@ -48,59 +48,46 @@ export default function ReportsPage() {
   const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
-    const fetchFilters = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const [warehouseRes, categoryRes] = await Promise.all([
-          fetch(apiUrl('/api/warehouses'), { headers: { Authorization: `Bearer ${token}` } }),
-          fetch(apiUrl('/api/products/categories'), { headers: { Authorization: `Bearer ${token}` } }),
-        ]);
-
-        const [warehouseData, categoryData] = await Promise.all([
-          readApiResponse<WarehouseOption[]>(warehouseRes),
-          readApiResponse<CategoryOption[]>(categoryRes),
-        ]);
-
-        setWarehouses(warehouseData);
-        setCategories(categoryData);
-      } catch (err) {
-        console.error('Filter fetch error:', err);
-      }
-    };
-
     fetchFilters();
   }, []);
 
+  const fetchFilters = async () => {
+    try {
+      const [warehouseData, categoryData] = await Promise.all([
+        apiRequest<WarehouseOption[]>('/api/warehouses'),
+        apiRequest<CategoryOption[]>('/api/products/categories'),
+      ]);
+      setWarehouses(warehouseData);
+      setCategories(categoryData);
+    } catch (err) {
+      console.error('Filter fetch error:', err);
+    }
+  };
+
   useEffect(() => {
-    const fetchReports = async () => {
-      setLoading(true);
-      setError('');
-
-      try {
-        const token = localStorage.getItem('token');
-        const params = new URLSearchParams();
-        if (selectedWarehouse) params.append('warehouseId', selectedWarehouse);
-        if (selectedCategory) params.append('categoryId', selectedCategory);
-
-        const res = await fetch(apiUrl(`/api/reports/stats?${params.toString()}`), {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
-        const result = await readApiResponse<ReportStats>(res);
-        setData(result.stockByWarehouse || []);
-        setStats(result);
-      } catch (err) {
-        const message = err instanceof Error ? err.message : 'Failed to load reports';
-        setError(message);
-        setData([]);
-        setStats(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchReports();
   }, [selectedWarehouse, selectedCategory, reloadKey]);
+
+  const fetchReports = async () => {
+    setLoading(true);
+    setError('');
+
+    try {
+      const params = new URLSearchParams();
+      if (selectedWarehouse) params.append('warehouseId', selectedWarehouse);
+      if (selectedCategory) params.append('categoryId', selectedCategory);
+
+      const result = await apiRequest<ReportStats>(`/api/reports/stats?${params.toString()}`);
+      setData(result.stockByWarehouse || []);
+      setStats(result);
+    } catch (err: any) {
+      setError(err.message || 'Failed to load reports');
+      setData([]);
+      setStats(null);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleExportAll = async () => {
     try {
@@ -109,7 +96,8 @@ export default function ReportsPage() {
       if (selectedWarehouse) params.append('warehouseId', selectedWarehouse);
       if (selectedCategory) params.append('categoryId', selectedCategory);
 
-      const res = await fetch(apiUrl(`/api/export/global?${params.toString()}`), {
+      // Using fetch directly for blobs to handle file download
+      const res = await fetch(`${(process.env.NEXT_PUBLIC_API_URL || 'https://coreinventory-rwe1.onrender.com').replace(/\/$/, '')}/api/export/global?${params.toString()}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -124,8 +112,8 @@ export default function ReportsPage() {
       anchor.click();
       anchor.remove();
       window.URL.revokeObjectURL(url);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Export failed');
+    } catch (err: any) {
+      setError(err.message || 'Export failed');
     }
   };
 
@@ -142,8 +130,8 @@ export default function ReportsPage() {
           <p className="text-[var(--ci-text-muted)] font-medium">Deep dive into inventory distribution and hub performance.</p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-4 bg-[var(--ci-panel)] p-2 rounded-2xl border border-[var(--ci-border)] backdrop-blur-sm">
-          <div className="flex items-center gap-2 px-3 py-2 bg-[var(--ci-panel-strong)] rounded-xl border border-[var(--ci-border)] group shadow-inner">
+        <div className="flex flex-wrap items-center gap-4 bg-[var(--ci-card)] p-2 rounded-2xl border border-[var(--ci-border)] backdrop-blur-sm">
+          <div className="flex items-center gap-2 px-3 py-2 bg-[var(--ci-glass)] rounded-xl border border-[var(--ci-border)] group shadow-inner">
             <WarehouseIcon className="w-4 h-4 text-blue-400" />
             <select
               value={selectedWarehouse}
@@ -157,7 +145,7 @@ export default function ReportsPage() {
             </select>
           </div>
 
-          <div className="flex items-center gap-2 px-3 py-2 bg-[var(--ci-panel-strong)] rounded-xl border border-[var(--ci-border)] group shadow-inner">
+          <div className="flex items-center gap-2 px-3 py-2 bg-[var(--ci-glass)] rounded-xl border border-[var(--ci-border)] group shadow-inner">
             <PackageSearch className="w-4 h-4 text-purple-400" />
             <select
               value={selectedCategory}
@@ -176,7 +164,7 @@ export default function ReportsPage() {
           <div className="flex gap-2">
             <button
               onClick={() => setReloadKey((value) => value + 1)}
-              className="p-2.5 bg-[var(--ci-panel-strong)] border border-[var(--ci-border)] rounded-xl hover:opacity-80 transition-all text-[var(--ci-text-muted)] hover:text-[var(--ci-text)]"
+              className="p-2.5 bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-xl hover:opacity-80 transition-all text-[var(--ci-text-muted)] hover:text-[var(--ci-text)]"
               title="Refresh Data"
             >
               <RefreshCcw className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
@@ -192,13 +180,13 @@ export default function ReportsPage() {
       </div>
 
       {error && (
-        <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-2xl text-red-400 text-sm font-medium">
-          {error}
+        <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-2xl text-red-400 text-sm font-medium animate-in slide-in-from-top-2 duration-500">
+          <AlertTriangle className="w-5 h-5 flex-shrink-0" /> {error}
         </div>
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="p-8 bg-[var(--ci-panel)] border border-[var(--ci-border)] rounded-3xl backdrop-blur-md shadow-xl">
+        <div className="p-8 bg-[var(--ci-card)] border border-[var(--ci-border)] rounded-3xl backdrop-blur-md shadow-xl">
           <div className="flex items-center gap-3 mb-4">
             <div className="p-2 bg-emerald-500/10 rounded-lg">
               <Package className="w-5 h-5 text-emerald-400" />
@@ -209,7 +197,7 @@ export default function ReportsPage() {
           <p className="text-xs text-emerald-400 mt-2 font-medium">Aggregated across {data.length} warehouses</p>
         </div>
 
-        <div className="p-8 bg-[var(--ci-panel)] border border-[var(--ci-border)] rounded-3xl backdrop-blur-md shadow-xl">
+        <div className="p-8 bg-[var(--ci-card)] border border-[var(--ci-border)] rounded-3xl backdrop-blur-md shadow-xl">
           <div className="flex items-center gap-3 mb-4">
             <div className="p-2 bg-blue-500/10 rounded-lg">
               <TrendingUp className="w-5 h-5 text-blue-400" />
@@ -220,7 +208,7 @@ export default function ReportsPage() {
           <p className="text-xs text-blue-400 mt-2 font-medium">Active unique identifiers</p>
         </div>
 
-        <div className="p-8 bg-[var(--ci-panel)] border border-[var(--ci-border)] rounded-3xl backdrop-blur-md shadow-xl">
+        <div className="p-8 bg-[var(--ci-card)] border border-[var(--ci-border)] rounded-3xl backdrop-blur-md shadow-xl">
           <div className="flex items-center gap-3 mb-4">
             <div className="p-2 bg-purple-500/10 rounded-lg">
               <AlertTriangle className="w-5 h-5 text-purple-400" />
@@ -233,7 +221,7 @@ export default function ReportsPage() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 p-8 bg-[var(--ci-panel)] border border-[var(--ci-border)] rounded-3xl backdrop-blur-md shadow-xl">
+        <div className="lg:col-span-2 p-8 bg-[var(--ci-card)] border border-[var(--ci-border)] rounded-3xl backdrop-blur-md shadow-xl">
           <h3 className="text-lg font-bold mb-8 uppercase tracking-widest text-[var(--ci-text-muted)]">Stock Distribution by Warehouse</h3>
           <div className="h-[400px] w-full">
             <ResponsiveContainer width="100%" height="100%">
@@ -243,7 +231,7 @@ export default function ReportsPage() {
                 <YAxis stroke="#64748b" fontSize={10} axisLine={false} tickLine={false} />
                 <Tooltip
                   cursor={{ fill: 'rgba(148,163,184,0.08)' }}
-                  contentStyle={{ backgroundColor: 'var(--ci-panel-strong)', border: '1px solid var(--ci-border)', borderRadius: '12px' }}
+                  contentStyle={{ backgroundColor: 'var(--ci-card)', border: '1px solid var(--ci-border)', borderRadius: '12px' }}
                   itemStyle={{ color: 'var(--ci-text)', fontWeight: 'bold' }}
                 />
                 <Bar dataKey="value" fill="#3b82f6" radius={[8, 8, 0, 0]} barSize={50} />
@@ -252,11 +240,11 @@ export default function ReportsPage() {
           </div>
         </div>
 
-        <div className="p-8 bg-[var(--ci-panel)] border border-[var(--ci-border)] rounded-3xl backdrop-blur-md shadow-xl">
+        <div className="p-8 bg-[var(--ci-card)] border border-[var(--ci-border)] rounded-3xl backdrop-blur-md shadow-xl flex flex-col">
           <h3 className="text-lg font-bold mb-6 uppercase tracking-widest text-[var(--ci-text-muted)]">Hub Insights</h3>
-          <div className="space-y-6">
+          <div className="space-y-6 overflow-y-auto custom-scrollbar flex-1 pr-2">
             {data.map((hub, index) => (
-              <div key={`${hub.name}-${index}`} className="flex items-center gap-4 p-4 bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-2xl hover:bg-[var(--ci-panel-strong)] transition-all">
+              <div key={`${hub.name}-${index}`} className="flex items-center gap-4 p-4 bg-[var(--ci-glass)] border border-[var(--ci-border)] rounded-2xl hover:bg-white/[0.02] transition-all">
                 <div className="p-3 bg-blue-500/10 rounded-xl">
                   <BarChart3 className="w-5 h-5 text-blue-400" />
                 </div>
