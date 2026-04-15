@@ -26,16 +26,45 @@ export const getAuthHeaders = (headers: HeadersInit = {}) => {
 };
 
 export const readApiResponse = async <T>(res: Response): Promise<T> => {
+  let payload: any;
   const contentType = res.headers.get('content-type') || '';
-  const payload = contentType.includes('application/json') ? await res.json() : await res.text();
+  
+  try {
+    payload = contentType.includes('application/json') ? await res.json() : await res.text();
+  } catch (e) {
+    payload = `Could not parse response (${res.status})`;
+  }
 
   if (!res.ok) {
     const message = typeof payload === 'object' && payload && 'message' in payload
-      ? String((payload as { message?: unknown }).message || `Request failed (${res.status})`)
-      : `Request failed (${res.status})`;
+      ? String(payload.message || `Request failed (${res.status})`)
+      : typeof payload === 'string' ? payload : `Request failed (${res.status})`;
 
     throw new ApiError(message, res.status, payload);
   }
 
   return payload as T;
+};
+
+export interface RequestOptions extends RequestInit {
+  body?: any;
+}
+
+export const apiRequest = async <T>(path: string, options: RequestOptions = {}): Promise<T> => {
+  const { body, headers, ...rest } = options;
+  
+  const finalOptions: RequestInit = {
+    ...rest,
+    headers: {
+      'Content-Type': body instanceof FormData ? undefined : 'application/json',
+      ...getAuthHeaders(headers),
+    } as HeadersInit,
+  };
+
+  if (body) {
+    finalOptions.body = body instanceof FormData ? body : JSON.stringify(body);
+  }
+
+  const res = await fetch(apiUrl(path), finalOptions);
+  return readApiResponse<T>(res);
 };

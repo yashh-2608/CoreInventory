@@ -7,7 +7,7 @@ import {
   AlertCircle, Trash2, FileText, ChevronDown, AlertTriangle
 } from 'lucide-react';
 import { useSearch } from '@/context/SearchContext';
-import { apiUrl } from '@/lib/api';
+import { apiRequest } from '@/lib/api';
 
 interface Product {
   id: string;
@@ -61,17 +61,18 @@ export default function ProductsPage() {
   }, []);
 
   const fetchData = async () => {
+    setLoading(true);
+    setError('');
     try {
-      const token = localStorage.getItem('token');
-      const [prodRes, catRes] = await Promise.all([
-        fetch(apiUrl('/api/products'), { headers: { 'Authorization': `Bearer ${token}` } }),
-        fetch(apiUrl('/api/products/categories'), { headers: { 'Authorization': `Bearer ${token}` } })
+      const [prodData, catData] = await Promise.all([
+        apiRequest<Product[]>('/api/products'),
+        apiRequest<Category[]>('/api/products/categories')
       ]);
-      if (!prodRes.ok || !catRes.ok) throw new Error('Failed to fetch data');
-      setProducts(await prodRes.json());
-      setCategories(await catRes.json());
+      setProducts(prodData);
+      setCategories(catData);
     } catch (err: any) {
-      setError(err.message);
+      console.error('Fetch error:', err);
+      setError(err.message || 'Failed to sync product directory.');
     } finally {
       setLoading(false);
     }
@@ -82,29 +83,23 @@ export default function ProductsPage() {
     setSubmitting(true);
     setError('');
     try {
-      const token = localStorage.getItem('token');
       let categoryId = newProduct.categoryId;
 
       // If user is creating a new category inline, create it first
       if (categoryId === '__new__' && newCategoryName.trim()) {
-        const catRes = await fetch(apiUrl('/api/products/categories'), {
+        const catData = await apiRequest<Category>('/api/products/categories', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-          body: JSON.stringify({ name: newCategoryName.trim() }),
+          body: { name: newCategoryName.trim() },
         });
-        const catData = await catRes.json();
-        if (!catRes.ok) throw new Error(catData.message || 'Failed to create category');
         categoryId = catData.id;
         setNewCategoryName('');
       }
 
-      const res = await fetch(apiUrl('/api/products'), {
+      await apiRequest('/api/products', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-        body: JSON.stringify({ ...newProduct, categoryId })
+        body: { ...newProduct, categoryId }
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'Failed to create product');
+      
       setIsModalOpen(false);
       setNewProduct({ name: '', sku: '', categoryId: '', uom: 'PCS', initialStock: 0 });
       fetchData();
@@ -121,15 +116,9 @@ export default function ProductsPage() {
     setDeleting(true);
     setError('');
     try {
-      const token = localStorage.getItem('token');
-      const res = await fetch(apiUrl(`/api/products/${deleteConfirm.id}`), {
-        method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${token}` }
+      await apiRequest(`/api/products/${deleteConfirm.id}`, {
+        method: 'DELETE'
       });
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.message || 'Failed to delete product');
-      }
       setDeleteConfirm(null);
       fetchData();
     } catch (err: any) {
@@ -141,8 +130,12 @@ export default function ProductsPage() {
 
   const handleExport = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const res = await fetch(apiUrl('/api/export/products'), { headers: { 'Authorization': `Bearer ${token}` } });
+        const token = localStorage.getItem('token');
+        // Export endpoint returns a file, so we use fetch directly or improve apiRequest to handle blobs.
+        // For now, fetch with api headers is safer for blobs.
+        const res = await fetch(`${(process.env.NEXT_PUBLIC_API_URL || 'https://coreinventory-rwe1.onrender.com').replace(/\/$/, '')}/api/export/products`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
       if (!res.ok) throw new Error('Export failed');
       const blob = await res.blob();
       const url = window.URL.createObjectURL(blob);
@@ -176,7 +169,7 @@ export default function ProductsPage() {
       </div>
 
       {error && (
-        <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center gap-3 text-red-400 text-sm font-medium">
+        <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center gap-3 text-red-400 text-sm font-medium animate-in slide-in-from-top-2 duration-500">
           <AlertCircle className="w-5 h-5 flex-shrink-0" /> {error}
         </div>
       )}
@@ -302,10 +295,10 @@ export default function ProductsPage() {
                   ))}
                 </tbody>
               </table>
-              {filteredProducts.length === 0 && !loading && (
+              {(filteredProducts.length === 0 || loading) && (
                 <div className="flex flex-col items-center justify-center py-16 text-gray-700 opacity-30">
-                  <Package className="w-10 h-10 mb-3" />
-                  <p className="text-xs italic tracking-widest uppercase">Null Set</p>
+                  <Package className="w-10 h-10 mb-3 animate-pulse" />
+                  <p className="text-xs italic tracking-widest uppercase">{loading ? 'Syncing...' : 'Null Set'}</p>
                 </div>
               )}
             </div>

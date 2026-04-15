@@ -22,7 +22,7 @@ import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   PieChart, Pie, Cell, Legend
 } from 'recharts';
-import { apiUrl } from '@/lib/api';
+import { apiRequest } from '@/lib/api';
 
 interface Stats {
   totalProducts: number;
@@ -74,11 +74,12 @@ export default function DashboardPage() {
   const [activities, setActivities] = useState<Activity[]>([]);
   const [distribution, setDistribution] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const [drillDown, setDrillDown] = useState<{ type: string; data: any[] } | null>(null);
   const [modalLoading, setModalLoading] = useState(false);
 
   useEffect(() => {
-    const demo = localStorage.getItem('demoMode') === 'true';
+    const demo = typeof window !== 'undefined' ? localStorage.getItem('demoMode') === 'true' : false;
     setIsDemo(demo);
     if (demo) {
       setStats(DEMO_STATS);
@@ -88,30 +89,25 @@ export default function DashboardPage() {
     } else {
       fetchDashboardData();
     }
-  }, []);
+  }, [settings.lowStockThreshold]);
 
   const fetchDashboardData = async () => {
     setLoading(true);
+    setError('');
     try {
-      const token = localStorage.getItem('token');
-      const headers = { 'Authorization': `Bearer ${token}` };
-      
-      const threshold = settings.lowStockThreshold;
-      const [statsRes, activityRes, distRes] = await Promise.all([
-        fetch(apiUrl(`/api/reports/stats?threshold=${threshold}`), { headers }),
-        fetch(apiUrl('/api/reports/activity'), { headers }),
-        fetch(apiUrl('/api/reports/distribution'), { headers })
+      const threshold = settings.lowStockThreshold || 10;
+      const [statsData, activityData, distData] = await Promise.all([
+        apiRequest<Stats>(`/api/reports/stats?threshold=${threshold}`),
+        apiRequest<Activity[]>('/api/reports/activity'),
+        apiRequest<any[]>('/api/reports/distribution')
       ]);
-
-      const statsData = await statsRes.json();
-      const activityData = await activityRes.json();
-      const distData = await distRes.json();
 
       setStats(statsData);
       setActivities(Array.isArray(activityData) ? activityData : []);
       setDistribution(Array.isArray(distData) ? distData : []);
-    } catch (err) {
+    } catch (err: any) {
       console.error('Dashboard fetch error:', err);
+      setError(err.message || 'Failed to sync with intelligence hub. Check connection.');
     } finally {
       setLoading(false);
     }
@@ -120,27 +116,25 @@ export default function DashboardPage() {
   const fetchDrillDown = async (type: string) => {
     setModalLoading(true);
     setDrillDown({ type, data: [] });
+    setError('');
     try {
-      const token = localStorage.getItem('token');
-      const headers = { 'Authorization': `Bearer ${token}` };
-      
       const threshold = settings.lowStockThreshold;
       const urlMap: Record<string, string> = {
-        'Total Products': apiUrl('/api/products'),
-        'Low Stock Items': apiUrl(`/api/reports/low-stock?threshold=${threshold}`),
-        'Pending Receipts': apiUrl('/api/reports/pending-receipts'),
-        'Pending Deliveries': apiUrl('/api/reports/pending-deliveries'),
-        'Active Transfers': apiUrl('/api/reports/pending-transfers'),
+        'Total Products': '/api/products',
+        'Low Stock Items': `/api/reports/low-stock?threshold=${threshold}`,
+        'Pending Receipts': '/api/reports/pending-receipts',
+        'Pending Deliveries': '/api/reports/pending-deliveries',
+        'Active Transfers': '/api/reports/pending-transfers',
       };
       
-      const url = urlMap[type];
-      if (url) {
-          const res = await fetch(url, { headers });
-          const data = await res.json();
-          setDrillDown({ type, data });
+      const path = urlMap[type];
+      if (path) {
+          const data = await apiRequest<any[]>(path);
+          setDrillDown({ type, data: Array.isArray(data) ? data : [] });
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error('Drilldown fetch error:', err);
+      setError(err.message || `Failed to fetch drill-down for ${type}`);
     } finally {
       setModalLoading(false);
     }
@@ -177,6 +171,12 @@ export default function DashboardPage() {
             <RefreshCcw className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
         </button>
       </div>
+
+      {error && (
+          <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center gap-3 text-red-400 text-sm font-medium animate-in slide-in-from-top-2 duration-500">
+              <AlertTriangle className="w-5 h-5 flex-shrink-0" /> {error}
+          </div>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
         <KpiCard title="Total Products" value={String(stats?.totalProducts ?? 0)} icon={Package} color="text-blue-500" trend="+12%" trendUp onClick={() => fetchDrillDown('Total Products')} />
