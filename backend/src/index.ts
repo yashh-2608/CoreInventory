@@ -21,6 +21,8 @@ app.use(cors({
     const allowed = [
       'http://localhost:3000',
       'https://core-inventory-kohl.vercel.app',
+      'https://core-inventory.vercel.app',
+      'https://core-inventory-git-main-yashh-2608s-projects.vercel.app',
       ...(process.env.ALLOWED_ORIGINS?.split(',').map(o => o.trim().replace(/\/$/, '')) || [])
     ];
     if (allowed.some(ao => ao === sanitizedOrigin)) {
