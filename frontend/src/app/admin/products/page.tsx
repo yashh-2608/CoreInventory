@@ -87,12 +87,16 @@ export default function ProductsPage() {
 
       // If user is creating a new category inline, create it first
       if (categoryId === '__new__' && newCategoryName.trim()) {
-        const catData = await apiRequest<Category>('/api/products/categories', {
-          method: 'POST',
-          body: { name: newCategoryName.trim() },
-        });
-        categoryId = catData.id;
-        setNewCategoryName('');
+        try {
+          const catData = await apiRequest<Category>('/api/products/categories', {
+            method: 'POST',
+            body: { name: newCategoryName.trim() },
+          });
+          categoryId = catData.id;
+          setNewCategoryName('');
+        } catch (catErr: any) {
+          throw new Error(`Category creation failed: ${catErr.message}`);
+        }
       }
 
       await apiRequest('/api/products', {

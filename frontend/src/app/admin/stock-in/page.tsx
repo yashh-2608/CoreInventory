@@ -56,7 +56,7 @@ export default function StockInPage() {
         setWarehouses(warData);
     } catch (err: any) {
         console.error('Meta fetch error:', err);
-        setError('Failed to load products or warehouses.');
+        setError(err.message || 'Failed to sync logistics mapping.');
     } finally {
         setMetaLoading(false);
     }
