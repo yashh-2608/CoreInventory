@@ -9,16 +9,23 @@ const missingDatabaseUrlError = () =>
 
 // Robust initialization with pooling detection
 const initializePrisma = () => {
-  const url = process.env.DATABASE_URL;
+  let url = process.env.DATABASE_URL;
   if (!url) return null;
 
-  // Supabase check: If using pooled connection without ?pgbouncer=true, it will fail with "prepared statement already exists"
+  // Supabase/PgBouncer check: Force ?pgbouncer=true if it's a Supabase URL and missing
+  // This ensures stability even if the user hasn't updated their environment variables yet.
   if (url.includes('supabase.co') && !url.includes('pgbouncer=true')) {
-    console.warn('\x1b[33m%s\x1b[0m', '⚠️ WARNING: Supabase connection detected without ?pgbouncer=true');
-    console.warn('\x1b[33m%s\x1b[0m', '   To avoid "prepared statement already exists" errors, please append ?pgbouncer=true to your DATABASE_URL');
+    console.log('\x1b[36m%s\x1b[0m', '🔧 System: Auto-injecting ?pgbouncer=true for Supabase stability...');
+    const separator = url.includes('?') ? '&' : '?';
+    url = `${url}${separator}pgbouncer=true`;
   }
 
   return new PrismaClient({
+    datasources: {
+      db: {
+        url: url
+      }
+    },
     log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
   });
 };
