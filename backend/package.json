@@ -4,10 +4,11 @@
   "description": "Backend for CoreInventory SaaS",
   "main": "index.js",
   "scripts": {
-    "start": "npx prisma migrate deploy && node dist/index.js",
+    "start": "node dist/index.js",
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "build": "tsc",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "migrate": "npx prisma migrate deploy"
   },
   "dependencies": {
     "@prisma/client": "^5.0.0",
