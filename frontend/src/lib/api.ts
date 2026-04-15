@@ -12,7 +12,7 @@ export class ApiError extends Error {
   }
 }
 
-export const API_BASE_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000').replace(/\/$/, '');
+export const API_BASE_URL = (process.env.NEXT_PUBLIC_API_URL || 'https://coreinventory-rwe1.onrender.com').replace(/\/$/, '');
 
 export const apiUrl = (path: string) => `${API_BASE_URL}${path.startsWith('/') ? path : `/${path}`}`;
 
