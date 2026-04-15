@@ -38,6 +38,10 @@ app.use('/api/operations', operationsRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/export', exportRoutes);
 
+app.get('/', (req, res) => {
+  res.send('CoreInventory API is running 🚀');
+});
+
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', message: 'CoreInventory API is running' });
 });
