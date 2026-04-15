@@ -54,6 +54,6 @@ app.use((error: unknown, req: express.Request, res: express.Response, next: expr
   return sendServerError(res, error);
 });
 
-app.listen(PORT, () => {
+app.listen(Number(PORT), '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
 });
